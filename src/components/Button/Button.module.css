@@ -1,0 +1,30 @@
+.button {
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: var(--border-radius-m);
+  cursor: pointer;
+  transition: background var(--transition-duration)
+      var(--transition-timing-function),
+    color var(--transition-duration) var(--transition-timing-function);
+}
+
+.dark {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.dark:hover {
+  opacity: 0.9;
+}
+
+.light {
+  background-color: var(--white-color);
+  color: var(--black-color);
+}
+
+.light:hover {
+  opacity: 0.9;
+}
