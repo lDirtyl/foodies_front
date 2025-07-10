@@ -1,0 +1,12 @@
+:root {
+  --black-color: #050505;
+  --dark-gray-color: #1a1a1a;
+  --gray-color: #bfbebe;
+  --white-color: #ffffff;
+
+  --border-radius-m: 30px;
+  --border-radius-full: 50%;
+
+  --transition-duration: 0.2s;
+  --transition-timing-function: ease;
+}
