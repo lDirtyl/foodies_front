@@ -8,7 +8,7 @@ import { Input } from '../components/Input/Input';
 export default function StyleGuide() {
   return (
     <div style={{ padding: '2rem', backgroundColor: '#fff', color: '#000' }}>
-      <h1>Style Guide</h1>
+      <h1>UI base KIT</h1>
 
       <section>
         <h2>Base Components</h2>
