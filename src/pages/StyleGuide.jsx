@@ -13,7 +13,29 @@ export default function StyleGuide() {
       <section>
         <h2>Base Components</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <Button>Click me</Button>
+          <h3>Button</h3>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Button variant="dark" size="large">
+              Sign In
+            </Button>
+            <Button variant="light" size="large">
+              Sign In
+            </Button>
+            <Button variant="dark" size="small">
+              Publish
+            </Button>
+            <Button variant="light" size="small">
+              Publish
+            </Button>
+            <Button variant="transparent" size="medium">
+              Sign In
+            </Button>
+            <Button variant="dark" size="medium">
+              Sign Up
+            </Button>
+          </div>
+
+          <h3>Other Components</h3>
           <ButtonIcon icon={<img src="/icons/trash.svg" alt="icon" />} />
           <ButtonOutline>ADD RECIPE</ButtonOutline>
           <Checkbox />

@@ -1,0 +1,49 @@
+.button {
+  font-family: 'Mulish', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+
+  border-radius: var(--border-radius-m);
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+/* Variants */
+.dark {
+  background-color: var(--dark-gray-color);
+  color: var(--white-color);
+}
+
+.light {
+  background-color: var(--gray-color);
+  color: var(--black-color);
+}
+
+.transparent {
+  background-color: transparent;
+  color: var(--black-color);
+}
+
+/* Sizes */
+.small {
+  width: 104px;
+  height: 46px;
+}
+
+.medium {
+  width: 146px;
+  height: 56px;
+}
+
+.large {
+  width: 400px;
+  height: 56px;
+
+  font-size: 16px;
+  line-height: 24px;
+}
