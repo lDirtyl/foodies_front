@@ -2,12 +2,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
+  gap: 8px;
   padding: 16px 32px;
   height: 56px;
   border-radius: var(--border-radius-m);
-  border: 1px solid var(--black-color);
-  background-color: transparent;
   cursor: pointer;
 
   font-family: 'Mulish', sans-serif;
@@ -18,30 +16,39 @@
   text-transform: uppercase;
 
   transition: background-color var(--transition-duration)
-    var(--transition-timing-function);
-  gap: 10px;
+      var(--transition-timing-function),
+    color var(--transition-duration) var(--transition-timing-function);
 }
 
-/* Variants */
-.outline {
-  background-color: transparent;
-  border: 1px solid var(--black-color);
-  color: var(--black-color);
-}
-
-.dark {
-  background-color: var(--black-color);
-  border: none;
-  color: var(--white-color);
-}
-
-/* For icon adjustment only */
-.withIcon {
-  gap: 8px;
+.label {
+  display: inline-block;
 }
 
 .icon {
   display: inline-flex;
   width: 22px;
   height: 22px;
+}
+
+/* ===== Variants ===== */
+.outline {
+  background-color: transparent;
+  border: 1px solid var(--black-color);
+  color: var(--black-color);
+}
+
+.outline:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.outline:hover .icon img,
+.outline:hover .icon svg {
+  filter: brightness(0) invert(1);
+}
+
+.dark {
+  background-color: var(--black-color);
+  border: none;
+  color: var(--white-color);
 }

@@ -19,14 +19,27 @@
   color: var(--white-color);
 }
 
+.dark:hover {
+  background-color: var(--black-color);
+}
+
 .light {
   background-color: var(--gray-color);
   color: var(--black-color);
 }
 
+.light:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
 .transparent {
   background-color: transparent;
   color: var(--black-color);
+}
+
+.transparent:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* Sizes */

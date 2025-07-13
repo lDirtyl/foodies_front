@@ -17,16 +17,10 @@ export default function StyleGuide() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3>Button</h3>
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-            <Button variant="dark" size="large">
-              Sign In
-            </Button>
             <Button variant="light" size="large">
               Sign In
             </Button>
             <Button variant="dark" size="small">
-              Publish
-            </Button>
-            <Button variant="light" size="small">
               Publish
             </Button>
             <Button variant="transparent" size="medium">
@@ -38,11 +32,6 @@ export default function StyleGuide() {
           </div>
           <h3>ButtonIcon</h3>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <ButtonIcon
-              icon={<img src="/icons/heart.svg" alt="icon" />}
-              variant="dark"
-              size="large"
-            />
             <ButtonIcon
               icon={<img src="/icons/heart.svg" alt="icon" />}
               variant="light"
@@ -57,9 +46,6 @@ export default function StyleGuide() {
           <h3>ButtonOutline</h3>
           <div style={{ display: 'flex', gap: '1rem' }}>
             <ButtonOutline variant="outline" size="large">
-              ADD RECIPE
-            </ButtonOutline>
-            <ButtonOutline variant="dark" size="large">
               ADD RECIPE
             </ButtonOutline>
             <ButtonOutline
