@@ -1,0 +1,27 @@
+.input {
+  width: 100%;
+  max-width: 400px;
+  height: 48px;
+  padding: 14px 18px;
+
+  border: 1px solid var(--gray-color);
+  border-radius: var(--border-radius-m);
+  background-color: var(--white-color);
+
+  font-family: 'Mulish', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--black-color);
+
+  transition: border-color var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+.input::placeholder {
+  color: var(--gray-color);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--black-color);
+}

@@ -1,0 +1,85 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-full);
+  cursor: pointer;
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+/* ===== Variants ===== */
+.dark {
+  background-color: var(--dark-gray-color);
+  color: var(--white-color);
+}
+
+.dark:hover {
+  background-color: var(--black-color);
+}
+
+.dark .icon img,
+.dark .icon svg {
+  filter: brightness(0) invert(1);
+}
+
+.light {
+  background-color: var(--white-color);
+  border: 1px solid #e8e8e8;
+  color: var(--black-color);
+}
+
+.light:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.light:hover .icon img,
+.light:hover .icon svg {
+  filter: brightness(0) invert(1);
+}
+
+.transparent {
+  background-color: transparent;
+  border: 1px solid #e8e8e8;
+  color: var(--black-color);
+}
+
+.transparent:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+}
+
+.transparent:hover .icon img,
+.transparent:hover .icon svg {
+  filter: brightness(0) invert(1);
+}
+
+/* ===== Sizes ===== */
+.large {
+  width: 42px;
+  height: 42px;
+}
+
+.small {
+  width: 36px;
+  height: 36px;
+}
+
+.icon img,
+.icon svg {
+  display: block;
+}
+
+.large .icon img,
+.large .icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.small .icon img,
+.small .icon svg {
+  width: 16px;
+  height: 16px;
+}

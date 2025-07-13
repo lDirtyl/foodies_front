@@ -1,7 +1,13 @@
 import styles from './Input.module.css';
+import clsx from 'clsx';
 
-export const Input = ({ type = 'text', placeholder }) => {
+export const Input = ({ placeholder = '', ...props }) => {
   return (
-    <input className={styles.input} type={type} placeholder={placeholder} />
+    <input
+      type="text"
+      className={clsx(styles.input)}
+      placeholder={placeholder}
+      {...props}
+    />
   );
 };
