@@ -34,12 +34,29 @@ export default function StyleGuide() {
               Sign Up
             </Button>
           </div>
-
-          <h3>Other Components</h3>
+          <h3>ButtonIcon</h3>
           <ButtonIcon icon={<img src="/icons/trash.svg" alt="icon" />} />
-          <ButtonOutline>ADD RECIPE</ButtonOutline>
+          <h3>ButtonOutline</h3>
+          <ButtonOutline variant="outline" size="large">
+            ADD RECIPE
+          </ButtonOutline>
+          <ButtonOutline variant="dark" size="large">
+            ADD RECIPE
+          </ButtonOutline>
+          <ButtonOutline
+            variant="outline"
+            size="medium"
+            icon={
+              <img src="/icons/plus.svg" alt="plus" width={22} height={22} />
+            }
+          >
+            Add Ingredient
+          </ButtonOutline>
+          <h3>Checkbox</h3>
           <Checkbox />
+          <h3>Dropdown</h3>
           <Dropdown options={[{ label: 'Option 1', value: '1' }]} />
+          <h3>Input</h3>
           <Input placeholder="Type here..." />
         </div>
       </section>
