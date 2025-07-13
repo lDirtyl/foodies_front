@@ -1,0 +1,28 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.input {
+  display: none;
+}
+
+.box {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e8e8e8;
+  border-radius: 6px;
+  position: relative;
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
+}
+
+/* Checked state */
+.input:checked + .box {
+  background-color: var(--black-color);
+  background-image: url('/icons/white-check.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px 12px;
+}

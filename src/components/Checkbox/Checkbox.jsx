@@ -1,10 +1,15 @@
 import styles from './Checkbox.module.css';
 
-export const Checkbox = ({ checked, onChange }) => {
+export const Checkbox = ({ checked = false, onChange }) => {
   return (
-    <label className={styles.checkbox}>
-      <input type="checkbox" checked={checked} onChange={onChange} />
-      <span className={styles.custom}></span>
+    <label className={styles.wrapper}>
+      <input
+        type="checkbox"
+        className={styles.input}
+        checked={checked}
+        onChange={onChange}
+      />
+      <span className={styles.box} />
     </label>
   );
 };
