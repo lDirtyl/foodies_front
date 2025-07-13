@@ -35,23 +35,41 @@ export default function StyleGuide() {
             </Button>
           </div>
           <h3>ButtonIcon</h3>
-          <ButtonIcon icon={<img src="/icons/trash.svg" alt="icon" />} />
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <ButtonIcon
+              icon={<img src="/icons/heart.svg" alt="icon" />}
+              variant="dark"
+              size="large"
+            />
+            <ButtonIcon
+              icon={<img src="/icons/heart.svg" alt="icon" />}
+              variant="light"
+              size="large"
+            />
+            <ButtonIcon
+              icon={<img src="/icons/heart.svg" alt="icon" />}
+              variant="light"
+              size="small"
+            />
+          </div>
           <h3>ButtonOutline</h3>
-          <ButtonOutline variant="outline" size="large">
-            ADD RECIPE
-          </ButtonOutline>
-          <ButtonOutline variant="dark" size="large">
-            ADD RECIPE
-          </ButtonOutline>
-          <ButtonOutline
-            variant="outline"
-            size="medium"
-            icon={
-              <img src="/icons/plus.svg" alt="plus" width={22} height={22} />
-            }
-          >
-            Add Ingredient
-          </ButtonOutline>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <ButtonOutline variant="outline" size="large">
+              ADD RECIPE
+            </ButtonOutline>
+            <ButtonOutline variant="dark" size="large">
+              ADD RECIPE
+            </ButtonOutline>
+            <ButtonOutline
+              variant="outline"
+              size="medium"
+              icon={
+                <img src="/icons/plus.svg" alt="plus" width={22} height={22} />
+              }
+            >
+              Add Ingredient
+            </ButtonOutline>
+          </div>
           <h3>Checkbox</h3>
           <Checkbox />
           <h3>Dropdown</h3>
