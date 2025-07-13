@@ -78,7 +78,14 @@ export default function StyleGuide() {
           </div>
           <h3>Dropdown</h3>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <Dropdown options={[{ label: 'Option 1', value: '1' }]} />
+            <Dropdown
+              placeholder="Select a category"
+              options={[
+                { label: 'Beef', value: 'beef' },
+                { label: 'Pork', value: 'pork' },
+                { label: 'Seafood', value: 'seafood' },
+              ]}
+            />
           </div>
           <h3>Input</h3>
           <div style={{ display: 'flex', gap: '1rem' }}>
