@@ -1,12 +1,14 @@
 
-import StyleGuide from './pages/StyleGuide';
+
+import AppRouter from './AppRouter';
 import QuestWidget from './components/QuestWidget/QuestWidget';
+
 
 
 function App() {
   return (
     <>
-      <StyleGuide />
+      <AppRouter />
       <QuestWidget />
     </>
   );
