@@ -1,0 +1,179 @@
+/* QuestWidget.module.css */
+.questWidgetContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.widgetMainButton {
+  background-color: #4f46e5;
+  color: white;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.widgetMainButton:hover {
+  background-color: #4338ca;
+  transform: scale(1.05);
+  border-color: #FFD700;
+}
+
+.widgetIconQ {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+.widgetSubButtonsContainer {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+  min-width: 150px;
+}
+
+.widgetSubButtonsContainerActive {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.widgetSubButton {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widgetSubButton:hover {
+  background-color: #4f46e5;
+  transform: translateX(3px);
+}
+
+.widgetSubButton i {
+  font-size: 16px;
+}
+
+.iframeOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.iframeOverlayActive {
+  opacity: 1;
+  visibility: visible;
+}
+
+.iframeContainer {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 92%;
+  height: 98%;
+  max-width: 1400px;
+  max-height: 1700px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.iframeContent {
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.iframeCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 10001;
+}
+
+.iframeCloseButton:hover {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+@media (max-width: 768px) {
+  .questWidgetContainer {
+    bottom: 15px;
+    right: 15px;
+  }
+  .widgetMainButton {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  .widgetSubButtonsContainer {
+    bottom: 65px;
+    padding: 8px;
+    gap: 8px;
+    min-width: 130px;
+  }
+  .widgetSubButton {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .iframeContainer {
+    width: 95%;
+    height: 95%;
+  }
+  .iframeCloseButton {
+    font-size: 24px;
+    top: 5px;
+    right: 5px;
+  }
+}

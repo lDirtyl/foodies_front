@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Завдання проекту</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <style>
+        /* Chosen Palette: Calm Harmony */
+        /* Application Structure Plan: The application is a single-page HTML document. The structure directly follows the hierarchical organization of the provided "Завдання проекту" (Project Tasks) report. This includes: a main title (h1), top-level sections (h2) for major categories (e.g., "Загальні завдання та налаштування проекту"), sub-sections (h3) for specific components or pages (e.g., "SharedLayout"), and unordered lists (ul) with list items (li) for individual tasks, potentially nested for sub-tasks. This structure is chosen because the source report is already a well-organized list of tasks. Translating this hierarchical list directly into HTML headings and nested lists provides a clear, intuitive, and easily scannable information architecture, making the content highly consumable and explorable without needing complex interactive elements for this specific type of report. The user's request for "красивый список" (beautiful list) further reinforces this choice. */
+        /* Visualization & Content Choices: Report Info: "Завдання проекту" (Project Tasks) - a detailed list of frontend development tasks. Goal: Present a clear, readable, and structured overview of all project tasks and their sub-components. Presentation Method: Hierarchical HTML headings (h1, h2, h3) for main sections and sub-sections, combined with nested unordered lists (ul, li) for individual tasks and sub-tasks. Interaction: No specific interactive elements are required as the primary goal is clear presentation of a task list. The "interaction" here is purely navigational through scrolling and visual scanning of the well-structured content. Justification: This method directly translates the logical flow of the source Markdown into a web-friendly, visually organized format. Headings provide immediate context for sections, and nested lists clearly delineate parent-child relationships between tasks and sub-tasks, enhancing readability and comprehension. Tailwind CSS will ensure a clean, responsive layout across devices. Library/Method: Pure HTML with Tailwind CSS for styling. No Chart.js or Plotly.js needed as there's no data visualization requirement for this task list report. No SVG/Mermaid. */
+        /* CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Warm neutral background */
+            color: #374151; /* Dark gray text */
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        h1 {
+            color: #1f2937; /* Darker gray for main title */
+            border-bottom: 2px solid #e5e7eb; /* Light border */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        h2 {
+            color: #2563eb; /* Subtle blue for main sections */
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        h3 {
+            color: #4b5563; /* Medium gray for sub-sections */
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        ul {
+            list-style-type: none; /* Remove default bullet points */
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        li::before {
+            content: '•'; /* Custom bullet point */
+            color: #9ca3af; /* Light gray bullet */
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        ul ul {
+            padding-left: 1.5rem; /* Indent nested lists */
+        }
+        ul ul li::before {
+            content: '–'; /* Different bullet for nested lists */
+            color: #6b7280; /* Darker gray bullet */
+        }
+        ul ul ul {
+            padding-left: 1.5rem; /* Further indent for deeper nesting */
+        }
+        ul ul ul li::before {
+            content: '›'; /* Another bullet for deeper nesting */
+            color: #4b5563; /* Even darker gray bullet */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-700">
+    <div class="container mx-auto p-8 md:p-12 lg:p-16">
+        <h1 class="text-4xl font-extrabold mb-6 pb-2 border-b-2 border-gray-200">Завдання проекту</h1>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Загальні завдання та налаштування проекту</h2>
+            <p class="text-lg mb-4">Цей розділ описує базові вимоги до налаштування проекту та загальні аспекти розробки, які забезпечать його функціональність та адаптивність на різних пристроях.</p>
+            <ul class="space-y-2 text-lg">
+                <li>Налаштувати базову структуру React-проекту.</li>
+                <li>Реалізувати адаптивну та гумову верстку з урахуванням брейкпоінтів:
+                    <ul class="mt-2 space-y-1">
+                        <li>Mobile: від 320px (гумова), з 375px (адаптивна).</li>
+                        <li>Tablet: з 768px.</li>
+                        <li>Desktop: з 1440px.</li>
+                    </ul>
+                </li>
+                <li>Забезпечити семантичну верстку.</li>
+                <li>Підключити шрифти.</li>
+                <li>Оптимізувати розміри статичної графіки (векторної та растрової).</li>
+                <li>Забезпечити підтримку відображення статичних зображень для Retina-екранів.</li>
+                <li>Оптимізувати завантаження зображень.</li>
+                <li>Підключити всі SVG-іконки через спрайт.</li>
+                <li>Додати відображення фавікон сторінки.</li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">UI Kit / SharedLayout (Загальні компоненти)</h2>
+            <p class="text-lg mb-4">Цей розділ деталізує розробку основних компонентів інтерфейсу користувача, які будуть повторно використовуватися по всьому додатку для забезпечення єдиного стилю та функціональності.</p>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">SharedLayout</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `SharedLayout`, який рендериться на маршруті `/`.</li>
+                <li>Інтегрувати `Header` та `Footer` у `SharedLayout`.</li>
+                <li>Налаштувати `SharedLayout` для обгортання вкладених маршрутів та сторінок.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Header</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Header`.</li>
+                <li>Інтегрувати `Logo` у `Header`.</li>
+                <li>Реалізувати умовний рендеринг:
+                    <ul class="mt-2 space-y-1">
+                        <li>`Nav` (для авторизованого користувача).</li>
+                        <li>`AuthBar` (для неавторизованого користувача).</li>
+                        <li>`UserBar` (для авторизованого користувача).</li>
+                    </ul>
+                </li>
+                <li>Для авторизованого користувача:
+                    <ul class="mt-2 space-y-1">
+                        <li>Реалізувати навігаційний блок з маршрутами:
+                            <ul class="mt-2 space-y-1">
+                                <li>`/` (публічний, веде на `HomePage`).</li>
+                                <li>`/add` (приватний, веде на `AddRecipePage`).</li>
+                            </ul>
+                        </li>
+                        <li>Реалізувати бургер-меню для мобільної версії, яке виїжджає справа і має розміри в'юпорту.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Nav</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Nav`.</li>
+                <li>Забезпечити клікабельність `Nav` для переадресації на `HomePage`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Logo</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Logo` (для хедера та футера).</li>
+                <li>Забезпечити клікабельність `Logo` для переадресації на `HomePage`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">AuthBar</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `AuthBar`.</li>
+                <li>Реалізувати 2 кнопки:
+                    <ul class="mt-2 space-y-1">
+                        <li><strong>Sign in</strong>: по кліку відкривати `Modal` з `SignInModal`.</li>
+                        <li><strong>Sign up</strong>: по кліку відкривати `Modal` з `SignUpModal`.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">UserBar</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `UserBar`.</li>
+                <li>Відображати актуальну аватарку та ім'я користувача.</li>
+                <li>Реалізувати відображення дефолтного зображення при відсутності аватарки.</li>
+                <li>По кліку на компонент відображати випадаючий список:
+                    <ul class="mt-2 space-y-1">
+                        <li>Посилання <strong>Profile</strong>: перенаправляти на `UserPage` з інформацією про авторизованого користувача.</li>
+                        <li>Кнопка <strong>Log out</strong>: по кліку відкривати `Modal` з `LogOutModal`.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Footer</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Footer`.</li>
+                <li>Інтегрувати `Logo` у `Footer`.</li>
+                <li>Інтегрувати `NetworkLinks` у `Footer`.</li>
+                <li>Інтегрувати `Copyright` у `Footer`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">NetworkLinks</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `NetworkLinks`.</li>
+                <li>Реалізувати список посилань на соцмережі (`ul > li`):
+                    <ul class="mt-2 space-y-1">
+                        <li>Facebook: <a href="https://www.facebook.com/goITclub/" target="_blank" class="text-indigo-600 hover:underline">https://www.facebook.com/goITclub/</a></li>
+                        <li>Instagram: <a href="https://www.instagram.com/goitclub/" target="_blank" class="text-indigo-600 hover:underline">https://www.instagram.com/goitclub/</a></li>
+                        <li>YouTube: <a href="https://www.youtube.com/c/GoITNetworkLinks" target="_blank" class="text-indigo-600 hover:underline">https://www.youtube.com/c/GoITNetworkLinks</a></li>
+                    </ul>
+                </li>
+                <li>Забезпечити відкриття посилань у новій вкладці.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Copyright</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Copyright`.</li>
+                <li>Відображати текст: "@2025, Foodies. All rights reserved".</li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Сторінка HomePage (публічний маршрут "/")</h2>
+            <p class="text-lg mb-4">Цей розділ описує структуру та функціональність головної публічної сторінки додатку, яка слугує точкою входу для користувачів.</p>
+            <ul class="space-y-2 text-lg">
+                <li>Створити сторінку `HomePage`.</li>
+                <li>Інтегрувати компоненти: `Hero`, `Categories`, `Recipes`, `Testimonials`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Hero</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Hero`.</li>
+                <li>Інтегрувати `MainTitle` та `Subtitle`.</li>
+                <li>Додати кнопку "Add recipe":
+                    <ul class="mt-2 space-y-1">
+                        <li>Для неавторизованого користувача: по кліку відкривати `Modal` з `SignInModal`.</li>
+                        <li>Для авторизованого користувача: по кліку перенаправляти на `AddRecipePage`.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">MainTitle</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити універсальний компонент `MainTitle`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Subtitle</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити універсальний компонент `Subtitle`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Categories</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Categories`.</li>
+                <li>Інтегрувати `CategoryList`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">CategoryList</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `CategoryList`.</li>
+                <li>Відображати список карток категорій рецептів, кожна з яких містить:
+                    <ul class="mt-2 space-y-1">
+                        <li>Зображення категорії.</li>
+                        <li>Назва категорії.</li>
+                        <li>Кнопку-іконку-стрілку:
+                            <ul class="mt-2 space-y-1">
+                                <li>По кліку відправляти запит на бекенд за рецептами обраної категорії.</li>
+                                <li>Обробити помилку бекенду: відображати спливаюче повідомлення.</li>
+                                <li>При успішному запиті: приховати `Categories` та відобразити `Recipes`.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Recipes</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Recipes`.</li>
+                <li>Інтегрувати: кнопку "Back", `MainTitle`, `Subtitle`, `RecipeFilters`, `RecipeList`, `RecipePagination`.</li>
+                <li>Кнопка "Back":
+                    <ul class="mt-2 space-y-1">
+                        <li>По кліку відображати `Categories` та приховувати `Recipes`.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeFilters</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipeFilters`.</li>
+                <li>Реалізувати стилізований `select` для вибору інгредієнта:
+                    <ul class="mt-2 space-y-1">
+                        <li>По кліку відображати випадаючий список інгредієнтів з бекенду.</li>
+                        <li>Кешувати список інгредієнтів у `Redux Store`.</li>
+                    </ul>
+                </li>
+                <li>Реалізувати стилізований `select` для вибору регіону:
+                    <ul class="mt-2 space-y-1">
+                        <li>По кліку відображати випадаючий список регіонів з бекенду.</li>
+                        <li>Кешувати список регіонів у `Redux Store`.</li>
+                    </ul>
+                </li>
+                <li>При кожній зміні `select` скидати сторінку `RecipePagination` на 1.</li>
+                <li>Відправляти запит на бекенд з урахуванням всіх параметрів фільтрації та пагінації (за замовчуванням фільтри відсутні).</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeList</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipeList`.</li>
+                <li>Відображати список рецептів з використанням універсального компонента `RecipeCard`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeCard</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити універсальний компонент `RecipeCard`.</li>
+                <li>Відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Зображення страви.</li>
+                        <li>Назва рецепту.</li>
+                        <li>Опис рецепту.</li>
+                        <li>Інформацію про автора (аватарка, ім'я) у вигляді кнопки:
+                            <ul class="mt-2 space-y-1">
+                                <li>Для неавторизованого користувача: по кліку відкривати `Modal` з `SignInModal`.</li>
+                                <li>Для авторизованого користувача: по кліку перенаправляти на `UserPage` профілю автора.</li>
+                            </ul>
+                        </li>
+                        <li>Кнопку-іконку-серце (додати/видалити з обраного):
+                            <ul class="mt-2 space-y-1">
+                                <li>По кліку відправляти запит на бекенд.</li>
+                                <li>Підсвічувати іконку, якщо рецепт в обраному.</li>
+                            </ul>
+                        </li>
+                        <li>Кнопку-іконку-стрілочку: по кліку перенаправляти на `RecipePage`.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipePagination</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Реалізувати "серверную" пагінацію.</li>
+                <li>По кліку на порядковий номер відправляти запит на бекенд з урахуванням фільтрації та пагінації.</li>
+                <li>За замовчуванням порядковий номер сторінки = 1.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Testimonials</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `Testimonials`.</li>
+                <li>Отримувати відгуки з бекенду.</li>
+                <li>Відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Підзаголовок секції.</li>
+                        <li>Заголовок секції.</li>
+                        <li>Слайдер відгуків:
+                            <ul class="mt-2 space-y-1">
+                                <li>Кожен слайд містить текст відгуку та ім'я автора.</li>
+                                <li>Автоматична прокрутка слайдів за заданим інтервалом.</li>
+                                <li>Можливість ручної прокрутки за допомогою пагінації під слайдером.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Сторінка RecipePage (публічний маршрут "/recipe/:id")</h2>
+            <p class="text-lg mb-4">Цей розділ описує деталізовану сторінку рецепту, доступну для публічного перегляду.</p>
+            <ul class="space-y-2 text-lg">
+                <li>Створити сторінку `RecipePage`.</li>
+                <li>Інтегрувати: `PathInfo`, `RecipeInfo`, `PopularRecipes`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">PathInfo</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити універсальний компонент `PathInfo`.</li>
+                <li>Відображати посилання на `HomePage` та назву поточної сторінки.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeInfo</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipeInfo`.</li>
+                <li>До рендерингу отримати `id` рецепта з URL та відправити запит на бекенд.</li>
+                <li>Інтегрувати: `RecipeMainInfo`, `RecipeIngredients`, `RecipePreparation`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeMainInfo</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipeMainInfo`.</li>
+                <li>Приймати дані в пропсах та відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Зображення рецепта.</li>
+                        <li>Назва страви.</li>
+                        <li>Категорія страви.</li>
+                        <li>Опис страви.</li>
+                        <li>Інформацію про автора (у вигляді кнопки):
+                            <ul class="mt-2 space-y-1">
+                                <li>Для неавторизованого користувача: по кліку відкривати `Modal` з `SignInModal`.</li>
+                                <li>Для авторизованого користувача: по кліку перенаправляти на `UserPage` профілю автора.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipeIngredients</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipeIngredients`.</li>
+                <li>Приймати дані в пропсах та відображати список інгредієнтів, кожен з яких містить:
+                    <ul class="mt-2 space-y-1">
+                        <li>Зображення інгредієнта або плейсхолдер.</li>
+                        <li>Назва інгредієнта.</li>
+                        <li>Його кількість.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipePreparation</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipePreparation`.</li>
+                <li>Приймати дані в пропсах та відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Опис приготування страви.</li>
+                        <li>Кнопку "Add to favorites" / "Remove from favorites":
+                            <ul class="mt-2 space-y-1">
+                                <li>По кліку відправляти запит на бекенд для додавання/видалення рецепта з обраного.</li>
+                                <li>Змінювати текст кнопки залежно від статусу.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">PopularRecipes</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `PopularRecipes`.</li>
+                <li>Відображати заголовок секції.</li>
+                <li>Відображати список популярних рецептів з використанням `RecipeCard`.</li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Сторінка AddRecipePage (приватний маршрут "/recipe/add")</h2>
+            <p class="text-lg mb-4">Цей розділ описує сторінку для додавання нових рецептів, доступну лише авторизованим користувачам.</p>
+            <ul class="space-y-2 text-lg">
+                <li>Створити сторінку `AddRecipePage`.</li>
+                <li>Інтегрувати: `PathInfo`, `MainTitle`, `Subtitle`, `AddRecipeForm`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">AddRecipeForm</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `AddRecipeForm`.</li>
+                <li>Реалізувати форму з використанням `react-hook-form` та `Yup` для валідації.</li>
+                <li>Поля форми:
+                    <ul class="mt-2 space-y-1">
+                        <li>`input` типу `file` для фото рецепта (використовувати `URL.createObjectURL()` для тимчасового відображення).</li>
+                        <li>`input` для назви рецепта.</li>
+                        <li>`input` для короткого опису (до 200 символів) з лічильником.</li>
+                        <li>Стилізований `select` для категорії рецепта (список з бекенду).</li>
+                        <li>Стилізований лічильник часу приготування (не менше 1 хвилини).</li>
+                        <li>Стилізований `select` для додавання інгредієнта (список з бекенду).</li>
+                        <li>`input` для кількості вибраного інгредієнта.</li>
+                        <li>Кнопка "Add ingredient+":
+                            <ul class="mt-2 space-y-1">
+                                <li>По кліку зберігати інформацію про інгредієнт у списку.</li>
+                            </ul>
+                        </li>
+                        <li>Список доданих інгредієнтів (картки із зображенням, назвою, кількістю та кнопкою видалення).</li>
+                        <li>`textarea` для інструкції з приготування (до 200 символів) з лічильником.</li>
+                        <li>Кнопка-іконка-кошик: по кліку очищати всі поля форми.</li>
+                        <li>Кнопка `submit` "Publish":
+                            <ul class="mt-2 space-y-1">
+                                <li>Активувати валідацію (всі поля обов'язкові).</li>
+                                <li>Підсвічувати невалідні поля червоним та інформувати про причину.</li>
+                                <li>При валідних даних відправляти запит на бекенд (`FormData`).</li>
+                                <li>Обробити помилку бекенду: відображати спливаюче повідомлення.</li>
+                                <li>При успішному запиті: перенаправляти користувача на `UserPage`.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Сторінка UserPage (приватний маршрут "/user/:id")</h2>
+            <p class="text-lg mb-4">Цей розділ описує сторінку профілю користувача, яка може відображати власну інформацію або інформацію про інших користувачів.</p>
+            <ul class="space-y-2 text-lg">
+                <li>Створити сторінку `UserPage`.</li>
+                <li>Інтегрувати: `PathInfo`, `MainTitle`, `Subtitle`, `UserInfo`, кнопку "Log Out", `TabsList`, `ListItems`, `ListPagination`.</li>
+                <li>Кнопка "Log Out":
+                    <ul class="mt-2 space-y-1">
+                        <li>По кліку відкривати `Modal` з `LogOutModal`.</li>
+                    </ul>
+                </li>
+                <li>Кнопка "Follow" / "Following" (для профілю іншого користувача):
+                    <ul class="mt-2 space-y-1">
+                        <li>"Follow": по кліку відправляти запит на бекенд для підписки, потім змінювати на "Following".</li>
+                        <li>"Following": по кліку відправляти запит на бекенд для відписки, потім змінювати на "Follow".</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">UserInfo</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `UserInfo`.</li>
+                <li>Відображати аватарку користувача (дефолтне зображення при відсутності).</li>
+                <li>`input` типу `file` для додавання аватарки (тільки на власному профілі).</li>
+                <li>Відображати додаткову інформацію про користувача: email, кількість створених рецептів, кількість обраних рецептів, кількість підписників, кількість підписок.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">TabsList</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `TabsList`.</li>
+                <li>Реалізувати вкладки:
+                    <ul class="mt-2 space-y-1">
+                        <li>Для власного профілю:
+                            <ul class="mt-2 space-y-1">
+                                <li>"My recipes" (створені рецепти).</li>
+                                <li>"My favorites" (обрані рецепти).</li>
+                                <li>"Followers" (список підписників).</li>
+                                <li>"Following" (список підписок).</li>
+                            </ul>
+                        </li>
+                        <li>Для чужого профілю:
+                            <ul class="mt-2 space-y-1">
+                                <li>"Recipes" (рецепти власника).</li>
+                                <li>"Followers" (список підписників власника).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>По кліку на вкладку скидати сторінку `ListPagination` на 1.</li>
+                <li>Відправляти відповідний запит на бекенд з урахуванням пагінації.</li>
+                <li>Обробити помилку бекенду: відображати дефолтний контент у `ListItems`.</li>
+                <li>При успішному запиті: `ListItems` відображає отриману інформацію.</li>
+                <li>Підсвічувати активну вкладку.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">ListItems</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `ListItems`.</li>
+                <li>Приймати дані в пропсах та відображати список `RecipePreview` або `UserCard` залежно від вибраної вкладки.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">RecipePreview</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `RecipePreview`.</li>
+                <li>Відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Зображення рецепта.</li>
+                        <li>Назва рецепта.</li>
+                        <li>Короткий опис.</li>
+                        <li>Посилання на `RecipePage` (іконка-стрілочка).</li>
+                        <li>Кнопка-іконка-кошик:
+                            <ul class="mt-2 space-y-1">
+                                <li>По кліку відправляти запит на бекенд для видалення рецепта (зі своїх або обраних).</li>
+                                <li>Видаляти картку без перезавантаження сторінки.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">UserCard</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `UserCard`.</li>
+                <li>Відображати:
+                    <ul class="mt-2 space-y-1">
+                        <li>Аватарку користувача.</li>
+                        <li>Ім'я користувача.</li>
+                        <li>Кількість власних рецептів.</li>
+                        <li>Список рецептів користувача (для планшетів/десктопів).</li>
+                        <li>Посилання на `UserPage`.</li>
+                        <li>Кнопка:
+                            <ul class="mt-2 space-y-1">
+                                <li>Для вкладки "Followers":
+                                    <ul class="mt-2 space-y-1">
+                                        <li>"Follow": по кліку відправляти запит на бекенд для підписки, потім змінювати на "Following".</li>
+                                        <li>"Following": по кліку відправляти запит на бекенд для відписки, потім змінювати на "Follow".</li>
+                                    </ul>
+                                </li>
+                                <li>Для вкладки "Following":
+                                    <ul class="mt-2 space-y-1">
+                                        <li>"Following": по кліку відправляти запит на бекенд для відписки.</li>
+                                        <li>Видаляти картку користувача зі списку без перезавантаження сторінки.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">ListPagination</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Реалізувати "серверную" пагінацію.</li>
+                <li>По кліку на порядковий номер відправляти запит на бекенд залежно від вкладки, передаючи номер сторінки.</li>
+                <li>При видаленні останнього елемента на сторінці перенаправляти на попередню сторінку.</li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-3xl font-bold text-indigo-700 mb-4 pb-2 border-b border-gray-200">Модальні вікна (Modals)</h2>
+            <p class="text-lg mb-4">Цей розділ описує реалізацію модальних вікон, які використовуються для взаємодії з користувачем.</p>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">Modal</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити універсальний компонент `Modal`.</li>
+                <li>Відображає контент, переданий як `children`.</li>
+                <li>Містить 1 функціональну кнопку для закриття.</li>
+                <li>Закривається по: кліку на кнопку-іконку закриття, кліку по бекдропу, натисканню `Escape`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">SignUpModal</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `SignUpModal`.</li>
+                <li>Відображати заголовок.</li>
+                <li>Інтегрувати `SignUpForm`.</li>
+                <li>Кнопка "Sign in": по кліку відображати `SignInModal`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">SignUpForm</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `SignUpForm`.</li>
+                <li>Форма з `input`'ами: Name, Email, Password.</li>
+                <li>Кнопка `submit` "Create".</li>
+                <li>`Input Password`:
+                    <ul class="mt-2 space-y-1">
+                        <li>Кнопка-іконка-око (закреслене/відкрите).</li>
+                        <li>По кліку на закреслене око: змінювати іконку на відкрите око, робити пароль видимим.</li>
+                        <li>По кліку на відкрите око: змінювати іконку на закреслене око, приховувати пароль (зірочки).</li>
+                    </ul>
+                </li>
+                <li>Валідація по `submit` з використанням `react-hook-form` та `Yup`.</li>
+                <li>При невалідних значеннях: відображати причину помилки, не відправляти дані на бекенд.</li>
+                <li>При валідних значеннях: відправляти дані на бекенд.</li>
+                <li>Обробити помилку бекенду: відображати спливаюче повідомлення.</li>
+                <li>При успішному запиті (сформовано `token`): реалізувати автоматичну авторизацію, закривати `Modal`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">SignInModal</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `SignInModal`.</li>
+                <li>Відображати заголовок.</li>
+                <li>Інтегрувати `SignInForm`.</li>
+                <li>Кнопка "Create an account": по кліку відображати `SignUpModal`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">SignInForm</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `SignInForm`.</li>
+                <li>Форма з `input`'ами: Email, Password.</li>
+                <li>Кнопка `submit` "Sign in".</li>
+                <li>Валідація по `submit` з використанням `react-hook-form` та `Yup`.</li>
+                <li>При невалідних значеннях: відображати причину помилки, не відправляти дані на бекенд.</li>
+                <li>При валідних значеннях: відправляти дані на бекенд.</li>
+                <li>Обробити помилку бекенду: відображати спливаюче повідомлення.</li>
+                <li>При успішному запиті (сформовано `token`): закривати `Modal`.</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold text-gray-700 mt-6 mb-3">LogOutModal</h3>
+            <ul class="space-y-2 text-lg">
+                <li>Створити компонент `LogOutModal`.</li>
+                <li>Відображати питання.</li>
+                <li>Кнопка "Cancel": по кліку закривати `Modal`.</li>
+                <li>Кнопка "LogOut":
+                    <ul class="mt-2 space-y-1">
+                        <li>По кліку відправляти запит на бекенд для видалення активної сесії.</li>
+                        <li>Незалежно від відповіді бекенду: деавторизувати "на клієнті" (очистити `Redux Store` та `localStorage`).</li>
+                        <li>Перенаправити користувача на `HomePage`.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>
