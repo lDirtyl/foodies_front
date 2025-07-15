@@ -9,8 +9,8 @@
 }
 
 .box {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border: 1px solid #e8e8e8;
   border-radius: 6px;
   position: relative;
@@ -18,11 +18,20 @@
     var(--transition-timing-function);
 }
 
-/* Checked state */
+/* Checked */
 .input:checked + .box {
   background-color: var(--black-color);
   background-image: url('/icons/white-check.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 12px 12px;
+  background-size: 10px 10px;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .box {
+    width: 20px;
+    height: 20px;
+    background-size: 12px 12px;
+  }
 }

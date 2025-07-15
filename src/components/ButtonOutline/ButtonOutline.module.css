@@ -3,15 +3,16 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 32px;
-  height: 56px;
+  padding: 12px 24px;
+  height: 48px;
   border-radius: var(--border-radius-m);
   cursor: pointer;
+  white-space: nowrap;
 
   font-family: 'Mulish', sans-serif;
   font-weight: 700;
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 14px;
+  line-height: 14px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
 
@@ -26,22 +27,20 @@
 
 .icon {
   display: inline-flex;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
 }
 
-/* ===== Variants ===== */
+/* Variants */
 .outline {
   background-color: transparent;
   border: 1px solid var(--black-color);
   color: var(--black-color);
 }
-
 .outline:hover {
   background-color: var(--black-color);
   color: var(--white-color);
 }
-
 .outline:hover .icon img,
 .outline:hover .icon svg {
   filter: brightness(0) invert(1);
@@ -51,4 +50,19 @@
   background-color: var(--black-color);
   border: none;
   color: var(--white-color);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .button {
+    padding: 16px 32px;
+    height: 56px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
 }

@@ -1,10 +1,11 @@
 .button {
   font-family: 'Mulish', sans-serif;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
+  white-space: nowrap;
 
   border-radius: var(--border-radius-m);
   border: none;
@@ -18,16 +19,14 @@
   background-color: var(--dark-gray-color);
   color: var(--white-color);
 }
-
 .dark:hover {
   background-color: var(--black-color);
 }
 
 .light {
   background-color: var(--gray-color);
-  color: var(--black-color);
+  color: var(--white-color);
 }
-
 .light:hover {
   background-color: var(--black-color);
   color: var(--white-color);
@@ -38,12 +37,11 @@
   color: var(--black-color);
   border: 1px solid var(--gray-color);
 }
-
 .transparent:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Sizes */
+/* Sizes — mobile first */
 .small {
   width: 104px;
   height: 46px;
@@ -55,14 +53,72 @@
 }
 
 .large {
-  width: 400px;
-  height: 56px;
-
-  font-size: 16px;
-  line-height: 24px;
+  width: 100%; /* мобільна гумова версія */
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* Full width override */
 .fullWidth {
   width: 100% !important;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .large {
+    width: 300px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .large {
+    width: 400px;
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* ======= Mobile styles (320–767px) ======= */
+
+.large {
+  width: 283px;
+  height: 48px;
+  padding: 14px 115px;
+  border-radius: 30px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.small {
+  width: 124px;
+  height: 48px;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* ======= Tablet ======= */
+@media (min-width: 768px) {
+  .large {
+    width: 300px;
+    padding: 0; /* або адаптуй окремо */
+    border-radius: var(--border-radius-m);
+  }
+
+  .small {
+    width: 146px;
+    height: 46px;
+    padding: 0;
+    border-radius: var(--border-radius-m);
+  }
+}
+
+/* ======= Desktop ======= */
+@media (min-width: 1440px) {
+  .large {
+    width: 400px;
+    font-size: 16px;
+    line-height: 24px;
+  }
 }
