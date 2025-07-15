@@ -9,16 +9,14 @@
     var(--transition-timing-function);
 }
 
-/* ===== Variants ===== */
+/* Variants */
 .dark {
   background-color: var(--dark-gray-color);
   color: var(--white-color);
 }
-
 .dark:hover {
   background-color: var(--black-color);
 }
-
 .dark .icon img,
 .dark .icon svg {
   filter: brightness(0) invert(1);
@@ -29,12 +27,10 @@
   border: 1px solid #e8e8e8;
   color: var(--black-color);
 }
-
 .light:hover {
   background-color: var(--black-color);
   color: var(--white-color);
 }
-
 .light:hover .icon img,
 .light:hover .icon svg {
   filter: brightness(0) invert(1);
@@ -45,41 +41,50 @@
   border: 1px solid #e8e8e8;
   color: var(--black-color);
 }
-
 .transparent:hover {
   background-color: var(--black-color);
   color: var(--white-color);
 }
-
 .transparent:hover .icon img,
 .transparent:hover .icon svg {
   filter: brightness(0) invert(1);
 }
 
-/* ===== Sizes ===== */
+/* Sizes — mobile first */
 .large {
-  width: 42px;
-  height: 42px;
-}
-
-.small {
   width: 36px;
   height: 36px;
+}
+.small {
+  width: 32px;
+  height: 32px;
 }
 
 .icon img,
 .icon svg {
   display: block;
 }
-
 .large .icon img,
 .large .icon svg {
-  width: 18px;
-  height: 18px;
-}
-
-.small .icon img,
-.small .icon svg {
   width: 16px;
   height: 16px;
+}
+.small .icon img,
+.small .icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .large {
+    width: 42px;
+    height: 42px;
+  }
+
+  .large .icon img,
+  .large .icon svg {
+    width: 18px;
+    height: 18px;
+  }
 }

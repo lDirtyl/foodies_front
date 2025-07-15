@@ -1,16 +1,16 @@
 .input {
   width: 100%;
-  max-width: 400px;
-  height: 48px;
-  padding: 14px 18px;
+  max-width: 320px;
+  height: 44px;
+  padding: 12px 14px;
 
   border: 1px solid var(--gray-color);
   border-radius: var(--border-radius-m);
   background-color: var(--white-color);
 
   font-family: 'Mulish', sans-serif;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 13px;
+  line-height: 18px;
   color: var(--black-color);
 
   transition: border-color var(--transition-duration)
@@ -24,4 +24,21 @@
 .input:focus {
   outline: none;
   border-color: var(--black-color);
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .input {
+    max-width: 400px;
+    height: 48px;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .input {
+    max-width: 500px;
+  }
 }
