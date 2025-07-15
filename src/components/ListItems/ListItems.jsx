@@ -1,0 +1,76 @@
+import { useSelector, useDispatch } from 'react-redux';
+import { setCurrentPage } from '../../redux/slices/recipesSlice';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
+import styles from './ListItems.module.css';
+import ButtonIcon from '../ButtonIcon/ButtonIcon';
+
+const ListItems = ({
+  children,
+  isLoading = false,
+  emptyMessage = 'Nothing has been added to your recipes list yet. Please browse our recipes and add your favorites for easy access in the future.',
+  showPagination = true,
+}) => {
+  const dispatch = useDispatch();
+  const { currentPage, totalPages } = useSelector(state => state.recipes);
+
+  const handlePageChange = page => {
+    if (page >= 1 && page <= totalPages) {
+      dispatch(setCurrentPage(page));
+    }
+  };
+
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, currentPage - 2);
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+    }
+
+    return pages;
+  };
+
+  if (isLoading) {
+    return <LoadingIndicator size="large" />;
+  }
+
+  if (!children || (Array.isArray(children) && children.length === 0)) {
+    return (
+      <div className={styles.emptyState}>
+        <p className={styles.emptyMessage}>{emptyMessage}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.pagingList}>
+      <div className={styles.content}>{children}</div>
+
+      {showPagination && totalPages > 1 && (
+        <div className={styles.pagination}>
+          <div className={styles.pageNumbers}>
+            {generatePageNumbers().map(page => (
+              <ButtonIcon
+                key={page}
+                onClick={() => handlePageChange(page)}
+                variant={currentPage === page ? 'dark' : 'light'}
+                icon={<p>{page}</p>}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ListItems;
