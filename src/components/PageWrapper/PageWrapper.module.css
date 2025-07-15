@@ -1,0 +1,34 @@
+.pageWrapper {
+  margin: 0 auto;
+  padding: 64px 16px 64px 16px;
+  min-width: 375px;
+}
+
+.header {
+  margin-bottom: 40px;
+  max-width: 443px;
+}
+
+.title {
+  composes: h2 from global;
+  margin: 0 0 16px 0;
+}
+
+.description {
+  composes: main from global;
+  margin: 0;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .pageWrapper {
+    padding: 62px 32px 100px 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .pageWrapper {
+    padding: 80px 80px 120px 80px;
+    max-width: 1440px;
+  }
+}
