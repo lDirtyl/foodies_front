@@ -4,19 +4,24 @@ import { IoMdMenu } from 'react-icons/io';
 import { useMediaQuery } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
+
 import { ROUTERS, THEMES } from '../../const';
-import Logo from '../Logo/Logo';
-import cssNavigation from '../styles/navigation.module.css';
+import { Logo } from '../Logo/Logo';
+
+import stylesNavigation from '../styles/navigation.module.css';
 import styles from './Nav.module.css';
 
 const buildClassName = ({ isActive }) => {
-  return clsx(cssNavigation.link, isActive && cssNavigation.active);
+  return clsx(stylesNavigation.link, isActive && stylesNavigation.active);
 };
 
 const Nav = ({ theme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 767px)');
-  const className = clsx(cssNavigation.wrapper, theme && cssNavigation[theme]);
+  const className = clsx(
+    stylesNavigation.wrapper,
+    theme && stylesNavigation[theme]
+  );
 
   const handleOnMenuClick = () => {
     setIsOpen(!isOpen);
@@ -41,7 +46,10 @@ const Nav = ({ theme }) => {
   return (
     <div className={className}>
       <button
-        className={clsx(cssNavigation.menuButton, cssNavigation.menuButtonOpen)}
+        className={clsx(
+          stylesNavigation.menuButton,
+          stylesNavigation.menuButtonOpen
+        )}
         type="button"
         aria-label="Open menu"
         onClick={handleOnMenuClick}
@@ -50,19 +58,19 @@ const Nav = ({ theme }) => {
       </button>
       <div
         className={clsx(
-          cssNavigation.mobileMenuContainer,
-          isOpen && cssNavigation.isOpen,
-          !isOpen && cssNavigation.isClose
+          stylesNavigation.mobileMenuContainer,
+          isOpen && stylesNavigation.isOpen,
+          !isOpen && stylesNavigation.isClose
         )}
       >
-        <div className={cssNavigation.mobileMenuOverlay} />
-        <div className={cssNavigation.mobileMenu}>
-          <div className={cssNavigation.mobileMenuHeader}>
+        <div className={stylesNavigation.mobileMenuOverlay} />
+        <div className={stylesNavigation.mobileMenu}>
+          <div className={stylesNavigation.mobileMenuHeader}>
             <Logo theme={THEMES.DARK} />
             <button
               className={clsx(
-                cssNavigation.menuButton,
-                cssNavigation.menuButtonClose
+                stylesNavigation.menuButton,
+                stylesNavigation.menuButtonClose
               )}
               type="button"
               aria-label="Close menu"
@@ -71,7 +79,7 @@ const Nav = ({ theme }) => {
               <IoClose />
             </button>
           </div>
-          <nav className={cssNavigation.nav}>
+          <nav className={stylesNavigation.nav}>
             <NavLink
               onClick={handleOnCloseClick}
               className={buildClassName}
@@ -88,7 +96,7 @@ const Nav = ({ theme }) => {
             </NavLink>
           </nav>
 
-          <div className={cssNavigation.mobileMenuFooter}>
+          <div className={stylesNavigation.mobileMenuFooter}>
             <img
               srcSet="
               /images/hero/hero-dish2-1x.png 1x,

@@ -1,8 +1,10 @@
 import clsx from 'clsx';
 import { useId, useState } from 'react';
 import { BiHide } from 'react-icons/bi';
-import css from '../Fields.module.css';
+
 import ErrorField from '../ErrorField/ErrorField';
+
+import styles from '../Fields.module.css';
 
 const FieldInput = ({
   name,
@@ -76,7 +78,7 @@ const FieldInput = ({
         <button
           type="button"
           onClick={showPassword}
-          className={css.showPassword}
+          className={styles.showPassword}
           aria-label={
             isPassword(defaultType) ? 'hide password' : 'hide password'
           }
@@ -88,7 +90,7 @@ const FieldInput = ({
 
     if (maxLength) {
       return (
-        <span className={css.count}>
+        <span className={styles.count}>
           {count} / {defaultMaxLength}
         </span>
       );
@@ -98,18 +100,18 @@ const FieldInput = ({
   return (
     <div
       className={clsx(
-        css.field,
-        style && css[style],
+        styles.field,
+        style && styles[style],
         className,
-        strong && css.strong,
-        error && css.error,
-        withExtra && css.withExtra
+        strong && styles.strong,
+        error && styles.error,
+        withExtra && styles.withExtra
       )}
     >
       {label && <label htmlFor={fieldId}>{label}</label>}
-      <div className={clsx(css.inputWrapper, withExtra && css.withExtra)}>
+      <div className={clsx(styles.inputWrapper, withExtra && styles.withExtra)}>
         {renderInput()}
-        {withExtra && <div className={css.extra}>{renderExtra()}</div>}
+        {withExtra && <div className={styles.extra}>{renderExtra()}</div>}
       </div>
       {error && <ErrorField>{error}</ErrorField>}
     </div>

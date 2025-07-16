@@ -8,11 +8,11 @@
   line-height: 1.2;
   letter-spacing: -0.4px;
   text-transform: lowercase;
-  color: var(--white-color);
+  color: var(--black-color);
 }
 
-.logoWhite {
-  color: var(--black-color);
+.logo.dark {
+  color: var(--white-color);
 }
 
 @media screen and (min-width: 768px) {

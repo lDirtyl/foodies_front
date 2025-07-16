@@ -1,8 +1,10 @@
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 import { useEffect, useId, useRef, useState } from 'react';
+
 import ErrorField from '../ErrorField/ErrorField';
-import css from '../Fields.module.css';
+
+import styles from '../Fields.module.css';
 
 const FieldTextArea = ({
   name,
@@ -40,8 +42,8 @@ const FieldTextArea = ({
   const renderExtra = () => {
     if (maxLength) {
       return (
-        <span className={css.count}>
-          <span className={count > 0 ? css.currentCount : undefined}>
+        <span className={styles.count}>
+          <span className={count > 0 ? styles.currentCount : undefined}>
             {count}
           </span>
           /{defaultMaxLength}
@@ -60,9 +62,11 @@ const FieldTextArea = ({
   }, [values, name, maxLength]);
 
   return (
-    <div className={clsx(css.field, error && css.error)}>
+    <div className={clsx(styles.field, error && styles.error)}>
       {label && <label htmlFor={fieldId}>{label}</label>}
-      <div className={clsx(css.textAreaWrapper, withExtra && css.withExtra)}>
+      <div
+        className={clsx(styles.textAreaWrapper, withExtra && styles.withExtra)}
+      >
         <textarea
           ref={event => {
             registerRef(event);
@@ -74,7 +78,7 @@ const FieldTextArea = ({
           maxLength={defaultMaxLength}
           aria-invalid={error ? 'true' : 'false'}
         />
-        {withExtra && <div className={css.extra}>{renderExtra()}</div>}
+        {withExtra && <div className={styles.extra}>{renderExtra()}</div>}
       </div>
       {error && <ErrorField>{error}</ErrorField>}
     </div>

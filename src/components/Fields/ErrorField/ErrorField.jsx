@@ -1,8 +1,8 @@
-import css from '../Fields.module.css';
+import styles from '../Fields.module.css';
 
 const ErrorField = ({ children }) => {
   return (
-    <p className={css.errorMessage} role="alert">
+    <p className={styles.errorMessage} role="alert">
       {children}
     </p>
   );

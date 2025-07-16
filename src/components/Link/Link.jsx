@@ -1,6 +1,7 @@
 import clsx from 'clsx';
-import css from './Link.module.css';
 import { Link as RouteLink } from 'react-router-dom';
+
+import styles from './Link.module.css';
 
 const Link = ({ onClick, children, href, to, className, title }) => {
   const clickHandler = event => {
@@ -10,7 +11,7 @@ const Link = ({ onClick, children, href, to, className, title }) => {
     }
   };
 
-  const classNames = clsx(css.link, className);
+  const classNames = clsx(styles.link, className);
 
   if (href) {
     return (

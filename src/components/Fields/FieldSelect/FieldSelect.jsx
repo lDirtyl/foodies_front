@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import Select from 'react-select';
 import { Controller } from 'react-hook-form';
 import { useId } from 'react';
-import css from '../Fields.module.css';
+
 import ErrorField from '../ErrorField/ErrorField';
+
+import styles from '../Fields.module.css';
 
 const FieldSelect = ({
   name,
@@ -26,7 +28,7 @@ const FieldSelect = ({
 
   const defaultProps = {
     classNamePrefix: 'select',
-    className: css.select,
+    className: styles.select,
     ariaInvalid: error ? 'true' : 'false',
     onChange: handleChange,
     options,
@@ -36,9 +38,9 @@ const FieldSelect = ({
   };
 
   return (
-    <div className={clsx(css.field, className, error && css.error)}>
+    <div className={clsx(styles.field, className, error && styles.error)}>
       {label && <label htmlFor={fieldId}>{label}</label>}
-      <div className={css.inputWrapper}>
+      <div className={styles.inputWrapper}>
         {control ? (
           <Controller
             name={name}

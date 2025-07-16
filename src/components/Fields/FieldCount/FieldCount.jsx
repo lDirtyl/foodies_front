@@ -1,10 +1,12 @@
-import { useEffect, useId, useState } from 'react';
 import clsx from 'clsx';
+import { useEffect, useId, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
-import css from '../Fields.module.css';
+import { useFormContext } from 'react-hook-form';
+
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 import ErrorField from '../ErrorField/ErrorField';
-import { useFormContext } from 'react-hook-form';
+
+import styles from '../Fields.module.css';
 
 const FieldCount = ({
   label,
@@ -38,18 +40,18 @@ const FieldCount = ({
   return (
     <div
       className={clsx(
-        css.field,
+        styles.field,
         className,
-        strong && css.strong,
-        error && css.error
+        strong && styles.strong,
+        error && styles.error
       )}
     >
       {label && <label htmlFor={fieldId}>{label}</label>}
-      <div className={clsx(css.inputCountWrapper)}>
+      <div className={clsx(styles.inputCountWrapper)}>
         <ButtonIcon onClick={handleOnChange(-step)}>
           <FaMinus />
         </ButtonIcon>
-        <div className={css.step}>{count} min</div>
+        <div className={styles.step}>{count} min</div>
         <ButtonIcon onClick={handleOnChange(step)}>
           <FaPlus />
         </ButtonIcon>

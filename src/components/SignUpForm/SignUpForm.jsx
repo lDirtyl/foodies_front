@@ -1,6 +1,8 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+
 import { register } from '../../redux/auth/operations';
 import {
   errorNotification,
@@ -10,9 +12,9 @@ import Button from '../Button/Button';
 import { FieldInput } from '../Fields';
 import { defaultValues } from './const';
 import { validationSchema } from './const/validation';
-import css from './SignUpForm.module.css';
-import cssForm from '../styles/form.module.css';
-import { useState } from 'react';
+
+import styles from './SignUpForm.module.css';
+import stylesForm from '../styles/form.module.css';
 
 const SignUpForm = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ const SignUpForm = ({ onSuccess }) => {
   };
 
   return (
-    <div className={css.wrapper}>
+    <div className={styles.wrapper}>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldInput
@@ -77,7 +79,7 @@ const SignUpForm = ({ onSuccess }) => {
             style="rounded"
             required
           />
-          <div className={cssForm.actions}>
+          <div className={stylesForm.actions}>
             <Button
               type="submit"
               variant="primary"

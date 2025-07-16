@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+
 import { text } from '../../../utils/validation';
 
 export const validationSchema = yup.object().shape({

@@ -73,7 +73,6 @@
   gap: 6px;
 }
 
-/* tablet */
 @media only screen and (min-width: 768px) {
   .wrapper {
     margin-left: auto;
@@ -91,6 +90,5 @@
   }
 }
 
-/* desktop */
 @media only screen and (min-width: 1440px) {
 }

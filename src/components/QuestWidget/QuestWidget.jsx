@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import styles from './QuestWidget.module.css';
 
 // Для иконок FontAwesome
-const fontAwesomeLink = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+const fontAwesomeLink =
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
 
 const githubPagesUrl = 'https://essencemaks.github.io/Quests_Board/';
 
@@ -40,7 +41,7 @@ export default function QuestWidget() {
   }, []);
 
   // Открыть iframe с нужным режимом
-  const openIframe = (mode) => {
+  const openIframe = mode => {
     let url = githubPagesUrl;
     if (mode === 'add') {
       url = `${githubPagesUrl}?action=add-quest`;
@@ -57,7 +58,7 @@ export default function QuestWidget() {
   };
 
   // Закрытие iframe при клике вне контейнера
-  const handleOverlayClick = (event) => {
+  const handleOverlayClick = event => {
     if (event.target.classList.contains(styles.iframeOverlay)) {
       closeIframe();
     }
@@ -68,7 +69,7 @@ export default function QuestWidget() {
       <button
         ref={widgetMainButtonRef}
         className={styles.widgetMainButton}
-        onClick={() => setSubButtonsActive((v) => !v)}
+        onClick={() => setSubButtonsActive(v => !v)}
         aria-label="Открыть меню квестов"
       >
         <img src="/q3.svg" alt="Quests Icon" className={styles.widgetIconQ} />
@@ -110,12 +111,14 @@ export default function QuestWidget() {
           >
             &times;
           </button>
-          <iframe
-            className={styles.iframeContent}
-            src={iframeUrl}
-            title="Quests Board"
-            allowFullScreen
-          ></iframe>
+          {iframeUrl && (
+            <iframe
+              className={styles.iframeContent}
+              src={iframeUrl}
+              title="Quests Board"
+              allowFullScreen
+            ></iframe>
+          )}
         </div>
       </div>
     </div>

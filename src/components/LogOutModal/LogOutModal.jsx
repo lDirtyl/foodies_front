@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
+
+import { logout } from '../../redux/auth/operations';
 import Modal from '../Modal/Modal';
 import Button from '../Button/Button';
-import css from './LogOutModal.module.css';
-import { logout } from '../../redux/auth/operations';
-import cssModal from '../styles/modal.module.css';
+import styles from './LogOutModal.module.css';
+
+import stylesModal from '../styles/modal.module.css';
 
 const LogOutModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -19,13 +21,13 @@ const LogOutModal = ({ isOpen, onClose }) => {
 
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <div className={cssModal.wrapper}>
-        <h2 className={clsx(cssModal.title, css.title)}>{title}</h2>
-        <div className={css.wrapper}>
-          <p className={css.description}>
+      <div className={stylesModal.wrapper}>
+        <h2 className={clsx(stylesModal.title, styles.title)}>{title}</h2>
+        <div className={styles.wrapper}>
+          <p className={styles.description}>
             You can always log back in at my time.
           </p>
-          <div className={css.actions}>
+          <div className={styles.actions}>
             <Button variant="primary" onClick={onSubmit}>
               LOG OUT
             </Button>
