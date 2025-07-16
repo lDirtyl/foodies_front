@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage/HomePage';
 import RecipePage from './pages/RecipePage/RecipePage';
 import AddRecipePage from './pages/AddRecipePage/AddRecipePage';
 import UserPage from './pages/UserPage/UserPage';
+import CategoriesPage from './pages/CategoriesPage/CategoriesPage';
 
 export default function AppRouter() {
   return (
@@ -14,6 +15,8 @@ export default function AppRouter() {
           <Route path="recipe/:id" element={<RecipePage />} />
           <Route path="recipe/add" element={<AddRecipePage />} />
           <Route path="user/:id" element={<UserPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
+          <Route path="categories/:id" element={<CategoriesPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
