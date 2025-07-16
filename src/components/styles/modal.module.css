@@ -14,3 +14,24 @@
   font-size: 14px;
   text-decoration: none;
 }
+
+.createAccount {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.createAccountButton {
+  background: none;
+  border: none;
+  color: var(--black-color);
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.createAccountButton:hover {
+  background-color: var(--white-color);
+}

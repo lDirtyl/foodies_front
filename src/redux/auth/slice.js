@@ -11,7 +11,14 @@ const initialState = {
 
 const authorizationCase = (state, action) => {
   const { token, user } = action.payload;
+
   if (token) {
+    // Очищаем предыдущее состояние
+    state.user = null;
+    state.token = null;
+    state.isLoggedIn = false;
+
+    // Устанавливаем новые данные
     state.user = user;
     state.token = token;
     state.isLoggedIn = true;
@@ -30,6 +37,7 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.isLoggedIn = false;
+        state.userDetails = null;
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;

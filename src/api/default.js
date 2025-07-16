@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseApiUrl = 'https://foodies-back-1.onrender.com/api';
+const baseApiUrl = 'http://localhost:3000/api';
 
 export default axios.create({
   baseURL: baseApiUrl,

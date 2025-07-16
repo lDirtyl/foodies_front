@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useId, useState } from 'react';
-import { BiHide } from 'react-icons/bi';
+import { BiHide, BiShow } from 'react-icons/bi';
 
 import ErrorField from '../ErrorField/ErrorField';
 
@@ -23,6 +23,7 @@ const FieldInput = ({
 }) => {
   const [count, setCount] = useState(0);
   const [defaultType, setDefaultType] = useState(type);
+  const [showPassword, setShowPassword] = useState(false);
   const fieldId = useId();
   const defaultMaxLength = maxLength && parseInt(maxLength, 10);
   const withExtra = type === 'password' || !!maxLength;
@@ -62,14 +63,9 @@ const FieldInput = ({
     return <input value={value} onChange={handleOnChange} {...defaultProps} />;
   };
 
-  const isPassword = type => type === 'password';
-
-  const showPassword = () => {
-    if (isPassword(defaultType)) {
-      setDefaultType('text');
-    } else {
-      setDefaultType(type);
-    }
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+    setDefaultType(showPassword ? 'password' : 'text');
   };
 
   const renderExtra = () => {
@@ -77,13 +73,11 @@ const FieldInput = ({
       return (
         <button
           type="button"
-          onClick={showPassword}
+          onClick={togglePasswordVisibility}
           className={styles.showPassword}
-          aria-label={
-            isPassword(defaultType) ? 'hide password' : 'hide password'
-          }
+          aria-label={showPassword ? 'hide password' : 'show password'}
         >
-          <BiHide />
+          {showPassword ? <BiHide /> : <BiShow />}
         </button>
       );
     }

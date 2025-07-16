@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -6,9 +6,14 @@ import ShowModal from '../ShowModal/ShowModal';
 import styles from './SharedLayout.module.css';
 
 export default function SharedLayout() {
+  const location = useLocation();
+
+  const needsContrast =
+    location.pathname === '/' || location.pathname === '/categories';
+
   return (
     <>
-      <Header />
+      <Header contrast={needsContrast} />
       <main className={styles.main}>
         <Outlet />
       </main>

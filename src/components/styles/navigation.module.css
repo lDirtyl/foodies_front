@@ -17,11 +17,23 @@
   text-decoration: none;
   padding: 14px;
   white-space: nowrap;
+  color: var(--dark-gray-color);
+}
+
+.link.contrast {
+  color: var(--white-color);
 }
 
 .link.active {
   border-radius: 30px;
   border: 1px solid var(--black-color);
+}
+
+.link.active.contrast,
+.link.activeContrast {
+  border: 1px solid var(--white-color);
+  background-color: transparent;
+  color: var(--white-color);
 }
 
 .placeholder {

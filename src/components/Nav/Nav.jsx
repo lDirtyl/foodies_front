@@ -11,11 +11,16 @@ import { Logo } from '../Logo/Logo';
 import stylesNavigation from '../styles/navigation.module.css';
 import styles from './Nav.module.css';
 
-const buildClassName = ({ isActive }) => {
-  return clsx(stylesNavigation.link, isActive && stylesNavigation.active);
+const buildClassName = ({ isActive }, contrast = false) => {
+  return clsx(
+    stylesNavigation.link,
+    isActive && stylesNavigation.active,
+    contrast && stylesNavigation.contrast,
+    isActive && contrast && stylesNavigation.activeContrast
+  );
 };
 
-const Nav = ({ theme }) => {
+const Nav = ({ theme, contrast = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 767px)');
   const className = clsx(
@@ -82,14 +87,14 @@ const Nav = ({ theme }) => {
           <nav className={stylesNavigation.nav}>
             <NavLink
               onClick={handleOnCloseClick}
-              className={buildClassName}
+              className={props => buildClassName(props, contrast)}
               to={ROUTERS.HOME}
             >
               Home
             </NavLink>
             <NavLink
               onClick={handleOnCloseClick}
-              className={buildClassName}
+              className={props => buildClassName(props, contrast)}
               to={ROUTERS.ADD_RECIPE}
             >
               Add recipe

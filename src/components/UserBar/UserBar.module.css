@@ -60,11 +60,19 @@
   border: 1px solid var(--black-color);
   color: var(--black-color);
   font-family: 'Mulish Medium', Arial, sans-serif;
+  background-color: var(--white-color);
 }
 
 .dark .menu {
   border: 1px solid var(--white-color);
   color: var(--white-color);
+  background-color: var(--black-color);
+}
+
+.menu.contrast {
+  border: 1px solid var(--white-color);
+  color: var(--white-color);
+  background-color: transparent;
 }
 
 .active.menu {

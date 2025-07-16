@@ -12,7 +12,7 @@ import { commonReducer } from './common/slice';
 const persistAuthConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token', 'user'],
 };
 
 export const store = configureStore({

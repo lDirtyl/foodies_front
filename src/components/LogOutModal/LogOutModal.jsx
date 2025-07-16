@@ -15,6 +15,7 @@ const LogOutModal = ({ isOpen, onClose }) => {
   const title = isMobile ? 'LOG OUT' : 'ARE YOU LOGGING OUT?';
 
   const onSubmit = () => {
+    localStorage.clear();
     dispatch(logout());
     onClose();
   };

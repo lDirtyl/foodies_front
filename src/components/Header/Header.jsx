@@ -10,7 +10,7 @@ import UserBar from '../UserBar/UserBar';
 
 import styles from './Header.module.css';
 
-const Header = ({ theme }) => {
+const Header = ({ theme, contrast = false }) => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const className = clsx(styles.header, theme && styles[theme]);
 
@@ -19,13 +19,13 @@ const Header = ({ theme }) => {
       <Container>
         <div className={styles.wrapper}>
           <div className={styles.brand}>
-            <Logo theme={theme} />
+            <Logo theme={theme} contrast={contrast} />
           </div>
 
           {isLoggedIn ? (
             <>
-              <Nav theme={theme} />
-              <UserBar theme={theme} />
+              <Nav theme={theme} contrast={contrast} />
+              <UserBar theme={theme} contrast={contrast} />
             </>
           ) : (
             <AuthBar theme={theme} />

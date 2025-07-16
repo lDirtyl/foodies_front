@@ -12,6 +12,10 @@ export const register = createAsyncThunk(
     try {
       return await usersSignup(user);
     } catch (error) {
+      if (error.status === 409) {
+        return rejectWithValue('The email is already taken');
+      }
+
       if (error.status === 400) {
         if (error.response?.data?.keyPattern) {
           const { email } = error.response.data.keyPattern;
@@ -69,9 +73,10 @@ export const refreshUser = createAsyncThunk(
 
     if (token) {
       try {
-        return await fetchCurrentUser(token);
-      } catch ({ message }) {
-        return rejectWithValue(message);
+        const userData = await fetchCurrentUser(token);
+        return userData;
+      } catch (error) {
+        return rejectWithValue(error.message || 'Failed to refresh user');
       }
     } else {
       return rejectWithValue('Token is not available');
