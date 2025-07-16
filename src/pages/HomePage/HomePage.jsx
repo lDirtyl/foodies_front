@@ -1,4 +1,7 @@
+import React from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
+import Categories from '../../components/Categories/Categories';
+import Testimonials from '../../components/Testimonials/Testimonials';
 
 export default function HomePage() {
   return (
@@ -16,8 +19,9 @@ export default function HomePage() {
 
       {/* Categories Section */}
       <section style={{ marginTop: '60px' }}>
-        <h3>Popular Categories</h3>
-        <p>Browse recipes by category...</p>
+        {/* <h3>Popular Categories</h3>
+        <p>Browse recipes by category...</p> */}
+        <Categories />
       </section>
 
       {/* Latest Recipes */}
@@ -25,6 +29,8 @@ export default function HomePage() {
         <h3>Latest Recipes</h3>
         <p>Check out the newest additions to our recipe collection...</p>
       </section>
+
+      <Testimonials />
     </PageWrapper>
   );
 }
