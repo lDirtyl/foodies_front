@@ -1,4 +1,12 @@
-/* UserPage.module.css */
-.page {
-  padding: 2rem;
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
 }

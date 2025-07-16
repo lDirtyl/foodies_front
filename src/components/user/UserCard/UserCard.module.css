@@ -1,0 +1,111 @@
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: var(--white-color);
+  border: 1px solid #e5e5e5;
+  border-radius: var(--border-radius-m);
+  transition: all var(--transition-duration) var(--transition-timing-function);
+  margin-bottom: 16px;
+}
+
+.userCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Avatar styles now handled by Avatar component */
+
+.userInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--black-color);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: var(--gray-color);
+  margin: 0;
+}
+
+.stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black-color);
+}
+
+.statLabel {
+  font-size: 10px;
+  color: var(--gray-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.followButton {
+  background: var(--black-color);
+  color: var(--white-color);
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-m);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition-duration) var(--transition-timing-function);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.followButton:hover {
+  background: var(--dark-gray-color);
+  transform: translateY(-1px);
+}
+
+.followButton.following {
+  background: var(--gray-color);
+  color: var(--black-color);
+}
+
+.followButton.following:hover {
+  background: #a0a0a0;
+}
+
+@media (max-width: 768px) {
+  .userCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .stats {
+    justify-content: center;
+  }
+  
+  .followButton {
+    align-self: center;
+  }
+}
