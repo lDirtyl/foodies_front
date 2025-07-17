@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchRecipes, setFilters, setCurrentPage } from '../../redux/recipes';
 import MainTitle from '../MainTitle/MainTitle';
-import Subtitle from '../Subtitle/Subtitle';
+import SubTitle from '../SubTitle/SubTitle';
 import RecipeFilters from '../RecipeFilters/RecipeFilters';
 import RecipeList from '../RecipeList/RecipeList';
 import RecipePagination from '../RecipePagination/RecipePagination';
@@ -75,7 +75,7 @@ const Reciepes = () => {
           BACK
         </button>
         <MainTitle title={getCategoryTitle()} />
-        <Subtitle subTitle={getCategorySubtitle()} />
+        <SubTitle subTitle={getCategorySubtitle()} />
       </div>
 
       <div className={styles.filtersSection}>
