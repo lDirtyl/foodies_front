@@ -1,0 +1,25 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0 auto 32px;
+}
+
+@media screen and (min-width: 768px) {
+    .wrapper {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        width: 704px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .wrapper {
+        flex-direction: column;
+        gap: 16px;
+        width: 330px;
+        margin: 0;
+    }
+}

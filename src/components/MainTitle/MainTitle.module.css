@@ -1,0 +1,15 @@
+.mainTitle {
+    color: var(--black-color);
+    font-size: 28px;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+@media only screen and (min-width: 768px) {
+    .mainTitle {
+        font-size: 40px;
+        line-height: 1.1;
+    }
+}

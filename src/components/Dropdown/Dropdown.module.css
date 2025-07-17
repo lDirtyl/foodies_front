@@ -1,7 +1,12 @@
 .wrapper {
   position: relative;
   width: 100%;
-  max-width: 320px;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 320px;
+  }
 }
 
 .toggle {
@@ -22,8 +27,7 @@
 .icon {
   width: 18px;
   height: 18px;
-  transition: transform var(--transition-duration)
-    var(--transition-timing-function);
+  transition: transform var(--transition-duration) var(--transition-timing-function);
 }
 
 .rotate {
@@ -52,6 +56,7 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
+
 .item:hover {
   background-color: #f3f3f3;
 }
