@@ -13,6 +13,30 @@ const UserPage = () => {
   const { userRecipes, favorites, activeTab, isLoading } = useSelector(
     state => state.recipes
   );
+  // Mock recipe data for followers
+  const mockRecipes = [
+    {
+      id: '1',
+      title: 'Chocolate Cake',
+      image: '/images/recipes/chocolate-cake.jpg',
+    },
+    {
+      id: '2',
+      title: 'Pasta Carbonara',
+      image: '/images/recipes/pasta-carbonara.jpg',
+    },
+    {
+      id: '3',
+      title: 'Green Soup',
+      image: '/images/recipes/green-soup.jpg',
+    },
+    {
+      id: '4',
+      title: 'Vanilla Pudding',
+      image: '/images/recipes/vanilla-pudding.jpg',
+    },
+  ];
+
   const mockFollowers = [
     {
       id: '2',
@@ -20,6 +44,7 @@ const UserPage = () => {
       email: 'nadia28682@gmail.com',
       avatar: '/images/users/nadia.jpg',
       isFollowing: false,
+      recipesCount: 12,
     },
     {
       id: '3',
@@ -27,6 +52,7 @@ const UserPage = () => {
       email: 'alex.chef@gmail.com',
       avatar: '/images/users/alex.jpg',
       isFollowing: true,
+      recipesCount: 8,
     },
     {
       id: '4',
@@ -34,6 +60,7 @@ const UserPage = () => {
       email: 'marie.cuisine@gmail.com',
       avatar: '/images/users/marie.jpg',
       isFollowing: false,
+      recipesCount: 15,
     },
   ];
 
@@ -86,6 +113,7 @@ const UserPage = () => {
                 key={follower.id}
                 user={follower}
                 showFollowButton={true}
+                recipes={mockRecipes}
               />
             ))}
           </ListItems>
@@ -106,6 +134,7 @@ const UserPage = () => {
                   key={user.id}
                   user={user}
                   showFollowButton={true}
+                  recipes={mockRecipes}
                 />
               ))}
           </ListItems>

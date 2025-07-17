@@ -34,23 +34,66 @@
   gap: 8px;
 }
 
+.recipePreviews {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.recipePreview {
+  flex-shrink: 0;
+}
+
+.recipeImage {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--border-radius-s);
+  object-fit: cover;
+  border: 1px solid #e5e5e5;
+}
+
+/* Mobile: Hide recipe previews */
+@media (max-width: 767px) {
+  .recipePreviews {
+    display: none;
+  }
+}
+
+/* Tablet: Show 3 recipe previews */
+@media (min-width: 768px) and (max-width: 1439px) {
+  .recipePreviews {
+    display: flex;
+  }
+  
+  .recipePreview:nth-child(n+4) {
+    display: none;
+  }
+}
+
+/* Desktop: Show 4 recipe previews */
+@media (min-width: 1440px) {
+  .recipePreviews {
+    display: flex;
+  }
+}
+
 @media (max-width: 768px) {
   .followerCard {
     padding: 12px 16px;
   }
-
+  
   .userInfo {
     gap: 12px;
   }
-
+  
   .userName {
     font-size: 12px;
   }
-
+  
   .recipeCount {
     font-size: 10px;
   }
-
+  
   .actions {
     gap: 6px;
   }

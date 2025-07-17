@@ -5,7 +5,7 @@ import Button from '../../Button/Button';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 import styles from './FollowerCard.module.css';
 
-const FollowerCard = ({ user, showFollowButton = true }) => {
+const FollowerCard = ({ user, showFollowButton = true, recipes = [] }) => {
   const dispatch = useDispatch();
 
   const handleFollowToggle = () => {
@@ -37,6 +37,18 @@ const FollowerCard = ({ user, showFollowButton = true }) => {
             </Button>
           )}
         </div>
+      </div>
+
+      <div className={styles.recipePreviews}>
+        {recipes.slice(0, 4).map((recipe, index) => (
+          <div key={recipe.id || index} className={styles.recipePreview}>
+            <img
+              src={recipe.image || '/images/default-recipe.jpg'}
+              alt={recipe.title}
+              className={styles.recipeImage}
+            />
+          </div>
+        ))}
       </div>
 
       <div className={styles.actions}>
