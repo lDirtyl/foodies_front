@@ -5,8 +5,10 @@ import {
   clearFilters,
   fetchCategories,
   fetchAreas,
-} from '../../redux/slices/recipesSlice';
+} from '../../redux/recipes';
 import { Dropdown } from '../Dropdown/Dropdown';
+
+import styles from './RecipeFilters.module.css';
 
 const RecipeFilters = () => {
   const dispatch = useDispatch();
@@ -49,7 +51,7 @@ const RecipeFilters = () => {
   };
 
   return (
-    <div className="recipe-filters">
+    <div className={styles.wrapper}>
       <Dropdown
         options={categoryOptions}
         placeholder="All Categories"

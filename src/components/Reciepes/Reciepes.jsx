@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import {
-  fetchRecipes,
-  setFilters,
-  setCurrentPage,
-} from '../../redux/slices/recipesSlice';
+import { fetchRecipes, setFilters, setCurrentPage } from '../../redux/recipes';
 import MainTitle from '../MainTitle/MainTitle';
 import Subtitle from '../Subtitle/Subtitle';
 import RecipeFilters from '../RecipeFilters/RecipeFilters';
@@ -69,16 +65,26 @@ const Reciepes = () => {
   };
 
   return (
-    <div>
-      <button className={styles.backButton} onCLick={() => console.log('Back button clicked')}>
-        <img src="/icons/arrow-left.svg" alt="back icon" />
-        BACK
-      </button>
-      <MainTitle title={getCategoryTitle()} />
-      <Subtitle subTitle={getCategorySubtitle()} />
-      <RecipeFilters />
-      <RecipeList recipes={recipes} isLoading={isLoading} error={error} />
-      <RecipePagination currentPage={currentPage} totalPages={totalPages} />
+    <div className={styles.wrapper} id="paginationAnchor">
+      <div className={styles.topSection}>
+        <button
+          className={styles.backButton}
+          onCLick={() => console.log('Back button clicked')}
+        >
+          <img src="/icons/arrow-left.svg" alt="back icon" />
+          BACK
+        </button>
+        <MainTitle title={getCategoryTitle()} />
+        <Subtitle subTitle={getCategorySubtitle()} />
+      </div>
+
+      <div className={styles.filtersSection}>
+        <RecipeFilters />
+        <div>
+          <RecipeList recipes={recipes} isLoading={isLoading} error={error} />
+          <RecipePagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      </div>
     </div>
   );
 };

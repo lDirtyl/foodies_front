@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage';
 
 import { authReducer } from './auth/slice';
 import { commonReducer } from './common/slice';
+import { recipesReducer } from './recipes';
 
 const persistAuthConfig = {
   key: 'auth',
@@ -20,6 +21,7 @@ const persistAuthConfig = {
 export const store = configureStore({
   reducer: {
     user: userSlice,
+    recipes: recipesReducer,
     userRecipes: userRecipesReducer,
     userFavoriteRecipes: userFavoriteRecipesReducer,
     userFollowers: userFollowersReducer,
