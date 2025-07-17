@@ -50,6 +50,10 @@
   filter: brightness(0) invert(1);
 }
 
+.noBorder {
+  border: none;
+}
+
 /* Sizes — mobile first */
 .large {
   width: 36px;

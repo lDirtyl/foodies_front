@@ -74,7 +74,6 @@ const initialState = {
   totalPages: 3,
   isLoading: false,
   error: null,
-  activeTab: 'MY RECIPES',
 };
 
 const recipesSlice = createSlice({
@@ -110,10 +109,6 @@ const recipesSlice = createSlice({
     setTotalPages: (state, action) => {
       state.totalPages = action.payload;
     },
-    setActiveTab: (state, action) => {
-      state.activeTab = action.payload;
-      state.currentPage = 1; // Reset to first page when changing tabs
-    },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
@@ -130,7 +125,6 @@ export const {
   deleteRecipe,
   setCurrentPage,
   setTotalPages,
-  setActiveTab,
   setLoading,
   setError,
 } = recipesSlice.actions;

@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { toggleFavorite } from '../../../redux/slices/recipesSlice';
-import { openDeleteConfirm } from '../../../redux/slices/uiSlice';
+import { toggleFavorite } from '../../../redux/slices/userRecipesSlice';
 import styles from './RecipeCard.module.css';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 
@@ -12,7 +11,7 @@ const RecipeCard = ({ recipe, showActions = true, isOwner = false }) => {
   };
 
   const handleDeleteClick = () => {
-    dispatch(openDeleteConfirm(recipe.id));
+    // dispatch(openDeleteConfirm(recipe.id));
   };
 
   const handleEdit = () => {

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { toggleFollow } from '../../../redux/slices/userSlice';
+import { toggleFollow } from '../../../redux/slices/userFollowersSlice';
 import Avatar from '../../Avatar/Avatar';
 import Button from '../../Button/Button';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
@@ -10,7 +10,7 @@ const FollowerCard = ({ user, showFollowButton = true, recipes = [] }) => {
 
   const handleFollowToggle = () => {
     if (showFollowButton) {
-      dispatch(toggleFollow());
+      dispatch(toggleFollow(user.id));
     }
   };
 
