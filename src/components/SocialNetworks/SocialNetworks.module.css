@@ -6,48 +6,77 @@
 }
 
 .link {
-  text-decoration: none;
-  border: 1px solid transparent;
-  background: transparent;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color var(--transition-duration) var(--transition-timing-function),
-    background var(--transition-duration) var(--transition-timing-function),
-    border var(--transition-duration) var(--transition-timing-function);
-  border-radius: var(--border-radius-full);
-}
-
-.link {
+  position: relative;
+  overflow: visible;
   width: 36px;
   height: 36px;
+  border-radius: var(--border-radius-full);
+  border: 1px solid var(--gray-color);
+  background: var(--white-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
 }
 
-.link svg {
+.link img {
   width: 20px;
   height: 20px;
+  z-index: 2;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
+/* Ripple animation */
+.link::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0.5;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 0 0 4px var(--gray-color);
+}
+
+.link:hover::before {
+  transform: translate(-50%, -50%) scale(2.5);
+  opacity: 0;
+  animation: rippleLoop 1.2s ease-out infinite;
+}
+
+.link:hover {
+  background-color: var(--black-color);
+}
+
+.link:hover img {
+  filter: brightness(0) invert(1);
+}
+
+/* Ripple animation loop */
+@keyframes rippleLoop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.5;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Responsive size */
 @media screen and (min-width: 768px) {
   .link {
     width: 40px;
     height: 40px;
   }
-}
-
-.link.light {
-  background: var(--white-color);
-  color: var(--black-color);
-  border-color: var(--gray-color);
-}
-
-.link.light:not(:disabled):hover {
-  background: var(--black-color);
-  color: var(--white-color);
-  border-color: var(--gray-color);
-}
-
-.link.light:not(:disabled):hover svg {
-  color: var(--white-color);
 }
