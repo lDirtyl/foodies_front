@@ -92,6 +92,10 @@
   border-color: var(--white-color);
 }
 
+.button.fullWidth {
+  width: 100%;
+}
+
 
 @keyframes rotate {
   from {

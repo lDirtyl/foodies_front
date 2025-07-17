@@ -17,6 +17,7 @@ const Button = ({
   type = TYPES.BUTTON,
   disabled = false,
   small = false,
+  fullWidth = false,
 }) => {
   const clickHandler = event => {
     if (onClick) {
@@ -29,6 +30,7 @@ const Button = ({
     styles.button,
     variant && styles[variant],
     small && styles.small,
+    fullWidth && styles.fullWidth,
     className
   );
 

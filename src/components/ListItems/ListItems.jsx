@@ -1,21 +1,21 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setCurrentPage } from '../../redux/slices/recipesSlice';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import styles from './ListItems.module.css';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import clsx from 'clsx';
 
 const ListItems = ({
   children,
   isLoading = false,
-  emptyMessage = 'Nothing has been added to your recipes list yet. Please browse our recipes and add your favorites for easy access in the future.',
+  emptyMessage = 'Nothing has been added to your list yet.',
   showPagination = true,
+  separator = false,
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
 }) => {
-  const dispatch = useDispatch();
-  const { currentPage, totalPages } = useSelector(state => state.recipes);
-
   const handlePageChange = page => {
-    if (page >= 1 && page <= totalPages) {
-      dispatch(setCurrentPage(page));
+    if (page >= 1 && page <= totalPages && onPageChange) {
+      onPageChange(page);
     }
   };
 
@@ -53,7 +53,11 @@ const ListItems = ({
 
   return (
     <div className={styles.pagingList}>
-      <div className={styles.content}>{children}</div>
+      <div className={styles.content}>{children.map((child, index) => (
+        <div key={index} className={clsx(separator && index !== 0 && styles.separator)}>
+          {child}
+        </div>
+      ))}</div>
 
       {showPagination && totalPages > 1 && (
         <div className={styles.pagination}>
@@ -62,7 +66,8 @@ const ListItems = ({
               <ButtonIcon
                 key={page}
                 onClick={() => handlePageChange(page)}
-                variant={currentPage === page ? 'dark' : 'light'}
+                variant={currentPage === page ? 'light' : 'transparent'}
+                noBorder={currentPage !== page}
                 icon={<p>{page}</p>}
               />
             ))}
