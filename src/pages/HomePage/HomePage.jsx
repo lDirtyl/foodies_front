@@ -2,19 +2,21 @@ import React from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
+import Hero from '../../components/Hero/Hero.jsx'
 
 export default function HomePage() {
   return (
     <PageWrapper
-      title="FOODIES"
-      description="Discover amazing recipes from talented chefs around the world"
-      containerSize="wide"
+      // title="FOODIES"
+      // description="Discover amazing recipes from talented chefs around the world"
+      // containerSize="wide"
       showBreadcrumbs={false}
     >
       {/* Hero Section */}
       <section style={{ marginBottom: '60px' }}>
-        <h3>Featured Recipes</h3>
-        <p>Explore our collection of delicious recipes...</p>
+        {/*<h3>Featured Recipes</h3>*/}
+        {/*<p>Explore our collection of delicious recipes...</p>*/}
+        <Hero />
       </section>
 
       {/* Categories Section */}
