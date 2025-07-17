@@ -1,17 +1,27 @@
 import styles from './Dropdown.module.css';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const Dropdown = ({
   options = [],
   placeholder = 'Select an option',
+  value = '',
+  onChange,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
+  useEffect(() => {
+    const selectedOption = options.find(opt => opt.value === value);
+    setSelected(selectedOption || null);
+  }, [value, options]);
+
   const handleSelect = option => {
     setSelected(option);
     setIsOpen(false);
+    if (onChange) {
+      onChange(option);
+    }
   };
 
   return (

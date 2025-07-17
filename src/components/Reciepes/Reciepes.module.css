@@ -1,0 +1,15 @@
+.backButton {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--black-color);
+    text-transform: uppercase;
+}
+
+.backButton img {
+    margin-right: 6px;
+}
