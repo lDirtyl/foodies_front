@@ -1,0 +1,115 @@
+import clsx from 'clsx';
+import { useId, useState } from 'react';
+import { BiHide, BiShow } from 'react-icons/bi';
+
+import ErrorField from '../ErrorField/ErrorField';
+
+import styles from '../Fields.module.css';
+
+const FieldInput = ({
+  name,
+  label,
+  register,
+  required,
+  placeholder,
+  maxLength,
+  onChange,
+  error,
+  strong,
+  value,
+  style,
+  type = 'text',
+  className = '',
+}) => {
+  const [count, setCount] = useState(0);
+  const [defaultType, setDefaultType] = useState(type);
+  const [showPassword, setShowPassword] = useState(false);
+  const fieldId = useId();
+  const defaultMaxLength = maxLength && parseInt(maxLength, 10);
+  const withExtra = type === 'password' || !!maxLength;
+
+  const handleOnChange = event => {
+    const { value } = event.target;
+    maxLength && setCount(value.length);
+    onChange && onChange(value);
+  };
+
+  const renderInput = () => {
+    const defaultProps = {
+      placeholder,
+      maxLength: defaultMaxLength,
+      'aria-invalid': error ? 'true' : 'false',
+    };
+
+    if (register) {
+      const { onChange: regOnChange, ...field } = register(name, {
+        required,
+      });
+
+      return (
+        <input
+          value={value}
+          type={defaultType}
+          {...field}
+          onChange={e => {
+            regOnChange(e);
+            handleOnChange(e);
+          }}
+          {...defaultProps}
+        />
+      );
+    }
+
+    return <input value={value} onChange={handleOnChange} {...defaultProps} />;
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+    setDefaultType(showPassword ? 'password' : 'text');
+  };
+
+  const renderExtra = () => {
+    if (type === 'password') {
+      return (
+        <button
+          type="button"
+          onClick={togglePasswordVisibility}
+          className={styles.showPassword}
+          aria-label={showPassword ? 'hide password' : 'show password'}
+        >
+          {showPassword ? <BiHide /> : <BiShow />}
+        </button>
+      );
+    }
+
+    if (maxLength) {
+      return (
+        <span className={styles.count}>
+          {count} / {defaultMaxLength}
+        </span>
+      );
+    }
+  };
+
+  return (
+    <div
+      className={clsx(
+        styles.field,
+        style && styles[style],
+        className,
+        strong && styles.strong,
+        error && styles.error,
+        withExtra && styles.withExtra
+      )}
+    >
+      {label && <label htmlFor={fieldId}>{label}</label>}
+      <div className={clsx(styles.inputWrapper, withExtra && styles.withExtra)}>
+        {renderInput()}
+        {withExtra && <div className={styles.extra}>{renderExtra()}</div>}
+      </div>
+      {error && <ErrorField>{error}</ErrorField>}
+    </div>
+  );
+};
+
+export default FieldInput;

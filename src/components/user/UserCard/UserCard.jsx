@@ -43,12 +43,12 @@ const UserCard = ({ user, showFollowButton = true }) => {
       </div>
       
       {showFollowButton && (
-        <button 
-          className={`${styles.followButton} ${user.isFollowing ? styles.following : ''}`}
+        <Button 
+          variant='primary'
           onClick={handleFollowToggle}
         >
           {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
-        </button>
+        </Button>
       )}
     </div>
   );

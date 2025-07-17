@@ -1,124 +1,109 @@
 .button {
-  font-family: 'Mulish', sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 18px;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  white-space: nowrap;
-
-  border-radius: var(--border-radius-m);
-  border: none;
+  outline: none;
+  padding: 16px 32px;
+  height: 56px;
+  min-width: 156px;
   cursor: pointer;
-  transition: background-color var(--transition-duration)
-    var(--transition-timing-function);
+  transition: all var(--trns-fast);
+  border-radius: 30px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Mulish Medium", Arial, sans-serif;
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--dark-gray-color);
 }
 
-/* Variants */
-.dark {
+.button.small {
+  padding: 10px 24px;
+  height: 44px;
+  min-width: 116px;
+}
+
+.iconLoading {
+  animation: rotate var(--trns-slow-linear) infinite;
+}
+
+.button:disabled {
+  cursor: default;
+}
+
+.button.primary {
   background-color: var(--dark-gray-color);
   color: var(--white-color);
-}
-.dark:hover {
-  background-color: var(--black-color);
+  border: 1px solid var(--dark-gray-color);
 }
 
-.light {
+.button.primary:disabled,
+.button.primary:disabled:hover {
   background-color: var(--gray-color);
   color: var(--white-color);
-}
-.light:hover {
-  background-color: var(--black-color);
-  color: var(--white-color);
-}
-
-.transparent {
-  background-color: transparent;
-  color: var(--black-color);
   border: 1px solid var(--gray-color);
 }
-.transparent:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+
+.button.primary:hover,
+.button.primary:focus-visible {
+  background-color: var(--black-color);
+  border-color: var(--black-color);
 }
 
-/* Sizes — mobile first */
-.small {
-  width: 104px;
-  height: 46px;
+.button.secondary {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  border: 1px solid var(--dark-gray-color);
 }
 
-.medium {
-  width: 146px;
-  height: 56px;
+.button.secondary:disabled,
+.button.secondary:disabled:hover {
+  background-color: var(--gray-color);
+  color: var(--gray-color);
+  border: 1px solid var(--gray-color);
 }
 
-.large {
-  width: 100%; /* мобільна гумова версія */
-  font-size: 14px;
-  line-height: 20px;
+.button.secondary:hover,
+.button.secondary:focus-visible {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  border-color: var(--black-color);
 }
 
-/* Full width override */
-.fullWidth {
-  width: 100% !important;
+.button.secondary-reversed {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  border: 1px solid var(--white-color);
 }
 
-/* Responsive */
-@media (min-width: 768px) {
-  .large {
-    width: 300px;
+.button.secondary-reversed:disabled,
+.button.secondary-reversed:disabled:hover{
+  background-color: var(--black-color);
+  color: var(--gray-color);
+  border: 1px solid var(--gray-color);
+}
+
+.button.secondary-reversed:hover,
+.button.secondary-reversed:focus-visible {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  border-color: var(--white-color);
+}
+
+.button.fullWidth {
+  width: 100%;
+}
+
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
   }
 }
 
-@media (min-width: 1440px) {
-  .large {
-    width: 400px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-}
-
-/* ======= Mobile styles (320–767px) ======= */
-
-.large {
-  width: 283px;
-  height: 48px;
-  padding: 14px 115px;
-  border-radius: 30px;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.small {
-  width: 124px;
-  height: 48px;
-  padding: 14px 32px;
-  border-radius: 30px;
-  font-size: 12px;
-  line-height: 18px;
-}
-
-/* ======= Tablet ======= */
-@media (min-width: 768px) {
-  .large {
-    width: 300px;
-    padding: 0; /* або адаптуй окремо */
-    border-radius: var(--border-radius-m);
-  }
-
-  .small {
-    width: 146px;
-    height: 46px;
-    padding: 0;
-    border-radius: var(--border-radius-m);
-  }
-}
-
-/* ======= Desktop ======= */
-@media (min-width: 1440px) {
-  .large {
-    width: 400px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-}

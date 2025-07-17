@@ -1,12 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleFollow, logout } from '../../../redux/slices/userSlice';
+import { toggleFollow } from '../../../redux/slices/userSlice';
+import { logout } from '../../../redux/auth/operations';
+import { selectUser } from '../../../redux/auth/selectors';
 import Avatar from '../../Avatar/Avatar';
 import styles from './UserInfo.module.css';
 import Button from '../../Button/Button';
 
 const UserInfo = ({ isOwnProfile = true }) => {
   const dispatch = useDispatch();
-  const { currentUser, viewedUser } = useSelector(state => state.user);
+  const currentUser = useSelector(selectUser);
+  const { viewedUser } = useSelector(state => state.user);
 
   const user = isOwnProfile ? currentUser : viewedUser;
 
@@ -26,11 +29,11 @@ const UserInfo = ({ isOwnProfile = true }) => {
     <div className={styles.container}>
       <div className={styles.profileHeader}>
         <Avatar
-          src={user.avatar}
+          src={user.avatarURL}
           alt={user.name}
           size="large"
           showEditButton={isOwnProfile}
-          onEditClick={() => console.log('Edit avatar clicked')}
+          onEditClick={() => {}}
         />
 
         <div className={styles.userInfo}>
@@ -56,9 +59,11 @@ const UserInfo = ({ isOwnProfile = true }) => {
         </div>
       </div>
       {isOwnProfile ? (
-        <Button onClick={handleLogout} fullWidth>LOG OUT</Button>
+        <Button onClick={handleLogout} variant='primary' fullWidth>
+          LOG OUT
+        </Button>
       ) : (
-        <Button onClick={handleFollowToggle} fullWidth>
+        <Button onClick={handleFollowToggle} variant='primary' fullWidth>
           {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
         </Button>
       )}

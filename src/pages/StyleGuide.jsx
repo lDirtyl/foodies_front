@@ -1,4 +1,4 @@
-import { Button } from '../components/Button/Button';
+import Button from '../components/Button/Button';
 import { ButtonIcon } from '../components/ButtonIcon/ButtonIcon';
 import { ButtonOutline } from '../components/ButtonOutline/ButtonOutline';
 import { Checkbox } from '../components/Checkbox/Checkbox';

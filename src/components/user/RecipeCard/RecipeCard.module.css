@@ -2,13 +2,7 @@
   display: flex;
   gap: 16px;
   transition: all var(--transition-duration) var(--transition-timing-function);
-  margin-bottom: 20px;
 }
-
-/* .recipeCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-} */
 
 .imageContainer {
   position: relative;
@@ -18,7 +12,7 @@
 .recipeImage {
   width: 100px;
   height: 100px;
-  border-radius: var(--border-radius-m);
+  border-radius: var(--border-radius-s);
   object-fit: cover;
 }
 

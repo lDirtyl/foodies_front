@@ -6,6 +6,7 @@ export const ButtonIcon = ({
   variant = 'dark',
   size = 'large',
   classNames = [],
+  noBorder = false,
   ...props
 }) => {
   return (
@@ -14,6 +15,7 @@ export const ButtonIcon = ({
         styles.button,
         styles[variant],
         styles[size],
+        noBorder && styles.noBorder,
         ...classNames
       )}
       {...props}

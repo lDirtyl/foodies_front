@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './Avatar.module.css';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import clsx from 'clsx';
 
 const Avatar = ({ 
   src, 
@@ -28,8 +29,14 @@ const Avatar = ({
     }
   };
 
+  const rootClassName = clsx(
+    styles.avatarContainer,
+    styles[size],
+    styles[className],
+  ); 
+
   return (
-    <div className={`${styles.avatarContainer} ${styles[size]} ${className}`}>
+    <div className={rootClassName}>
       <div 
         className={styles.avatar}
         style={{
