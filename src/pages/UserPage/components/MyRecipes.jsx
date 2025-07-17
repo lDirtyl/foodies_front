@@ -1,22 +1,29 @@
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../../../components/user/RecipeCard/RecipeCard';
 import ListItems from '../../../components/ListItems/ListItems';
-import { setCurrentPage as setRecipesCurrentPage } from '../../../redux/slices/userRecipesSlice';
+import { selectUserRecipes, selectCurrentPage, selectTotalPages, selectIsLoading, changeUserRecipesPage } from '../../../redux/user/userRecipes';
+import { fetchUserRecipes } from '../../../redux/user/userRecipes/operations';
+import { useEffect } from 'react';
 
 const MyRecipes = () => {
   const dispatch = useDispatch();
-  const { userRecipes, currentPage, totalPages, isLoading } = useSelector(
-    state => state.userRecipes
-  );
+  const userRecipes = useSelector(selectUserRecipes);
+  const currentPage = useSelector(selectCurrentPage);
+  const totalPages = useSelector(selectTotalPages);
+  const isLoading = useSelector(selectIsLoading);
 
   const handlePageChange = page => {
-    dispatch(setRecipesCurrentPage(page));
+    dispatch(changeUserRecipesPage(page));
   };
+
+  useEffect(() => {
+    dispatch(fetchUserRecipes({ page: currentPage }));
+  }, [currentPage, dispatch]);
 
   return (
     <ListItems
       isLoading={isLoading}
-      emptyMessage="You haven't added any recipes yet. Create your first recipe!"
+      emptyMessage="Nothing has been added to your recipes list yet. Please browse our recipes and add your favorites for easy access in the future."
       currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={handlePageChange}

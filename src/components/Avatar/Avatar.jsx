@@ -32,7 +32,7 @@ const Avatar = ({
   const rootClassName = clsx(
     styles.avatarContainer,
     styles[size],
-    className,
+    styles[className],
   ); 
 
   return (

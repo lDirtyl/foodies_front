@@ -1,41 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import FollowerCard from '../../../components/user/FollowerCard/FollowerCard';
 import ListItems from '../../../components/ListItems/ListItems';
-import { setCurrentPage as setFollowersCurrentPage } from '../../../redux/slices/userFollowersSlice';
+import { selectFollowers, selectCurrentPage, selectTotalPages, selectIsLoading, changeFollowersPage } from '../../../redux/user/userFollowers';
+import { fetchFollowers } from '../../../redux/user/userFollowers/operations';
+import { useEffect } from 'react';
 
 const Followers = () => {
   const dispatch = useDispatch();
-  const { followers, currentPage, totalPages, isLoading } = useSelector(
-    state => state.userFollowers
-  );
+  const followers = useSelector(selectFollowers);
+  const currentPage = useSelector(selectCurrentPage);
+  const totalPages = useSelector(selectTotalPages);
+  const isLoading = useSelector(selectIsLoading);
 
   const handlePageChange = page => {
-    dispatch(setFollowersCurrentPage(page));
+    dispatch(changeFollowersPage(page));
   };
 
-  // Mock recipe data for followers
-  const mockRecipes = [
-    {
-      id: '1',
-      title: 'Chocolate Cake',
-      image: '/images/recipes/chocolate-cake.jpg',
-    },
-    {
-      id: '2',
-      title: 'Pasta Carbonara',
-      image: '/images/recipes/pasta-carbonara.jpg',
-    },
-    {
-      id: '3',
-      title: 'Green Soup',
-      image: '/images/recipes/green-soup.jpg',
-    },
-    {
-      id: '4',
-      title: 'Vanilla Pudding',
-      image: '/images/recipes/vanilla-pudding.jpg',
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchFollowers({ page: currentPage }));
+  }, [currentPage, dispatch]);
 
   return (
     <ListItems
@@ -52,11 +35,11 @@ const Followers = () => {
           key={follower.id}
           user={follower}
           showFollowButton={true}
-          recipes={mockRecipes}
+          recipes={follower.recipes}
         />
       ))}
     </ListItems>
   );
 };
 
-export default Followers; 
+export default Followers;

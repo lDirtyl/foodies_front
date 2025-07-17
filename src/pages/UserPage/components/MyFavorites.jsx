@@ -1,31 +1,38 @@
 import { useDispatch, useSelector } from 'react-redux';
 import RecipeCard from '../../../components/user/RecipeCard/RecipeCard';
 import ListItems from '../../../components/ListItems/ListItems';
-import { setCurrentPage as setFavoritesCurrentPage } from '../../../redux/slices/userRecipesSlice';
+import { selectFavoriteRecipes, selectCurrentPage, selectTotalPages, selectIsLoading, changeFavoriteRecipesPage } from '../../../redux/user/userFavoriteRecipes';
+import { fetchFavoriteRecipes } from '../../../redux/user/userFavoriteRecipes/operations';
+import { useEffect } from 'react';
 
 const MyFavorites = () => {
   const dispatch = useDispatch();
-  const { favorites, currentPage, totalPages, isLoading } = useSelector(
-    state => state.userRecipes
-  );
+  const favoriteRecipes = useSelector(selectFavoriteRecipes);
+  const currentPage = useSelector(selectCurrentPage);
+  const totalPages = useSelector(selectTotalPages);
+  const isLoading = useSelector(selectIsLoading);
 
   const handlePageChange = page => {
-    dispatch(setFavoritesCurrentPage(page));
+    dispatch(changeFavoriteRecipesPage(page));
   };
+
+  useEffect(() => {
+    dispatch(fetchFavoriteRecipes({ page: currentPage }));
+  }, [currentPage, dispatch]);
 
   return (
     <ListItems
       isLoading={isLoading}
-      emptyMessage="You haven't favorited any recipes yet. Browse recipes and add some favorites!"
+      emptyMessage="Nothing has been added to your favorite recipes list yet. Please browse our recipes and add your favorites for easy access in the future."
       currentPage={currentPage}
       totalPages={totalPages}
       onPageChange={handlePageChange}
     >
-      {favorites.map(recipe => (
+      {favoriteRecipes.map(recipe => (
         <RecipeCard
           key={recipe.id}
           recipe={recipe}
-          isOwner={false}
+          isOwner={true}
           showActions={true}
         />
       ))}

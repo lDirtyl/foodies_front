@@ -1,41 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import FollowerCard from '../../../components/user/FollowerCard/FollowerCard';
 import ListItems from '../../../components/ListItems/ListItems';
-import { setCurrentPage as setFollowingCurrentPage } from '../../../redux/slices/userFollowersSlice';
+import { selectFollowing, selectCurrentPage, selectTotalPages, selectIsLoading, changeFollowingPage } from '../../../redux/user/userFollowing';
+import { fetchFollowing } from '../../../redux/user/userFollowing/operations';
+import { useEffect } from 'react';
 
 const Following = () => {
   const dispatch = useDispatch();
-  const { following, currentPage, totalPages, isLoading } = useSelector(
-    state => state.userFollowers
-  );
+  const following = useSelector(selectFollowing);
+  const currentPage = useSelector(selectCurrentPage);
+  const totalPages = useSelector(selectTotalPages);
+  const isLoading = useSelector(selectIsLoading);
 
   const handlePageChange = page => {
-    dispatch(setFollowingCurrentPage(page));
+    dispatch(changeFollowingPage(page));
   };
 
-  // Mock recipe data for followers
-  const mockRecipes = [
-    {
-      id: '1',
-      title: 'Chocolate Cake',
-      image: '/images/recipes/chocolate-cake.jpg',
-    },
-    {
-      id: '2',
-      title: 'Pasta Carbonara',
-      image: '/images/recipes/pasta-carbonara.jpg',
-    },
-    {
-      id: '3',
-      title: 'Green Soup',
-      image: '/images/recipes/green-soup.jpg',
-    },
-    {
-      id: '4',
-      title: 'Vanilla Pudding',
-      image: '/images/recipes/vanilla-pudding.jpg',
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchFollowing({ page: currentPage }));
+  }, [currentPage, dispatch]);
 
   return (
     <ListItems
@@ -52,7 +35,8 @@ const Following = () => {
           key={user.id}
           user={user}
           showFollowButton={true}
-          recipes={mockRecipes}
+          recipes={user.recipes}
+          actionType="unfollow"
         />
       ))}
     </ListItems>

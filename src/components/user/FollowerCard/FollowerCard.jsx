@@ -1,22 +1,39 @@
 import { useDispatch } from 'react-redux';
-import { toggleFollow } from '../../../redux/slices/userFollowersSlice';
+import { toggleFollowUser } from '../../../redux/user/userFollowers';
+import { unfollowUser } from '../../../redux/user/userFollowing';
 import Avatar from '../../Avatar/Avatar';
 import Button from '../../Button/Button';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 import styles from './FollowerCard.module.css';
 
-const FollowerCard = ({ user, showFollowButton = true, recipes = [] }) => {
+const FollowerCard = ({ 
+  user, 
+  showFollowButton = true, 
+  recipes = [], 
+  actionType = 'follow' // 'follow' or 'unfollow'
+}) => {
   const dispatch = useDispatch();
 
-  const handleFollowToggle = () => {
-    if (showFollowButton) {
-      dispatch(toggleFollow(user.id));
+  const handleAction = () => {
+    if (!showFollowButton) return;
+
+    if (actionType === 'unfollow') {
+      dispatch(unfollowUser(user.id));
+    } else {
+      dispatch(toggleFollowUser(user.id));
     }
   };
 
   const handleViewProfile = () => {
     // Navigate to user profile
     console.log('View profile:', user.id);
+  };
+
+  const getButtonText = () => {
+    if (actionType === 'unfollow') {
+      return 'UNFOLLOW';
+    }
+    return user.isFollowing ? 'FOLLOWING' : 'FOLLOW';
   };
 
   if (!user) return null;
@@ -32,8 +49,8 @@ const FollowerCard = ({ user, showFollowButton = true, recipes = [] }) => {
             Own recipes: {user.recipesCount || 0}
           </p>
           {showFollowButton && (
-            <Button small onClick={handleFollowToggle} variant="secondary">
-              {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
+            <Button small onClick={handleAction} variant="secondary">
+              {getButtonText()}
             </Button>
           )}
         </div>

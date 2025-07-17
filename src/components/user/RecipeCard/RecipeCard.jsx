@@ -1,17 +1,34 @@
 import { useDispatch } from 'react-redux';
-import { toggleFavorite } from '../../../redux/slices/userRecipesSlice';
+import { removeRecipeFromFavorites } from '../../../redux/user/userFavoriteRecipes';
+import { deleteUserRecipe } from '../../../redux/user/userRecipes';
 import styles from './RecipeCard.module.css';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 
-const RecipeCard = ({ recipe, showActions = true, isOwner = false }) => {
+const RecipeCard = ({
+  recipe,
+  showActions = true,
+  isOwner = false,
+  isFavorite = false,
+}) => {
   const dispatch = useDispatch();
 
   const handleToggleFavorite = () => {
-    dispatch(toggleFavorite(recipe.id));
+    if (isFavorite) {
+      // Remove from favorites
+      dispatch(removeRecipeFromFavorites(recipe.id));
+    } else {
+      // Add to favorites - this would typically be handled by a different action
+      // For now, we'll just log it
+      console.log('Add to favorites:', recipe.id);
+    }
   };
 
   const handleDeleteClick = () => {
-    // dispatch(openDeleteConfirm(recipe.id));
+    if (isOwner) {
+      dispatch(deleteUserRecipe(recipe.id));
+    } else if (isFavorite) {
+      dispatch(removeRecipeFromFavorites(recipe.id));
+    }
   };
 
   const handleEdit = () => {
@@ -35,7 +52,7 @@ const RecipeCard = ({ recipe, showActions = true, isOwner = false }) => {
         <h3 className={styles.recipeTitle}>{recipe.title}</h3>
         <p className={styles.recipeDescription}>{recipe.description}</p>
       </div>
-      
+
       {showActions && (
         <div className={styles.actions}>
           {isOwner ? (
@@ -44,23 +61,21 @@ const RecipeCard = ({ recipe, showActions = true, isOwner = false }) => {
                 icon={<img src="/icons/arrow-up-right.svg" alt="Edit" />}
                 onClick={handleEdit}
                 title="Edit recipe"
-                variant='light'
+                variant="light"
               />
               <ButtonIcon
                 icon={<img src="/icons/trash.svg" alt="Delete" />}
                 onClick={handleDeleteClick}
                 title="Delete recipe"
-                variant='light'
+                variant="light"
               />
             </>
           ) : (
             <ButtonIcon
               icon={<img src="/icons/heart.svg" alt="Favorite" />}
               onClick={handleToggleFavorite}
-              title={
-                recipe.isFavorite ? 'Remove from favorites' : 'Add to favorites'
-              }
-              variant='light'
+              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+              variant="light"
             />
           )}
         </div>
