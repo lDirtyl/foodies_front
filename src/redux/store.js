@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userSlice from './slices/userSlice';
-import recipesSlice from './slices/recipesSlice';
-import uiSlice from './slices/uiSlice';
+import { userRecipesReducer } from './user/userRecipes';
+import { userFavoriteRecipesReducer } from './user/userFavoriteRecipes';
+import { userFollowersReducer } from './user/userFollowers';
+import { userFollowingReducer } from './user/userFollowing';
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -18,8 +20,10 @@ const persistAuthConfig = {
 export const store = configureStore({
   reducer: {
     user: userSlice,
-    recipes: recipesSlice,
-    ui: uiSlice,
+    userRecipes: userRecipesReducer,
+    userFavoriteRecipes: userFavoriteRecipesReducer,
+    userFollowers: userFollowersReducer,
+    userFollowing: userFollowingReducer,
     auth: persistReducer(persistAuthConfig, authReducer),
     common: commonReducer,
   },
