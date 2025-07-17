@@ -28,10 +28,18 @@ const Avatar = ({
     }
   };
 
+  // Корректно формируем className для корневого контейнера
+  const rootClassName = [
+    styles.avatarContainer,
+    styles.avatar_userbar,
+    styles[size],
+    className
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className={`${styles.avatarContainer} ${styles[size]} ${className}`}>
+    <div className={rootClassName}>
       <div 
-        className={styles.avatar}
+        className={[styles.avatar, className].filter(Boolean).join(' ')}
         style={{
           backgroundImage: hasError || !src 
             ? 'url(/images/default-avatar.jpg)' 

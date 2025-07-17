@@ -1,13 +1,14 @@
 import axios from 'axios';
 
-export const API_BASE_URL = 'http://localhost:3000/api';
-export const SERVER_URL = 'http://localhost:3000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+export const SERVER_URL = API_BASE_URL.replace(/\/api$/, '');
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true, // важно для работы с куками через CORS
 });
 
 export const categoriesService = {
