@@ -254,10 +254,10 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.recipes = action.payload.data || action.payload.recipes || [];
-        state.totalPages = action.payload.totalPages || 1;
-        state.totalRecipes = action.payload.total || 0;
-        state.currentPage = action.payload.page || 1;
+        state.recipes = action.payload.recipes || [];
+        state.totalPages = Math.ceil((action.payload.pagination?.total || 0) / (action.payload.pagination?.limit || 10));
+        state.totalRecipes = action.payload.pagination?.total || 0;
+        state.currentPage = action.payload.pagination?.page || 1;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.isLoading = false;
@@ -271,10 +271,10 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchUserRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.userRecipes = action.payload.data || action.payload.recipes || [];
-        state.totalPages = action.payload.totalPages || 1;
-        state.totalRecipes = action.payload.total || 0;
-        state.currentPage = action.payload.page || 1;
+        state.userRecipes = action.payload.recipes || action.payload.data || [];
+        state.totalPages = action.payload.pagination ? Math.ceil((action.payload.pagination.total || 0) / (action.payload.pagination.limit || 10)) : action.payload.totalPages || 1;
+        state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
+        state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
       })
       .addCase(fetchUserRecipes.rejected, (state, action) => {
         state.isLoading = false;
@@ -288,10 +288,10 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favorites = action.payload.data || action.payload.recipes || [];
-        state.totalPages = action.payload.totalPages || 1;
-        state.totalRecipes = action.payload.total || 0;
-        state.currentPage = action.payload.page || 1;
+        state.favorites = action.payload.recipes || action.payload.data || [];
+        state.totalPages = action.payload.pagination ? Math.ceil((action.payload.pagination.total || 0) / (action.payload.pagination.limit || 10)) : action.payload.totalPages || 1;
+        state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
+        state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
       })
       .addCase(fetchFavorites.rejected, (state, action) => {
         state.isLoading = false;
