@@ -19,7 +19,8 @@ const Categories = () => {
         const categoriesArray = Array.isArray(data) ? data : data.categories || [];
         setCategories(categoriesArray.slice(0, MAX_CATEGORIES));
         setIsLoading(false);
-      } catch (err) {
+      } catch (error) {
+        console.error('Failed to load categories:', error);
         setError('Failed to load categories');
         setIsLoading(false);
       }

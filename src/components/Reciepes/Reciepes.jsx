@@ -69,7 +69,7 @@ const Reciepes = () => {
       <div className={styles.topSection}>
         <button
           className={styles.backButton}
-          onCLick={() => console.log('Back button clicked')}
+          onClick={() => console.log('Back button clicked')}
         >
           <img src="/icons/arrow-left.svg" alt="back icon" />
           BACK

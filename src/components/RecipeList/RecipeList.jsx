@@ -8,7 +8,7 @@ import RecipeListItem from './RecipeListItem';
 
 import styles from './RecipeList.module.css';
 
-const RecipeList = ({ recipes = [], isLoading = false, error = null, currentPage = 1, totalPages = 1 }) => {
+const RecipeList = ({ recipes = [], isLoading = false, error = null }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
