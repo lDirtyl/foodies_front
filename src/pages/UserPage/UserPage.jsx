@@ -79,6 +79,7 @@ const UserPage = () => {
             isLoading={isLoading}
             emptyMessage="You don't have any followers yet. Share your amazing recipes to attract followers!"
             showPagination={true}
+            separator={true}
           >
             {mockFollowers.map(follower => (
               <FollowerCard
@@ -96,6 +97,7 @@ const UserPage = () => {
             isLoading={isLoading}
             emptyMessage="You're not following anyone yet. Find interesting chefs to follow!"
             showPagination={true}
+            separator={true}
           >
             {mockFollowers
               .filter(user => user.isFollowing)

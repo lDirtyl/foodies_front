@@ -3,12 +3,14 @@ import { setCurrentPage } from '../../redux/slices/recipesSlice';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import styles from './ListItems.module.css';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import clsx from 'clsx';
 
 const ListItems = ({
   children,
   isLoading = false,
   emptyMessage = 'Nothing has been added to your recipes list yet. Please browse our recipes and add your favorites for easy access in the future.',
   showPagination = true,
+  separator = false,
 }) => {
   const dispatch = useDispatch();
   const { currentPage, totalPages } = useSelector(state => state.recipes);
@@ -53,7 +55,11 @@ const ListItems = ({
 
   return (
     <div className={styles.pagingList}>
-      <div className={styles.content}>{children}</div>
+      <div className={styles.content}>{children.map((child, index) => (
+        <div key={index} className={clsx(separator && index !== 0 && styles.separator)}>
+          {child}
+        </div>
+      ))}</div>
 
       {showPagination && totalPages > 1 && (
         <div className={styles.pagination}>

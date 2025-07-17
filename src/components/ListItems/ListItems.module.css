@@ -11,6 +11,11 @@
   gap: 40px;
 }
 
+.separator {
+  border-top: 1px solid var(--gray-color);
+  padding-top: 40px;
+}
+
 .emptyState {
   display: flex;
   align-items: center;

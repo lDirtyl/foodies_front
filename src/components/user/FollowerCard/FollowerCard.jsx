@@ -32,7 +32,7 @@ const FollowerCard = ({ user, showFollowButton = true }) => {
             Own recipes: {user.recipesCount || 0}
           </p>
           {showFollowButton && (
-            <Button size="small" onClick={handleFollowToggle} variant="transparent">
+            <Button small onClick={handleFollowToggle} variant="secondary">
               {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
             </Button>
           )}

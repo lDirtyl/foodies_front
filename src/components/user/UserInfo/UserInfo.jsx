@@ -59,11 +59,11 @@ const UserInfo = ({ isOwnProfile = true }) => {
         </div>
       </div>
       {isOwnProfile ? (
-        <Button onClick={handleLogout} fullWidth>
+        <Button onClick={handleLogout} variant='primary' fullWidth>
           LOG OUT
         </Button>
       ) : (
-        <Button onClick={handleFollowToggle} fullWidth>
+        <Button onClick={handleFollowToggle} variant='primary' fullWidth>
           {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
         </Button>
       )}
