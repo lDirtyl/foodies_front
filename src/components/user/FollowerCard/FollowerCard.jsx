@@ -5,6 +5,7 @@ import Avatar from '../../Avatar/Avatar';
 import Button from '../../Button/Button';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 import styles from './FollowerCard.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const FollowerCard = ({ 
   user, 
@@ -13,6 +14,7 @@ const FollowerCard = ({
   actionType = 'follow' // 'follow' or 'unfollow'
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleAction = () => {
     if (!showFollowButton) return;
@@ -25,8 +27,7 @@ const FollowerCard = ({
   };
 
   const handleViewProfile = () => {
-    // Navigate to user profile
-    console.log('View profile:', user.id);
+    navigate(`/user/${user.id}`);
   };
 
   const getButtonText = () => {

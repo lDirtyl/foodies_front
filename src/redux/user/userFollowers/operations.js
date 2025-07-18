@@ -7,6 +7,7 @@ import {
   setLoading,
   setError,
 } from './slice';
+import { fetchUserFollowers } from '../../../api/usersApi';
 
 // Fetch followers
 export const fetchFollowers = createAsyncThunk(
@@ -16,55 +17,16 @@ export const fetchFollowers = createAsyncThunk(
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // const response = await userFollowersApi.getFollowers({ page, limit });
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const mockResponse = {
-        followers: [
-          {
-            id: '2',
-            name: 'NADIA',
-            email: 'nadia28682@gmail.com',
-            avatar: '/images/users/nadia.jpg',
-            isFollowing: false,
-            recipesCount: 12,
-            recipes: [
-              { id: '1', title: 'Chocolate Cake', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '2', title: 'Pasta Carbonara', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '3', title: 'Green Soup', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '4', title: 'Vanilla Pudding', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-            ],
-          },{
-            id: '2',
-            name: 'ALEX',
-            email: 'nadia28682@gmail.com',
-            avatar: '/images/users/nadia.jpg',
-            isFollowing: false,
-            recipesCount: 12,
-            recipes: [
-              { id: '1', title: 'Chocolate Cake', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '2', title: 'Pasta Carbonara', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '3', title: 'Green Soup', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '4', title: 'Vanilla Pudding', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-            ],
-          },
-        ],
-        pagination: {
-          currentPage: page,
-          totalPages: 1,
-          totalItems: 1,
-          limit,
-        },
-      };
+      const response = await fetchUserFollowers({ page, limit });
+      const currentPage = response.pagination.page;
+      const totalPages = Math.ceil(response.pagination.total / limit);
 
-      dispatch(setFollowers(mockResponse.followers));
-      dispatch(setCurrentPage(mockResponse.pagination.currentPage));
-      dispatch(setTotalPages(mockResponse.pagination.totalPages));
+      dispatch(setFollowers(response.followers));
+      dispatch(setCurrentPage(currentPage));
+      dispatch(setTotalPages(totalPages));
       dispatch(setLoading(false));
 
-      return mockResponse;
+      return response;
     } catch (error) {
       dispatch(setError(error.message));
       dispatch(setLoading(false));
