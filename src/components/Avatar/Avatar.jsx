@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './Avatar.module.css';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
+import clsx from 'clsx';
 
 const Avatar = ({ 
   src, 
@@ -28,18 +29,16 @@ const Avatar = ({
     }
   };
 
-  // Корректно формируем className для корневого контейнера
-  const rootClassName = [
+  const rootClassName = clsx(
     styles.avatarContainer,
-    styles.avatar_userbar,
     styles[size],
-    className
-  ].filter(Boolean).join(' ');
+    styles[className],
+  ); 
 
   return (
     <div className={rootClassName}>
       <div 
-        className={[styles.avatar, className].filter(Boolean).join(' ')}
+        className={styles.avatar}
         style={{
           backgroundImage: hasError || !src 
             ? 'url(/images/default-avatar.jpg)' 

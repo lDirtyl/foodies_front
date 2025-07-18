@@ -1,13 +1,14 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setActiveTab } from '../../redux/slices/recipesSlice';
 import styles from './TabBar.module.css';
 
-const TabBar = ({ tabs = ['MY RECIPES', 'MY FAVORITES', 'FOLLOWERS', 'FOLLOWING'] }) => {
-  const dispatch = useDispatch();
-  const activeTab = useSelector(state => state.recipes.activeTab);
-
+const TabBar = ({ 
+  tabs = ['MY RECIPES', 'MY FAVORITES', 'FOLLOWERS', 'FOLLOWING'],
+  activeTab = 'MY RECIPES',
+  onTabClick
+}) => {
   const handleTabClick = (tab) => {
-    dispatch(setActiveTab(tab));
+    if (onTabClick) {
+      onTabClick(tab);
+    }
   };
 
   return (

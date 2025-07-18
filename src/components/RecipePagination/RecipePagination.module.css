@@ -1,0 +1,51 @@
+.recipePagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pageNumbers {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.pageBtn {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 100px;
+    border: 1px solid var(--black-color);
+    background: transparent;
+    color: var(--black-color);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition-duration) var(--transition-timing-function);
+}
+
+.pageBtn:hover {
+    background: var(--black-color);
+    color: var(--white-color);
+}
+
+.pageBtn.active {
+    background: var(--black-color);
+    color: var(--white-color);
+}
+
+.ellipsis {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--gray-color);
+    font-size: 14px;
+}

@@ -1,116 +1,42 @@
 import { useSelector } from 'react-redux';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import UserInfo from '../../components/user/UserInfo/UserInfo';
 import TabBar from '../../components/TabBar/TabBar';
-import RecipeCard from '../../components/user/RecipeCard/RecipeCard';
-import FollowerCard from '../../components/user/FollowerCard/FollowerCard';
-import ListItems from '../../components/ListItems/ListItems';
 import { selectUser } from '../../redux/auth/selectors';
 import styles from './UserPage.module.css';
 
 const UserPage = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const currentUser = useSelector(selectUser);
-  const { userRecipes, favorites, activeTab, isLoading } = useSelector(
-    state => state.recipes
-  );
-  const mockFollowers = [
-    {
-      id: '2',
-      name: 'NADIA',
-      email: 'nadia28682@gmail.com',
-      avatar: '/images/users/nadia.jpg',
-      isFollowing: false,
-    },
-    {
-      id: '3',
-      name: 'ALEX',
-      email: 'alex.chef@gmail.com',
-      avatar: '/images/users/alex.jpg',
-      isFollowing: true,
-    },
-    {
-      id: '4',
-      name: 'MARIE',
-      email: 'marie.cuisine@gmail.com',
-      avatar: '/images/users/marie.jpg',
-      isFollowing: false,
-    },
-  ];
 
-  const renderContent = () => {
-    switch (activeTab) {
+  const getActiveTab = () => {
+    const path = location.pathname;
+    if (path.includes('/recipes')) return 'MY RECIPES';
+    if (path.includes('/favorites')) return 'MY FAVORITES';
+    if (path.includes('/followers')) return 'FOLLOWERS';
+    if (path.includes('/following')) return 'FOLLOWING';
+    return 'MY RECIPES';
+  };
+
+  const handleTabClick = tab => {
+    const userId = currentUser?.id || '1';
+    switch (tab) {
       case 'MY RECIPES':
-        return (
-          <ListItems
-            isLoading={isLoading}
-            emptyMessage="You haven't added any recipes yet. Create your first recipe!"
-          >
-            {userRecipes.map(recipe => (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                isOwner={true}
-                showActions={true}
-              />
-            ))}
-          </ListItems>
-        );
-
+        navigate(`/user/${userId}/recipes`);
+        break;
       case 'MY FAVORITES':
-        return (
-          <ListItems
-            isLoading={isLoading}
-            emptyMessage="You haven't favorited any recipes yet. Browse recipes and add some favorites!"
-          >
-            {favorites.map(recipe => (
-              <RecipeCard
-                key={recipe.id}
-                recipe={recipe}
-                isOwner={false}
-                showActions={true}
-              />
-            ))}
-          </ListItems>
-        );
-
+        navigate(`/user/${userId}/favorites`);
+        break;
       case 'FOLLOWERS':
-        return (
-          <ListItems
-            isLoading={isLoading}
-            emptyMessage="You don't have any followers yet. Share your amazing recipes to attract followers!"
-            showPagination={true}
-          >
-            {mockFollowers.map(follower => (
-              <FollowerCard
-                key={follower.id}
-                user={follower}
-                showFollowButton={true}
-              />
-            ))}
-          </ListItems>
-        );
-
+        navigate(`/user/${userId}/followers`);
+        break;
       case 'FOLLOWING':
-        return (
-          <ListItems
-            isLoading={isLoading}
-            emptyMessage="You're not following anyone yet. Find interesting chefs to follow!"
-            showPagination={true}
-          >
-            {mockFollowers
-              .filter(user => user.isFollowing)
-              .map(user => (
-                <FollowerCard
-                  key={user.id}
-                  user={user}
-                  showFollowButton={true}
-                />
-              ))}
-          </ListItems>
-        );
-
+        navigate(`/user/${userId}/following`);
+        break; 
       default:
-        return null;
+        navigate(`/user/${userId}/recipes`);
     }
   };
 
@@ -139,8 +65,10 @@ const UserPage = () => {
         <div className={styles.content}>
           <TabBar
             tabs={['MY RECIPES', 'MY FAVORITES', 'FOLLOWERS', 'FOLLOWING']}
+            activeTab={getActiveTab()}
+            onTabClick={handleTabClick}
           />
-          {renderContent()}
+          <Outlet />
         </div>
       </div>
     </PageWrapper>
