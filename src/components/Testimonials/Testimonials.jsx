@@ -72,7 +72,7 @@ const Testimonials = () => {
     return (
       <section className={styles.testimonialsSection}>
         <p className={styles.testimonialsSubheading}>What our customer say</p>
-        <h2 className={styles.testimonialsHeading}>TESTIMONIALS</h2>
+        <h2 className={styles.testimonialsHeading}>Testimonials</h2>
         <p>No testimonials available at the moment.</p>
       </section>
     );
