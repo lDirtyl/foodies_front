@@ -1,6 +1,6 @@
 .card {
-  width: 342px;
-  height: 427px;
+  width: 343px;
+  height: 366px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -14,8 +14,8 @@
 
 .imageContainer {
   width: 100%;
-  height: 275px;
-  border-radius: 30px;
+  height: 200px;
+  border-radius: 20px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -41,13 +41,13 @@
 
 .title {
   width: 100%;
-  max-width: 342px;
+  max-width: 343px;
   height: auto;
   min-height: 24px;
   font-family: 'Mulish', sans-serif;
   font-weight: 800;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 22px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   color: #050505;
@@ -63,8 +63,8 @@
   min-height: 54px;
   font-family: 'Mulish', sans-serif;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 20px;
   letter-spacing: -0.02em;
   color: #1A1A1A;
   margin: 0;
@@ -83,7 +83,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .author {
@@ -126,11 +127,11 @@
 .authorName {
   width: auto;
   min-width: 40px;
-  max-width: 80px;
+  max-width: 60px;
   height: 24px;
   font-family: 'Mulish', sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   letter-spacing: -0.02em;
   color: #1A1A1A;
@@ -141,7 +142,8 @@
 }
 
 .actions {
-  width: 88px;
+  width: auto;
+  min-width: 88px;
   height: 42px;
   display: flex;
   gap: 4px;
@@ -149,14 +151,14 @@
 }
 
 .iconButton {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   border-radius: 30px;
   border: 1px solid #BFBEBE;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px;
+  padding: 8px;
   background: transparent;
   cursor: pointer;
   transition: none;
@@ -168,8 +170,8 @@
 }
 
 .icon {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   display: block;
 }
 
@@ -186,109 +188,81 @@
   position: relative;
 }
 
-/* Медіа-запити для адаптивності */
+/* Mobile First медіа-запити */
 
-/* Базові стилі для мобільних телефонів (до 480px) */
-@media (max-width: 480px) {
+/* Планшети (від 481px) */
+@media (min-width: 481px) {
   .card {
-    width: 343px;
-    height: 366px;
-    min-width: 343px;
-    max-width: 343px;
-    min-height: 366px;
-  }
-  
-  .imageContainer {
-    height: 200px;
-    border-radius: 20px;
-  }
-  
-  .title {
-    font-size: 18px;
-    line-height: 22px;
-  }
-  
-  .description {
-    font-size: 14px;
-    line-height: 20px;
-  }
-  
-  .footer {
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  
-  .author {
-    width: auto;
-    min-width: 80px;
-  }
-  
-  .authorName {
-    font-size: 14px;
-    width: auto;
-    min-width: 40px;
-  }
-  
-  .actions {
-    width: auto;
-    min-width: 88px;
-  }
-  
-  .iconButton {
-    width: 36px;
-    height: 36px;
-    padding: 8px;
-  }
-  
-  .icon {
-    width: 16px;
-    height: 16px;
-  }
-}
-
-/* Планшети (481px - 768px) */
-@media (min-width: 481px) and (max-width: 768px) {
-  .title {
-    font-size: 19px;
-  }
-  
-  .description {
-    font-size: 15px;
-  }
-}
-
-/* Десктоп (769px і більше) */
-@media (min-width: 769px) {
-  .card {
-    width: 290px;
+    width: 342px;
     height: 427px;
-    min-width: 290px;
-    max-width: 290px;
-    min-height: 427px;
   }
   
   .imageContainer {
     height: 275px;
+    border-radius: 30px;
+  }
+  
+  .title {
+    font-size: 19px;
+    line-height: 24px;
+    max-width: 342px;
+  }
+  
+  .description {
+    font-size: 15px;
+    line-height: 24px;
   }
   
   .footer {
     gap: 8px;
+    flex-wrap: nowrap;
   }
   
   .author {
-    width: auto;
-    min-width: 80px;
-    max-width: 120px;
+    max-width: 140px;
   }
   
   .authorName {
-    width: auto;
-    min-width: 40px;
-    max-width: 60px;
+    font-size: 16px;
+    max-width: 80px;
   }
   
   .actions {
     width: 88px;
-    min-width: 88px;
+  }
+  
+  .iconButton {
+    width: 42px;
+    height: 42px;
+    padding: 12px;
+  }
+  
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Desktop (від 769px) */
+@media (min-width: 769px) {
+  .card {
+    width: 290px;
+    height: 427px;
+  }
+  
+  .title {
+    font-size: 20px;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+  
+  .author {
+    max-width: 120px;
+  }
+  
+  .authorName {
+    max-width: 60px;
   }
 }
