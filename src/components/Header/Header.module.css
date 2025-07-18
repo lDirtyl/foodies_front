@@ -1,5 +1,9 @@
 .header {
   padding: 12px 0;
+  background-color: #050505;
+  margin: 0px 8px;
+  border-radius: 30px 30px 0px 0px;
+  min-width: 359px;
 }
 
 .header > div {
@@ -29,6 +33,10 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .header {
+    margin: 0px 16px;
+  }
+
   .nav {
     flex-grow: 1;
     flex-direction: row;
@@ -38,5 +46,7 @@
 @media only screen and (min-width: 1440px) {
   .header {
     padding: 24px 0;
+    max-width: 1400px;
+    margin: auto;
   }
 }

@@ -21,8 +21,10 @@
 .subtitle {
     line-height: 20px;
     letter-spacing: -0.28px;
-    padding: 0px 16px 20px 16px;
+    max-width: 326px;
+    margin: auto;
     font-size: 14px;
+    padding-bottom: 20px;
 }
 
 .button {
@@ -38,6 +40,11 @@
     line-height: 20px;
     letter-spacing: -0.028px;
     cursor: pointer;
+}
+
+.button:hover, .button:focus {
+    background-color: #ffffff;
+    color: #050505;
 }
 
 .images {
@@ -78,7 +85,8 @@
         font-size: 16px;
         line-height: 24px;
         letter-spacing: -0.32px;
-        padding: 0px 80px 40px 79px;
+        max-width: 577px;
+        padding-bottom: 40px;
     }
 
     .button {
@@ -116,10 +124,6 @@
         font-size: 90px;
         line-height: 90px;
         letter-spacing: -1.8px;
-    }
-
-    .subtitle {
-        padding: 0px 412px 40px 411px;
     }
 
     .images {
