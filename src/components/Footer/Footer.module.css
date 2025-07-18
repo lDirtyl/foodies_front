@@ -1,7 +1,6 @@
 /* Footer.module.css */
 .footer {
   background-color: var(--bg-color);
-  padding: 40px 0;
   text-align: center;
   font-weight: bold;
   font-size: 1.1rem;

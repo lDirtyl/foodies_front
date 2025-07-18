@@ -33,7 +33,7 @@ const Categories = () => {
   if (error) return <div className={styles.error}>{error}</div>;
 
   return (
-    <div className={styles.categoriesWrapper}>
+    <div>
       <div className={styles.categoriesHeader}>
         <h2 className={styles.categoriesHeading}>CATEGORIES</h2>
         <p className={styles.categoriesSubheading}>
@@ -52,23 +52,20 @@ const Categories = () => {
           >
             <div className={styles.categoryOverlay}>
               <span className={styles.categoryName}>{category.name}</span>
-              <span className={styles.arrow}>&#8599;</span>
+              <span className={styles.arrowWrapper}>
+                <img
+                  src="public/icons/arrow-up-right-white.svg"
+                  alt="arrow"
+                  className={styles.arrow}
+                />
+              </span>
             </div>
           </Link>
         ))}
         <Link to="/categories" className={`${styles.categoryCard} ${styles.allCategories}`}>
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column'
-            }}
-          >
-            <span style={{ color: '#fff', fontWeight: 600, fontSize: '1.3rem', textAlign: 'center' }}>
-              ALL CATEGORIES
+          <div>
+            <span>
+              All categories
             </span>
           </div>
         </Link>

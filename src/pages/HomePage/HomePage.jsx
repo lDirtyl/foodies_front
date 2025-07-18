@@ -8,9 +8,6 @@ import Reciepes from '../../components/Reciepes/Reciepes';
 export default function HomePage() {
   return (
     <PageWrapper
-      title="FOODIES"
-      description="Discover amazing recipes from talented chefs around the world"
-      containerSize="wide"
       showBreadcrumbs={false}
     >
       {/* Hero Section */}

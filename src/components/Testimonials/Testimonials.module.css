@@ -1,29 +1,31 @@
 .testimonialsSection {
-  padding: 60px 20px;
+  padding: 64px 0px 16px 0px;
   text-align: center;
   background-color: #fff;
-  max-width: 1280px;
+  min-width: 343px;
   margin: 0 auto;
 }
 
 .testimonialsSubheading {
-  color: #666;
-  font-size: 1rem;
-  margin-bottom: 10px;
+  color: #1A1A1A;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
 
 .testimonialsHeading {
-  font-size: 2rem;
-  margin-bottom: 40px;
-  color: #333;
-  background: none;
+  margin-bottom: 32px;
+  color: #050505;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: -0.56px;
+  text-transform: uppercase;
 }
 
 .testimonialContainer {
   position: relative;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px 0;
 }
 
 .quoteIcon {
@@ -60,7 +62,6 @@
 .testimonialDots {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
   gap: 12px;
 }
 
@@ -104,4 +105,23 @@
 
 .testimonialsError {
   color: #e53935;
+}
+
+@media screen and (min-width: 768px) {
+  .testimonialsSection {
+    padding: 100px 0px 36px 0px;
+    min-width: 343px;
+    margin: 0 auto;
+  }
+
+  .testimonialsSubheading {
+    font-size: 16px;
+  }
+
+  .testimonialsHeading {
+    margin-bottom: 40px;
+    font-size: 40px;
+    line-height: 44px;
+    letter-spacing: -0.8px;
+  }
 }
