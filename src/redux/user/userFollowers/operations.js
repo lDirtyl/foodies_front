@@ -36,6 +36,19 @@ export const fetchFollowers = createAsyncThunk(
               { id: '3', title: 'Green Soup', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
               { id: '4', title: 'Vanilla Pudding', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
             ],
+          },{
+            id: '2',
+            name: 'ALEX',
+            email: 'nadia28682@gmail.com',
+            avatar: '/images/users/nadia.jpg',
+            isFollowing: false,
+            recipesCount: 12,
+            recipes: [
+              { id: '1', title: 'Chocolate Cake', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
+              { id: '2', title: 'Pasta Carbonara', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
+              { id: '3', title: 'Green Soup', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
+              { id: '4', title: 'Vanilla Pudding', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
+            ],
           },
         ],
         pagination: {

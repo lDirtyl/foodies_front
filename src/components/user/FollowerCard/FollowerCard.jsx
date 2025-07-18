@@ -57,7 +57,7 @@ const FollowerCard = ({
       </div>
 
       <div className={styles.recipePreviews}>
-        {recipes.slice(0, 4).map((recipe, index) => (
+        {recipes.map((recipe, index) => (
           <div key={recipe.id || index} className={styles.recipePreview}>
             <img
               src={recipe.image || '/images/default-recipe.jpg'}

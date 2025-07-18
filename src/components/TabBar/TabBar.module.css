@@ -1,24 +1,32 @@
 .tabBar {
-  composes: h3 from global;
   display: flex;
   gap: 40px;
   border-bottom: 1px solid #e5e5e5;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  overflow-x: auto;
 }
 
 .tab {
   background: none;
   border: none;
   padding: 0px 0px 14px 0px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
   color: var(--gray-color);
   cursor: pointer;
   transition: all var(--transition-duration) var(--transition-timing-function);
   border-bottom: 2px solid transparent;
-  position: relative;
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-width: max-content;
+
+  font-weight: 800;
+  font-style: ExtraBold;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -2%;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .tab:hover {
@@ -39,19 +47,8 @@
 }
 
 @media (min-width: 768px) {
-  .tabBar {
-    composes: h4 from global;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .tabBar::-webkit-scrollbar {
-    display: none;
-  }
-  
   .tab {
-    white-space: nowrap;
-    min-width: max-content;
+    font-size: 20px;
+    line-height: 24px;
   }
 }

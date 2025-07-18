@@ -1,26 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentUser: {
-    id: '1',
-    name: 'VICTORIA',
-    email: 'victoria28682@gmail.com',
-    avatar: '/images/users/victoria.jpg',
-    followers: 5,
-    following: 5,
-    recipesCount: 9,
-    isLoggedIn: true,
-  },
-  viewedUser: {
-    id: '2',
-    name: 'NADIA',
-    email: 'nadia28682@gmail.com',
-    avatar: '/images/users/nadia.jpg',
-    followers: 5,
-    following: 4,
-    recipesCount: 4,
-    isFollowing: false,
-  },
+  currentUser: null,
+  viewedUser: null,
   followers: [],
   following: [],
   isLoading: false,
