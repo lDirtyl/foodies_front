@@ -1,0 +1,294 @@
+.card {
+  width: 342px;
+  height: 427px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 275px;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.info {
+  width: 100%;
+  height: auto;
+  min-height: 136px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.header {
+  width: 100%;
+  height: auto;
+  min-height: 86px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  width: 100%;
+  max-width: 342px;
+  height: auto;
+  min-height: 24px;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #050505;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  width: 100%;
+  height: auto;
+  min-height: 54px;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.footer {
+  width: 100%;
+  height: auto;
+  min-height: 42px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.author {
+  width: auto;
+  min-width: 80px;
+  max-width: 140px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 1;
+}
+
+.authorButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+}
+
+.authorImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 30px;
+  background-color: #BFBEBE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/images/default-avatar.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.authorName {
+  width: auto;
+  min-width: 40px;
+  max-width: 80px;
+  height: 24px;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  color: #1A1A1A;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+
+.actions {
+  width: 88px;
+  height: 42px;
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.iconButton {
+  width: 42px;
+  height: 42px;
+  border-radius: 30px;
+  border: 1px solid #BFBEBE;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  background: transparent;
+  cursor: pointer;
+  transition: none;
+}
+
+.iconButton:hover {
+  background: transparent;
+  border-color: #BFBEBE;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.favoriteButton.isFavorite {
+  border-color: #050505;
+}
+
+.favoriteButton.isFavorite .icon {
+  filter: invert(12%) sepia(100%) saturate(7463%) hue-rotate(0deg) brightness(102%) contrast(107%);
+}
+
+.viewButton {
+  /* Кнопка перегляду деталей рецепту */
+  position: relative;
+}
+
+/* Медіа-запити для адаптивності */
+
+/* Базові стилі для мобільних телефонів (до 480px) */
+@media (max-width: 480px) {
+  .card {
+    width: 343px;
+    height: 366px;
+    min-width: 343px;
+    max-width: 343px;
+    min-height: 366px;
+  }
+  
+  .imageContainer {
+    height: 200px;
+    border-radius: 20px;
+  }
+  
+  .title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  
+  .description {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  .footer {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .author {
+    width: auto;
+    min-width: 80px;
+  }
+  
+  .authorName {
+    font-size: 14px;
+    width: auto;
+    min-width: 40px;
+  }
+  
+  .actions {
+    width: auto;
+    min-width: 88px;
+  }
+  
+  .iconButton {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+  }
+  
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Планшети (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .title {
+    font-size: 19px;
+  }
+  
+  .description {
+    font-size: 15px;
+  }
+}
+
+/* Десктоп (769px і більше) */
+@media (min-width: 769px) {
+  .card {
+    width: 290px;
+    height: 427px;
+    min-width: 290px;
+    max-width: 290px;
+    min-height: 427px;
+  }
+  
+  .imageContainer {
+    height: 275px;
+  }
+  
+  .footer {
+    gap: 8px;
+  }
+  
+  .author {
+    width: auto;
+    min-width: 80px;
+    max-width: 120px;
+  }
+  
+  .authorName {
+    width: auto;
+    min-width: 40px;
+    max-width: 60px;
+  }
+  
+  .actions {
+    width: 88px;
+    min-width: 88px;
+  }
+}
