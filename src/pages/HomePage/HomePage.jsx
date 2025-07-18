@@ -18,7 +18,7 @@ export default function HomePage() {
       {/* Categories Section */}
       <section style={{ marginTop: '60px' }}>
         <Categories />
-        <Reciepes />
+        {/*<Reciepes />*/}
       </section>
 
       <Testimonials />

@@ -58,6 +58,11 @@ const Categories = () => {
                   alt="arrow"
                   className={styles.arrow}
                 />
+                <img
+                  src="/icons/arrow-up-right.svg"
+                  alt="arrow-hover"
+                  className={`${styles.arrow} ${styles.arrowHover}`}
+                />
               </span>
             </div>
           </Link>
