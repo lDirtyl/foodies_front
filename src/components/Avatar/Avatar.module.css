@@ -26,15 +26,15 @@
 
 /* Size variants */
 .small .avatar {
-  width: 50px;
-  height: 50px;
+  width: 32px;
+  height: 32px;
 }
 
 .small .editButton {
   width: 16px;
   height: 16px;
-  left: 12px;
-  top: 24px;
+  left: 8px;
+  top: 22px;
 }
 
 .small .editButton img {
@@ -43,32 +43,32 @@
 }
 
 .medium .avatar {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
 }
 
 .medium .editButton {
   width: 20px;
   height: 20px;
-  left: 20px;
-  top: 42px;
+  left: 10px;
+  top: 30px;
 }
 
 .medium .editButton img {
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
 }
 
 .large .avatar {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
 }
 
 .large .editButton {
-  width: 36px;
-  height: 36px;
-  left: 42px;
-  top: 90px;
+  width: 28px;
+  height: 28px;
+  left: 26px;
+  top: 64px;
 }
 
 .large .editButton img {
@@ -77,8 +77,8 @@
 }
 
 .xlarge .avatar {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
 }
 
 .xlarge .editButton {
@@ -95,6 +95,82 @@
 
 /* Special styling for follower cards */
 .follower .avatar {
-  width: 85px;
-  height: 85px;
+  width: 60px;
+  height: 60px;
+}
+
+@media (min-width: 768px) {
+  .small .avatar {
+    width: 50px;
+    height: 50px;
+  }
+
+  .small .editButton {
+    width: 16px;
+    height: 16px;
+    left: 12px;
+    top: 24px;
+  }
+
+  .small .editButton img {
+    width: 8px;
+    height: 8px;
+  }
+
+  .medium .avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .medium .editButton {
+    width: 20px;
+    height: 20px;
+    left: 20px;
+    top: 42px;
+  }
+
+  .medium .editButton img {
+    width: 10px;
+    height: 10px;
+  }
+
+  .large .avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .large .editButton {
+    width: 36px;
+    height: 36px;
+    left: 42px;
+    top: 90px;
+  }
+
+  .large .editButton img {
+    width: 16px;
+    height: 16px;
+  }
+
+  .xlarge .avatar {
+    width: 150px;
+    height: 150px;
+  }
+
+  .xlarge .editButton {
+    width: 44px;
+    height: 44px;
+    left: 52px;
+    top: 106px;
+  }
+
+  .xlarge .editButton img {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Special styling for follower cards */
+  .follower .avatar {
+    width: 85px;
+    height: 85px;
+  }
 }
