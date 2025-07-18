@@ -19,7 +19,8 @@ const CategoriesPage = () => {
         console.log('Fetched categories count:', categoriesArray.length); // <-- Log count
         setCategories(categoriesArray);
         setIsLoading(false);
-      } catch (err) {
+      } catch (error) {
+        console.error('Failed to load categories:', error);
         setError('Failed to load categories');
         setIsLoading(false);
       }

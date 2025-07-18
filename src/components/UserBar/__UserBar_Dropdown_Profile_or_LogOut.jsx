@@ -5,10 +5,9 @@ import styles from './__UserBar_Dropdown_Profile_or_LogOut.module.css';
 import Avatar from '../Avatar/Avatar';
 import LogOutModal from '../LogOutModal/LogOutModal';
 
-const __UserBar_Dropdown_Profile_or_LogOut = ({
+const UserBarDropdownProfileOrLogOut = ({
   user,
   onProfile,
-  onLogout,
 }) => {
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -102,4 +101,4 @@ const __UserBar_Dropdown_Profile_or_LogOut = ({
   );
 };
 
-export default __UserBar_Dropdown_Profile_or_LogOut;
+export default UserBarDropdownProfileOrLogOut;

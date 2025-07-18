@@ -3,10 +3,14 @@ import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
 import Hero from '../../components/Hero/Hero.jsx'
+import Reciepes from '../../components/Reciepes/Reciepes';
 
 export default function HomePage() {
   return (
     <PageWrapper
+      title="FOODIES"
+      description="Discover amazing recipes from talented chefs around the world"
+      containerSize="wide"
       showBreadcrumbs={false}
     >
       {/* Hero Section */}
@@ -17,6 +21,7 @@ export default function HomePage() {
       {/* Categories Section */}
       <section style={{ marginTop: '60px' }}>
         <Categories />
+        <Reciepes />
       </section>
 
       <Testimonials />
