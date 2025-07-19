@@ -9,8 +9,8 @@ export const selectIsButtonLoading = (state) => state.userProfile.isButtonLoadin
 
 // Computed selectors
 export const selectActiveUser = (state) => {
-  const { currentUser, viewedUser, isOwnProfile } = state.userProfile;
-  return isOwnProfile ? currentUser : viewedUser;
+  const { viewedUser } = state.userProfile;
+  return viewedUser;
 };
 
 export const selectUserTabs = (state) => {
