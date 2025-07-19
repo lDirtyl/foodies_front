@@ -17,7 +17,11 @@ const userProfileSlice = createSlice({
       state.currentUser = action.payload;
     },
     setViewedUser: (state, action) => {
-      state.viewedUser = action.payload;
+      state.viewedUser = action.payload.user;
+    },
+    setProfileUser: (state, action) => {
+      state.currentUser = action.payload.user;
+      state.viewedUser = action.payload.user;
     },
     setIsOwnProfile: (state, action) => {
       state.isOwnProfile = action.payload;
@@ -44,6 +48,7 @@ const userProfileSlice = createSlice({
 export const {
   setCurrentUser,
   setViewedUser,
+  setProfileUser,
   setIsOwnProfile,
   setLoading,
   setButtonLoading,

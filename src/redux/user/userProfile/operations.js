@@ -2,12 +2,19 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   setCurrentUser,
   setViewedUser,
+  setProfileUser,
   setIsOwnProfile,
   setLoading,
   setError,
   setButtonLoading,
 } from './slice';
-import { currentUserDetailFetch, userDetailFetch } from '../../../api/usersApi';
+import {
+  currentUserDetailFetch,
+  userDetailFetch,
+  fetchUserFollowers,
+  fetchUserFollowing,
+} from '../../../api/usersApi';
+import { fetchCurrentUserRecipes, getFavoriteRecipes } from '../../../api/recipesApi';
 import { selectToken } from '../../auth/selectors';
 import { followUser, unfollowUser } from '../../../api/usersApi';
 
@@ -26,15 +33,37 @@ export const fetchUserProfileData = createAsyncThunk(
       dispatch(setIsOwnProfile(isOwnProfile));
 
       if (isOwnProfile) {
-        // Fetch current user's full profile
-        const userData = await currentUserDetailFetch(token);
-        dispatch(setCurrentUser(userData));
-        return { user: userData, isOwnProfile: true };
+        // Fetch current user's full profile using the detailed endpoint
+        const results = await Promise.allSettled([
+          userDetailFetch(currentUser.id, token),
+          fetchCurrentUserRecipes({ token }),
+          getFavoriteRecipes({ token }),
+          fetchUserFollowers(currentUser.id, { token }),
+          fetchUserFollowing(token),
+        ]);
+
+        const userDetails = results[0].status === 'fulfilled' ? results[0].value : { user: {} };
+        const ownRecipes = results[1].status === 'fulfilled' ? results[1].value : { recipes: [] };
+        const favoriteRecipes = results[2].status === 'fulfilled' ? results[2].value : { recipes: [] };
+        const followers = results[3].status === 'fulfilled' ? results[3].value : { users: [] };
+        const followings = results[4].status === 'fulfilled' ? results[4].value : { users: [] };
+
+        const fullUserData = {
+          ...userDetails,
+          user: {
+            ...userDetails.user,
+            recipes: ownRecipes.recipes,
+            favorites: favoriteRecipes.recipes,
+            followers: followers.users,
+            following: followings.users,
+          },
+        };
+
+        dispatch(setProfileUser(fullUserData));
       } else {
-        // Fetch other user's profile (limited data)
+        // For viewing other user's profile, we might not need all these details
         const userData = await userDetailFetch(userId, token);
         dispatch(setViewedUser(userData));
-        return { user: userData, isOwnProfile: false };
       }
     } catch (error) {
       const errorMessage = error.message || 'Failed to fetch user profile';
