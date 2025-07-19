@@ -1,29 +1,55 @@
-import { useSelector } from 'react-redux';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import UserInfo from '../../components/user/UserInfo/UserInfo';
 import TabBar from '../../components/TabBar/TabBar';
-import { selectUser } from '../../redux/auth/selectors';
+import LoadingIndicator from '../../components/LoadingIndicator/LoadingIndicator';
+import { 
+  selectActiveUser, 
+  selectUserTabs, 
+  selectIsOwnProfile, 
+  selectIsLoading, 
+  selectError 
+} from '../../redux/user/userProfile';
+import { fetchUserProfileData } from '../../redux/user/userProfile/operations';
 import styles from './UserPage.module.css';
+import Button from '../../components/Button/Button';
 
 const UserPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUser = useSelector(selectUser);
+  const { id: userId } = useParams();
+  const dispatch = useDispatch();
+
+  const user = useSelector(selectActiveUser);
+  const tabs = useSelector(selectUserTabs);
+  const isOwnProfile = useSelector(selectIsOwnProfile);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchUserProfileData(userId));
+    }
+  }, [userId, dispatch]);
 
   const getActiveTab = () => {
     const path = location.pathname;
-    if (path.includes('/recipes')) return 'MY RECIPES';
+    if (path.includes('/recipes')) return isOwnProfile ? 'MY RECIPES' : 'RECIPES';
     if (path.includes('/favorites')) return 'MY FAVORITES';
     if (path.includes('/followers')) return 'FOLLOWERS';
     if (path.includes('/following')) return 'FOLLOWING';
-    return 'MY RECIPES';
+    return isOwnProfile ? 'MY RECIPES' : 'RECIPES';
   };
 
   const handleTabClick = tab => {
-    const userId = currentUser?.id || '1';
+    if (!user) return;
+    
+    const userId = user.id;
     switch (tab) {
       case 'MY RECIPES':
+      case 'RECIPES':
         navigate(`/user/${userId}/recipes`);
         break;
       case 'MY FAVORITES':
@@ -40,13 +66,40 @@ const UserPage = () => {
     }
   };
 
-  if (!currentUser) {
+  if (isLoading) {
     return (
       <PageWrapper
         title="PROFILE"
-        description="Please log in to view your profile."
+        description="Loading user profile..."
       >
-        <p>Please log in to view your profile.</p>
+        <LoadingIndicator />
+      </PageWrapper>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageWrapper
+        title="PROFILE"
+        description="Error loading profile."
+      >
+        <div className={styles.error}>
+          <p>Error: {error}</p>
+          <Button onClick={() => dispatch(fetchUserProfileData(userId))}>
+            Try Again
+          </Button>
+        </div>
+      </PageWrapper>
+    );
+  }
+
+  if (!user) {
+    return (
+      <PageWrapper
+        title="PROFILE"
+        description="User not found."
+      >
+        <p>User not found.</p>
       </PageWrapper>
     );
   }
@@ -57,14 +110,14 @@ const UserPage = () => {
       description="Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us."
       breadcrumbItems={[
         { label: 'HOME', path: '/' },
-        { label: 'PROFILE', path: `/user/${currentUser.id}` },
+        { label: 'PROFILE', path: `/user/${user.id}` },
       ]}
     >
       <div className={styles.container}>
-        <UserInfo isOwnProfile={true} />
+        <UserInfo user={user} isOwnProfile={isOwnProfile} />
         <div className={styles.content}>
           <TabBar
-            tabs={['MY RECIPES', 'MY FAVORITES', 'FOLLOWERS', 'FOLLOWING']}
+            tabs={tabs}
             activeTab={getActiveTab()}
             onTabClick={handleTabClick}
           />

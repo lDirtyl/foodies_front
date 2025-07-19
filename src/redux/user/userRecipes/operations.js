@@ -18,7 +18,6 @@ export const fetchUserRecipes = createAsyncThunk(
       dispatch(setError(null));
 
       const token = selectToken(getState());
-      console.log('fetchUserRecipes: ', token);
       const response = await fetchCurrentUserRecipes({ page, limit, token });
       const currentPage = response.pagination.page;
       const totalPages = Math.ceil(response.pagination.total / limit);
