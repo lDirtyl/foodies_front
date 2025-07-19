@@ -1,5 +1,20 @@
 .container {
-  max-width: 1280px;
-  padding: 0 16px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 16px;
+  margin: 8px auto 0px auto;
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 20px 32px 0px 32px;
+    margin: 16px auto 0px auto;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    padding: 20px 60px 0px 60px;
+    margin: 20px auto 0px auto;
+  }
 }
