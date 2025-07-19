@@ -17,13 +17,14 @@ import { selectToken } from '../../auth/selectors';
 // Fetch followers
 export const fetchFollowers = createAsyncThunk(
   'userFollowers/fetchFollowers',
-  async ({ page = 1, limit = 10 }, { dispatch, getState }) => {
+  async ({ page = 1, limit = 10, userId }, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
       const token = selectToken(getState());
-      const response = await fetchUserFollowers({ page, limit, token });
+      const response = await fetchUserFollowers(userId, { token, page, limit });
+
       const currentPage = response.pagination.page;
       const totalPages = Math.ceil(response.pagination.total / limit);
 
@@ -34,6 +35,7 @@ export const fetchFollowers = createAsyncThunk(
 
       return response;
     } catch (error) {
+      console.log('>>> error', error);
       dispatch(setError(error.message));
       dispatch(setLoading(false));
       throw error;

@@ -51,17 +51,17 @@ const UserInfo = ({ user, isOwnProfile = true }) => {
               <span>Added recipes:</span> {user.recipesCount || 0}
             </p>
             <p className={styles.followers}>
-              <span>Followers:</span> {user.followers || 0}
+              <span>Followers:</span> {user.followersCount || 0}
             </p>
 
             {/* Show favorites and following only for own profile */}
             {isOwnProfile && (
               <>
                 <p className={styles.favorites}>
-                  <span>Favorites:</span> {user.favorites || 0}
+                  <span>Favorites:</span> {user.favoritesCount || 0}
                 </p>
                 <p className={styles.following}>
-                  <span>Following:</span> {user.following || 0}
+                  <span>Following:</span> {user.followingsCount || 0}
                 </p>
               </>
             )}
