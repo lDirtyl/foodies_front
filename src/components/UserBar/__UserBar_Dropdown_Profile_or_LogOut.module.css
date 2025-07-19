@@ -111,3 +111,41 @@
   height: 18px;
   margin-left: 2px;
 }
+
+@media only screen and (min-width: 768px) {
+  .profileButton {
+    border-radius: 30px;
+    min-width: 148px;
+    height: 50px;
+  }
+
+  .userName {
+    margin-left: 6px;
+    margin-right: 4px;
+  }
+
+  .dropdownMenu {
+    width: 148px;
+    height: 74px;
+    top: 55px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .profileButton {
+    border-radius: 30px;
+    min-width: 148px;
+    height: 50px;
+  }
+
+  .userName {
+    margin-left: 6px;
+    margin-right: 4px;
+  }
+
+  .dropdownMenu {
+    width: 148px;
+    height: 74px;
+    top: 58px;
+  }
+}
