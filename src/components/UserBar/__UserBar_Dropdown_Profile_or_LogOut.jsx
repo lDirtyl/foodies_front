@@ -5,10 +5,7 @@ import styles from './__UserBar_Dropdown_Profile_or_LogOut.module.css';
 import Avatar from '../Avatar/Avatar';
 import LogOutModal from '../LogOutModal/LogOutModal';
 
-const UserBarDropdownProfileOrLogOut = ({
-  user,
-  onProfile,
-}) => {
+const UserBarDropdownProfileOrLogOut = ({ user, onProfile }) => {
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const dropdownRef = useRef(null);
@@ -43,22 +40,13 @@ const UserBarDropdownProfileOrLogOut = ({
       >
         <Avatar src={user?.avatarURL} alt={user?.name} size={'small'} />
         <span className={styles.userName}>{user?.name}</span>
-        <svg
+        <img
           className={styles.arrowIcon}
+          src={open ? '/icons/chevron-up.svg' : '/icons/chevron-down.svg'}
+          alt={open ? 'Close menu' : 'Open menu'}
           width="18"
           height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M7 11L11 7M11 7H7M11 7V11"
-            stroke="#fff"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        />
       </button>
       {open && (
         <div className={styles.dropdownMenu}>
@@ -72,22 +60,13 @@ const UserBarDropdownProfileOrLogOut = ({
           </Link>
           <button className={styles.logoutMenuItem} onClick={handleLogout}>
             LOG OUT
-            <svg
+            <img
               className={styles.arrowUpRight}
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7 11L11 7M11 7H7M11 7V11"
-                stroke="#fff"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+              src="/icons/arrow-up-right-white.svg"
+              alt="Log out"
+              width="14"
+              height="14"
+            />
           </button>
         </div>
       )}

@@ -70,3 +70,7 @@ body {
   color: var(--black-color);
   line-height: 1.5;
 }
+
+body.mobile-open {
+  overflow: hidden;
+}

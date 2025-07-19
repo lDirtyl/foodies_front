@@ -104,18 +104,18 @@ const Nav = ({ theme, contrast = false }) => {
           <div className={stylesNavigation.mobileMenuFooter}>
             <img
               srcSet="
-              /images/hero/hero-dish2-1x.png 1x,
-              /images/hero/hero-dish2-2x.png 2x"
-              src="/images/hero/hero-dish2-1x.png"
-              alt="Meat pie"
+              /images/hero/tiramisu@1.webp 1x,
+              /images/hero/tiramisu@2.webp 2x"
+              src="/images/hero/tiramisu@1.webp"
+              alt="Tiramisu dessert"
               className={styles.imgSmall}
             />
             <img
               srcSet="
-              /images/hero/hero-dish1-1x.png 1x,
-              /images/hero/hero-dish1-2x.png 2x"
-              src="/images/hero/hero-dish1-1x.png"
-              alt="Chocolate pudding"
+              /images/hero/sliced_beef@1.webp 1x,
+              /images/hero/sliced_beef@2.webp 2x"
+              src="/images/hero/sliced_beef@1.webp"
+              alt="Sliced beef dish"
               className={styles.imgLarge}
             />
           </div>

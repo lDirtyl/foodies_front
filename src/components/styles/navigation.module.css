@@ -114,6 +114,7 @@
   color: var(--black-color);
   font-size: 28px;
   display: flex;
+  margin-top: -7px;
 }
 
 .dark .menuButtonOpen,
@@ -163,11 +164,20 @@
 }
 
 @media only screen and (max-width: 767px) {
+  .wrapper {
+    justify-content: center;
+  }
+
   .nav {
     margin-top: 60px;
     color: var(--white-color);
     flex-direction: column;
   }
+
+  .nav .link {
+    color: var(--white-color);
+  }
+
   .link.active {
     border-color: var(--gray-color);
   }
@@ -221,9 +231,9 @@
 /* desktop */
 @media only screen and (min-width: 1440px) {
   .wrapper {
-    gap: 32px;
+    gap: 40px;
   }
   .nav {
-    gap: 32px;
+    gap: 40px;
   }
 }
