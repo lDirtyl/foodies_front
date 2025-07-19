@@ -2,14 +2,12 @@ import React from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
-import Hero from '../../components/Hero/Hero.jsx'
+import Hero from '../../components/Hero/Hero.jsx';
 import Reciepes from '../../components/Reciepes/Reciepes';
 
 export default function HomePage() {
   return (
-    <PageWrapper
-      showBreadcrumbs={false}
-    >
+    <PageWrapper showBreadcrumbs={false}>
       {/* Hero Section */}
       <section style={{ marginBottom: '60px' }}>
         <Hero />
