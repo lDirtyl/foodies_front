@@ -11,9 +11,12 @@ export default function SharedLayout() {
   const needsContrast =
     location.pathname === '/' || location.pathname === '/categories';
 
+  const isHomePage = location.pathname === '/';
+  const theme = isHomePage ? 'dark' : null;
+
   return (
     <>
-      <Header contrast={needsContrast} />
+      <Header theme={theme} contrast={needsContrast} />
       <main className={styles.main}>
         <Outlet />
       </main>
