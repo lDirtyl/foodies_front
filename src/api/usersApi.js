@@ -51,14 +51,17 @@ export const fetchUserFollowing = async token => {
 };
 
 export const followUser = async (userId, token) => {
-  const { data } = await axios.post(`/users/follow`, {
-    headers: {
-      Authorization: getAuthorizationHeader(token),
-    },
-    data: {
+  const { data } = await axios.post(
+    `/users/follow`,
+    {
       followingId: userId,
     },
-  });
+    {
+      headers: {
+        Authorization: getAuthorizationHeader(token),
+      },
+    }
+  );
   return data;
 };
 

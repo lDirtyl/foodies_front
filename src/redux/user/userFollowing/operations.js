@@ -7,51 +7,33 @@ import {
   setLoading,
   setError,
 } from './slice';
+import { selectToken } from '../../auth/selectors';
+import {
+  fetchUserFollowing,
+  followUser,
+  unfollowUser as unfollowUserApi,
+} from '../../../api/usersApi';
 
 // Fetch following users
 export const fetchFollowing = createAsyncThunk(
   'userFollowing/fetchFollowing',
-  async ({ page = 1, limit = 10 }, { dispatch }) => {
+  async ({ page = 1, limit = 10 }, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // const response = await userFollowingApi.getFollowing({ page, limit });
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const mockResponse = {
-        following: [
-          {
-            id: '3',
-            name: 'ALEX',
-            email: 'alex.chef@gmail.com',
-            avatar: '/images/users/alex.jpg',
-            isFollowing: true,
-            recipesCount: 8,
-            recipes: [
-              { id: '1', title: 'Chocolate Cake', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '2', title: 'Pasta Carbonara', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '3', title: 'Green Soup', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-              { id: '4', title: 'Vanilla Pudding', image: 'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg' },
-            ],
-          },
-        ],
-        pagination: {
-          currentPage: page,
-          totalPages: 1,
-          totalItems: 1,
-          limit,
-        },
-      };
+      const token = selectToken(getState());
+      const response = await fetchUserFollowing({ page, limit, token });
 
-      dispatch(setFollowing(mockResponse.following));
-      dispatch(setCurrentPage(mockResponse.pagination.currentPage));
-      dispatch(setTotalPages(mockResponse.pagination.totalPages));
+      const currentPage = response.pagination.page;
+      const totalPages = Math.ceil(response.pagination.total / limit);
+
+      dispatch(setFollowing(response.followings));
+      dispatch(setCurrentPage(currentPage));
+      dispatch(setTotalPages(totalPages));
       dispatch(setLoading(false));
 
-      return mockResponse;
+      return response;
     } catch (error) {
       dispatch(setError(error.message));
       dispatch(setLoading(false));
@@ -63,17 +45,14 @@ export const fetchFollowing = createAsyncThunk(
 // Unfollow a user
 export const unfollowUser = createAsyncThunk(
   'userFollowing/unfollowUser',
-  async (userId, { dispatch }) => {
+  async (userId, { dispatch, getState }) => {
     try {
-      dispatch(setLoading(true));
-      dispatch(setError(null));
+      // dispatch(setLoading(true));
+      // dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFollowingApi.unfollowUser(userId);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await unfollowUserApi(userId, token);
+
       dispatch(removeFromFollowing(userId));
       dispatch(setLoading(false));
 
@@ -91,22 +70,19 @@ export const addToFollowing = createAsyncThunk(
   'userFollowing/addToFollowing',
   async (user, { dispatch, getState }) => {
     try {
-      dispatch(setLoading(true));
-      dispatch(setError(null));
+      // dispatch(setLoading(true));
+      // dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFollowingApi.followUser(user.id);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await followUser(user.id, token);
+
       const currentFollowing = getState().userFollowing.following;
       const userWithFollowing = { ...user, isFollowing: true };
-      
+
       if (!currentFollowing.find(u => u.id === user.id)) {
         dispatch(setFollowing([...currentFollowing, userWithFollowing]));
       }
-      
+
       dispatch(setLoading(false));
 
       return userWithFollowing;
@@ -126,4 +102,4 @@ export const changeFollowingPage = createAsyncThunk(
     // Optionally fetch new data for the page
     // await dispatch(fetchFollowing({ page }));
   }
-); 
+);
