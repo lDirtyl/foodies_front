@@ -14,6 +14,19 @@ export const fetchCurrentUserRecipes = async ({ token, page, limit }) => {
   return data;
 };
 
+export const fetchUserRecipes = async (userId, { token, page, limit }) => {
+  const { data } = await axios.get(`/recipes/user/${userId}`, {
+    headers: {
+      Authorization: getAuthorizationHeader(token),
+    },
+    params: {
+      page,
+      limit,
+    },
+  });
+  return data;
+};
+
 export const getFavoriteRecipes = async ({ token, page, limit }) => {
   const { data } = await axios.get('/recipes/favorites', {
     headers: {

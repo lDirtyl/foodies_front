@@ -7,11 +7,11 @@ import ButtonIcon from '../../ButtonIcon/ButtonIcon';
 import styles from './FollowerCard.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const FollowerCard = ({ 
-  user, 
-  showFollowButton = true, 
-  recipes = [], 
-  actionType = 'follow' // 'follow' or 'unfollow'
+const FollowerCard = ({
+  user,
+  showFollowButton = true,
+  recipes = [],
+  actionType = 'follow',
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const FollowerCard = ({
     if (actionType === 'unfollow') {
       return 'UNFOLLOW';
     }
-    return user.isFollowing ? 'FOLLOWING' : 'FOLLOW';
+    return user.following ? 'FOLLOWING' : 'FOLLOW';
   };
 
   if (!user) return null;
@@ -42,7 +42,7 @@ const FollowerCard = ({
   return (
     <div className={styles.followerCard}>
       <div className={styles.userInfo}>
-        <Avatar src={user.avatar} alt={user.name} size="follower" />
+        <Avatar src={user.avatarURL} alt={user.name} size="follower" />
 
         <div className={styles.details}>
           <h4 className={styles.userName}>{user.name}</h4>
@@ -61,7 +61,7 @@ const FollowerCard = ({
         {recipes.map((recipe, index) => (
           <div key={recipe.id || index} className={styles.recipePreview}>
             <img
-              src={recipe.image || '/images/default-recipe.jpg'}
+              src={recipe.thumb || '/images/default-recipe.jpg'}
               alt={recipe.title}
               className={styles.recipeImage}
             />

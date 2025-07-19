@@ -7,17 +7,24 @@ import {
   setLoading,
   setError,
 } from './slice';
-import { fetchUserFollowers } from '../../../api/usersApi';
+import {
+  fetchUserFollowers,
+  followUser as followUserApi,
+  unfollowUser as unfollowUserApi,
+} from '../../../api/usersApi';
+import { selectToken } from '../../auth/selectors';
 
 // Fetch followers
 export const fetchFollowers = createAsyncThunk(
   'userFollowers/fetchFollowers',
-  async ({ page = 1, limit = 10 }, { dispatch }) => {
+  async ({ page = 1, limit = 10, userId }, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      const response = await fetchUserFollowers({ page, limit });
+      const token = selectToken(getState());
+      const response = await fetchUserFollowers(userId, { token, page, limit });
+
       const currentPage = response.pagination.page;
       const totalPages = Math.ceil(response.pagination.total / limit);
 
@@ -28,6 +35,7 @@ export const fetchFollowers = createAsyncThunk(
 
       return response;
     } catch (error) {
+      console.log('>>> error', error);
       dispatch(setError(error.message));
       dispatch(setLoading(false));
       throw error;
@@ -38,17 +46,14 @@ export const fetchFollowers = createAsyncThunk(
 // Follow a user
 export const followUser = createAsyncThunk(
   'userFollowers/followUser',
-  async (userId, { dispatch }) => {
+  async (userId, { dispatch, getState }) => {
     try {
-      dispatch(setLoading(true));
-      dispatch(setError(null));
+      // dispatch(setLoading(true));
+      // dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFollowersApi.followUser(userId);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await followUserApi(userId, token);
+
       dispatch(toggleFollow(userId));
       dispatch(setLoading(false));
 
@@ -64,17 +69,14 @@ export const followUser = createAsyncThunk(
 // Unfollow a user
 export const unfollowUser = createAsyncThunk(
   'userFollowers/unfollowUser',
-  async (userId, { dispatch }) => {
+  async (userId, { dispatch, getState }) => {
     try {
-      dispatch(setLoading(true));
-      dispatch(setError(null));
+      // dispatch(setLoading(true));
+      // dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFollowersApi.unfollowUser(userId);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await unfollowUserApi(userId, token);
+
       dispatch(toggleFollow(userId));
       dispatch(setLoading(false));
 
@@ -93,7 +95,7 @@ export const toggleFollowUser = createAsyncThunk(
   async (userId, { dispatch, getState }) => {
     const state = getState();
     const follower = state.userFollowers.followers.find(f => f.id === userId);
-    const isFollowing = follower ? follower.isFollowing : false;
+    const isFollowing = follower ? follower.following : false;
 
     if (isFollowing) {
       await dispatch(unfollowUser(userId));
@@ -101,7 +103,7 @@ export const toggleFollowUser = createAsyncThunk(
       await dispatch(followUser(userId));
     }
 
-    return { userId, isFollowing: !isFollowing };
+    return { userId, following: !isFollowing };
   }
 );
 
@@ -113,4 +115,4 @@ export const changeFollowersPage = createAsyncThunk(
     // Optionally fetch new data for the page
     // await dispatch(fetchFollowers({ page }));
   }
-); 
+);

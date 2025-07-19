@@ -3,13 +3,13 @@ import styles from './Avatar.module.css';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
 import clsx from 'clsx';
 
-const Avatar = ({ 
-  src, 
-  alt = 'User avatar', 
+const Avatar = ({
+  src,
+  alt = 'User avatar',
   size = 'medium',
   className = '',
   showEditButton = false,
-  onEditClick = null
+  onEditClick = null,
 }) => {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,17 +32,16 @@ const Avatar = ({
   const rootClassName = clsx(
     styles.avatarContainer,
     styles[size],
-    styles[className],
-  ); 
+    styles[className]
+  );
 
   return (
     <div className={rootClassName}>
-      <div 
+      <div
         className={styles.avatar}
         style={{
-          backgroundImage: hasError || !src 
-            ? 'url(/images/default-avatar.jpg)' 
-            : undefined
+          backgroundImage:
+            hasError || !src ? 'url(/images/default-avatar.jpg)' : undefined,
         }}
       >
         {!hasError && src && (
@@ -56,11 +55,11 @@ const Avatar = ({
           />
         )}
       </div>
-      
+
       {showEditButton && (
-        <ButtonIcon 
+        <ButtonIcon
           onClick={handleEditButtonClick}
-          variant='dark'
+          variant="dark"
           aria-label="Edit avatar"
           icon={<img src="/icons/plus.svg" alt="Edit" />}
           classNames={[styles.editButton]}
@@ -70,4 +69,4 @@ const Avatar = ({
   );
 };
 
-export default Avatar; 
+export default Avatar;

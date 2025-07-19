@@ -1,21 +1,25 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleFollow } from '../../../redux/slices/userSlice';
 import { logout } from '../../../redux/auth/operations';
-import { selectUser } from '../../../redux/auth/selectors';
+import { toggleFollowUser } from '../../../redux/user/userProfile/operations';
+import {
+  selectCanFollow,
+  selectIsFollowing,
+  selectIsButtonLoading,
+} from '../../../redux/user/userProfile';
 import Avatar from '../../Avatar/Avatar';
 import styles from './UserInfo.module.css';
 import Button from '../../Button/Button';
 
-const UserInfo = ({ isOwnProfile = true }) => {
+const UserInfo = ({ user, isOwnProfile = true }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectUser);
-  const { viewedUser } = useSelector(state => state.user);
-
-  const user = isOwnProfile ? currentUser : viewedUser;
+  const canFollow = useSelector(selectCanFollow);
+  const isFollowing = useSelector(selectIsFollowing);
+  const isButtonLoading = useSelector(selectIsButtonLoading);
 
   const handleFollowToggle = () => {
-    if (!isOwnProfile) {
-      dispatch(toggleFollow());
+    console.log('handleFollowToggle', isOwnProfile, user);
+    if (!isOwnProfile && user) {
+      dispatch(toggleFollowUser(user.id));
     }
   };
 
@@ -46,27 +50,44 @@ const UserInfo = ({ isOwnProfile = true }) => {
             <p className={styles.addedRecipes}>
               <span>Added recipes:</span> {user.recipesCount || 0}
             </p>
-            <p className={styles.favorites}>
-              <span>Favorites:</span> {user.favorites || 0}
-            </p>
             <p className={styles.followers}>
-              <span>Followers:</span> {user.followers || 0}
+              <span>Followers:</span> {user.followersCount || 0}
             </p>
-            <p className={styles.following}>
-              <span>Following:</span> {user.following || 0}
-            </p>
+
+            {/* Show favorites and following only for own profile */}
+            {isOwnProfile && (
+              <>
+                <p className={styles.favorites}>
+                  <span>Favorites:</span> {user.favoritesCount || 0}
+                </p>
+                <p className={styles.following}>
+                  <span>Following:</span> {user.followingsCount || 0}
+                </p>
+              </>
+            )}
           </div>
         </div>
       </div>
+
       {isOwnProfile ? (
-        <Button onClick={handleLogout} variant='primary' fullWidth>
+        <Button
+          onClick={handleLogout}
+          variant="primary"
+          isLoading={isButtonLoading}
+          fullWidth
+        >
           LOG OUT
         </Button>
-      ) : (
-        <Button onClick={handleFollowToggle} variant='primary' fullWidth>
-          {user.isFollowing ? 'FOLLOWING' : 'FOLLOW'}
+      ) : canFollow ? (
+        <Button
+          onClick={handleFollowToggle}
+          variant="primary"
+          isLoading={isButtonLoading}
+          fullWidth
+        >
+          {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}
         </Button>
-      )}
+      ) : null}
     </div>
   );
 };

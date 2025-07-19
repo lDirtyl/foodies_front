@@ -32,10 +32,14 @@ export const updateUserAvatar = async (avatar, token) => {
   return data;
 };
 
-export const fetchUserFollowers = async token => {
-  const { data } = await axios.get(`/users/followers`, {
+export const fetchUserFollowers = async (userId, { token, page, limit }) => {
+  const { data } = await axios.get(`/users/${userId}/followers`, {
     headers: {
       Authorization: getAuthorizationHeader(token),
+    },
+    params: {
+      page,
+      limit,
     },
   });
   return data;
@@ -51,14 +55,17 @@ export const fetchUserFollowing = async token => {
 };
 
 export const followUser = async (userId, token) => {
-  const { data } = await axios.post(`/users/follow`, {
-    headers: {
-      Authorization: getAuthorizationHeader(token),
-    },
-    data: {
+  const { data } = await axios.post(
+    `/users/follow`,
+    {
       followingId: userId,
     },
-  });
+    {
+      headers: {
+        Authorization: getAuthorizationHeader(token),
+      },
+    }
+  );
   return data;
 };
 

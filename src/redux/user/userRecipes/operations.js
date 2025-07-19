@@ -6,20 +6,30 @@ import {
   setLoading,
   setError,
 } from './slice';
-import { fetchCurrentUserRecipes, deleteRecipe } from '../../../api/recipesApi';
+import { fetchCurrentUserRecipes, fetchUserRecipes as fetchUserRecipesApi, deleteRecipe } from '../../../api/recipesApi';
 import { selectToken } from '../../auth/selectors';
 
 // Fetch user recipes
 export const fetchUserRecipes = createAsyncThunk(
   'userRecipes/fetchUserRecipes',
-  async ({ page = 1, limit = 10 }, { dispatch, getState }) => {
+  async ({ page = 1, limit = 10, userId }, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
       const token = selectToken(getState());
-      console.log('fetchUserRecipes: ', token);
-      const response = await fetchCurrentUserRecipes({ page, limit, token });
+      const currentUser = getState().auth.user;
+      const isOwnProfile = currentUser && currentUser.id === userId;
+
+      let response;
+      if (isOwnProfile) {
+        // Fetch current user's recipes
+        response = await fetchCurrentUserRecipes({ page, limit, token });
+      } else {
+        // Fetch other user's recipes
+        response = await fetchUserRecipesApi(userId, { page, limit, token });
+      }
+
       const currentPage = response.pagination.page;
       const totalPages = Math.ceil(response.pagination.total / limit);
 
