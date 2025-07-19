@@ -4,6 +4,7 @@ import { userRecipesReducer } from './user/userRecipes';
 import { userFavoriteRecipesReducer } from './user/userFavoriteRecipes';
 import { userFollowersReducer } from './user/userFollowers';
 import { userFollowingReducer } from './user/userFollowing';
+import { userProfileReducer } from './user/userProfile';
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -26,6 +27,7 @@ export const store = configureStore({
     userFavoriteRecipes: userFavoriteRecipesReducer,
     userFollowers: userFollowersReducer,
     userFollowing: userFollowingReducer,
+    userProfile: userProfileReducer,
     auth: persistReducer(persistAuthConfig, authReducer),
     common: commonReducer,
   },

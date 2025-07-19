@@ -3,6 +3,7 @@ import { removeRecipeFromFavorites } from '../../../redux/user/userFavoriteRecip
 import { deleteUserRecipe } from '../../../redux/user/userRecipes';
 import styles from './RecipeCard.module.css';
 import ButtonIcon from '../../ButtonIcon/ButtonIcon';
+import { useNavigate } from 'react-router-dom';
 
 const RecipeCard = ({
   recipe,
@@ -11,6 +12,7 @@ const RecipeCard = ({
   isFavorite = false,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleToggleFavorite = () => {
     if (isFavorite) {
@@ -31,9 +33,8 @@ const RecipeCard = ({
     }
   };
 
-  const handleEdit = () => {
-    // Navigate to edit page
-    console.log('Edit recipe:', recipe.id);
+  const handleShowDetails = () => {
+    navigate(`/recipe/${recipe.id}`);
   };
 
   if (!recipe) return null;
@@ -59,8 +60,8 @@ const RecipeCard = ({
             <>
               <ButtonIcon
                 icon={<img src="/icons/arrow-up-right.svg" alt="Edit" />}
-                onClick={handleEdit}
-                title="Edit recipe"
+                onClick={handleShowDetails}
+                title="Show recipe details"
                 variant="light"
               />
               <ButtonIcon

@@ -8,87 +8,33 @@ import {
   setLoading,
   setError,
 } from './slice';
-
-const mockRecipes = [
-  {
-    id: '1',
-    title: 'CHILLI PRAWN LINGUINE',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image:
-      'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg',
-    category: 'seafood',
-    prepTime: 30,
-    author: {
-      id: '1',
-      name: 'VICTORIA',
-      avatar: '/images/users/victoria.jpg',
-    },
-    isFavorite: true,
-  },
-  {
-    id: '2',
-    title: 'SALMON PRAWN RISOTTO',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image:
-      'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg',
-    category: 'seafood',
-    prepTime: 45,
-    author: {
-      id: '1',
-      name: 'VICTORIA',
-      avatar: '/images/users/victoria.jpg',
-    },
-    isFavorite: true,
-  },
-  {
-    id: '4',
-    title: 'PORTUGUESE FISH STEW (CALDEIRADA DE PEIXE)',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image:
-      'https://i.natgeofe.com/n/aed9f829-849c-4902-88bb-27e570c2a398/GettyImages-180258510.jpg',
-    category: 'seafood',
-    prepTime: 60,
-    author: {
-      id: '1',
-      name: 'VICTORIA',
-      avatar: '/images/users/victoria.jpg',
-    },
-    isFavorite: true,
-  },
-];
+import {
+  favoriteRecipe,
+  getFavoriteRecipes,
+  unfavoriteRecipe,
+} from '../../../api/recipesApi';
+import { selectToken } from '../../auth/selectors';
 
 // Fetch favorite recipes
 export const fetchFavoriteRecipes = createAsyncThunk(
   'userFavoriteRecipes/fetchFavoriteRecipes',
-  async ({ page = 1, limit = 10 }, { dispatch }) => {
+  async ({ page = 1, limit = 10 }, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // const response = await userFavoriteRecipesApi.getFavoriteRecipes({ page, limit });
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const mockResponse = {
-        recipes: mockRecipes,
-        pagination: {
-          currentPage: page,
-          totalPages: 1,
-          totalItems: 1,
-          limit,
-        },
-      };
+      const token = selectToken(getState());
+      const response = await getFavoriteRecipes({ page, limit, token });
 
-      dispatch(setFavoriteRecipes(mockResponse.recipes));
-      dispatch(setCurrentPage(mockResponse.pagination.currentPage));
-      dispatch(setTotalPages(mockResponse.pagination.totalPages));
+      const currentPage = response.pagination.page;
+      const totalPages = Math.ceil(response.pagination.total / limit);
+
+      dispatch(setFavoriteRecipes(response.recipes));
+      dispatch(setCurrentPage(currentPage));
+      dispatch(setTotalPages(totalPages));
       dispatch(setLoading(false));
 
-      return mockResponse;
+      return response;
     } catch (error) {
       dispatch(setError(error.message));
       dispatch(setLoading(false));
@@ -100,17 +46,14 @@ export const fetchFavoriteRecipes = createAsyncThunk(
 // Add recipe to favorites
 export const addRecipeToFavorites = createAsyncThunk(
   'userFavoriteRecipes/addToFavorites',
-  async (recipe, { dispatch }) => {
+  async (recipe, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFavoriteRecipesApi.addToFavorites(recipe.id);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await favoriteRecipe(recipe.id, token);
+
       const recipeWithFavorite = { ...recipe, isFavorite: true };
       dispatch(addToFavorites(recipeWithFavorite));
       dispatch(setLoading(false));
@@ -127,17 +70,14 @@ export const addRecipeToFavorites = createAsyncThunk(
 // Remove recipe from favorites
 export const removeRecipeFromFavorites = createAsyncThunk(
   'userFavoriteRecipes/removeFromFavorites',
-  async (recipeId, { dispatch }) => {
+  async (recipeId, { dispatch, getState }) => {
     try {
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      // TODO: Replace with actual API call
-      // await userFavoriteRecipesApi.removeFromFavorites(recipeId);
-      
-      // Mock API response
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
+      const token = selectToken(getState());
+      await unfavoriteRecipe(recipeId, token);
+
       dispatch(removeFromFavorites(recipeId));
       dispatch(setLoading(false));
 
@@ -177,4 +117,4 @@ export const changeFavoriteRecipesPage = createAsyncThunk(
     // Optionally fetch new data for the page
     // await dispatch(fetchFavoriteRecipes({ page }));
   }
-); 
+);

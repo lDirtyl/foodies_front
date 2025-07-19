@@ -68,7 +68,7 @@ export const selectAllFollowingRecipes = state => {
         author: {
           id: user.id,
           name: user.name,
-          avatar: user.avatar,
+          avatar: user.avatarURL,
         },
       })));
     }
@@ -86,7 +86,7 @@ export const selectRecentFollowingRecipes = (state, limit = 10) => {
         author: {
           id: user.id,
           name: user.name,
-          avatar: user.avatar,
+          avatar: user.avatarURL,
         },
       })));
     }

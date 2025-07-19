@@ -31,16 +31,16 @@ export const selectFollowerById = (state, followerId) =>
 // Check if user is following a specific follower
 export const selectIsFollowingFollower = (state, followerId) => {
   const follower = state.userFollowers.followers.find(f => f.id === followerId);
-  return follower ? follower.isFollowing : false;
+  return follower ? follower.following : false;
 };
 
 // Get followers that the current user is following
 export const selectFollowingFollowers = state =>
-  state.userFollowers.followers.filter(follower => follower.isFollowing);
+  state.userFollowers.followers.filter(follower => follower.following);
 
 // Get followers that the current user is not following
 export const selectNonFollowingFollowers = state =>
-  state.userFollowers.followers.filter(follower => !follower.isFollowing);
+  state.userFollowers.followers.filter(follower => !follower.following);
 
 // Get followers by recipe count range
 export const selectFollowersByRecipeCount = (state, minCount, maxCount) =>

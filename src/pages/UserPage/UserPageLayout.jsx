@@ -1,11 +1,14 @@
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import MyRecipes from './components/MyRecipes';
 import MyFavorites from './components/MyFavorites';
 import Followers from './components/Followers';
 import Following from './components/Following';
+import { selectIsOwnProfile } from '../../redux/user/userProfile';
 
 const UserPageLayout = () => {
   const location = useLocation();
+  const isOwnProfile = useSelector(selectIsOwnProfile);
 
   const renderComponent = () => {
     const path = location.pathname;
@@ -14,7 +17,8 @@ const UserPageLayout = () => {
       return <MyRecipes />;
     }
 
-    if (path.includes('/favorites')) {
+    // Only show favorites for own profile
+    if (path.includes('/favorites') && isOwnProfile) {
       return <MyFavorites />;
     }
 
@@ -22,11 +26,12 @@ const UserPageLayout = () => {
       return <Followers />;
     }
 
-    if (path.includes('/following')) {
+    // Only show following for own profile
+    if (path.includes('/following') && isOwnProfile) {
       return <Following />;
     }
 
-    // Default to MyRecipes
+    // Default to recipes
     return <MyRecipes />;
   };
 

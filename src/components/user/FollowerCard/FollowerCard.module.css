@@ -12,9 +12,15 @@
 }
 
 .details {
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.details button {
+  align-self: flex-start;
+  width: fit-content;
 }
 
 .userName {
@@ -46,8 +52,10 @@
 }
 
 .recipePreviews {
+  flex-grow: 1;
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   gap: 12px;
 }
 
