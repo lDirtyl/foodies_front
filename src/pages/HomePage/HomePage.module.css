@@ -2,31 +2,3 @@
 .page {
   padding: 2rem;
 }
-
-.recipesGrid {
-  display: grid;
-  gap: 30px;
-  margin-top: 20px;
-  justify-content: center;
-  
-  /* Mobile (1 в рядку) */
-  grid-template-columns: 1fr;
-}
-
-/* Планшети (2 в рядку) - від 481px */
-@media (min-width: 481px) {
-  .recipesGrid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 760px; /* 2 * 342px + 30px gap */
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-/* Desktop (3 в рядку) - від 769px */
-@media (min-width: 769px) {
-  .recipesGrid {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 920px; /* 3 * 290px + 2 * 30px gaps */
-  }
-}
