@@ -1,4 +1,4 @@
-import axios from './default';
+import axios from './api';
 import { getAuthorizationHeader } from './utils';
 
 export const currentUserDetailFetch = async token => {

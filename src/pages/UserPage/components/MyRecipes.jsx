@@ -42,9 +42,9 @@ const MyRecipes = () => {
       totalPages={totalPages}
       onPageChange={handlePageChange}
     >
-      {userRecipes.map(recipe => (
+      {userRecipes.filter(Boolean).map(recipe => (
         <RecipeCard
-          key={recipe.id}
+          key={recipe._id}
           recipe={recipe}
           isOwner={isOwnProfile}
           showActions={isOwnProfile}

@@ -32,7 +32,7 @@ const UserPage = () => {
     if (userId) {
       dispatch(fetchUserProfileData(userId));
     }
-  }, [userId, dispatch]);
+  }, [userId, dispatch, location.pathname]);
 
   const getActiveTab = () => {
     const path = location.pathname;

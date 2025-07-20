@@ -1,4 +1,4 @@
-import axios from './default';
+import axios from './api';
 import { getAuthorizationHeader } from './utils';
 
 export const fetchCurrentUserRecipes = async ({ token, page, limit }) => {
@@ -59,7 +59,7 @@ export const unfavoriteRecipe = async (recipeId, token) => {
 };
 
 export const deleteRecipe = async (recipeId, token) => {
-  const { data } = await axios.delete(`/recipes/${recipeId}`, {
+  const { data } = await axios.delete(`/recipes/own/${recipeId}`, {
     headers: {
       Authorization: getAuthorizationHeader(token),
     },
