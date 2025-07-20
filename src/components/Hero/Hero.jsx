@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { showModal } from '../../redux/common/slice';
-import { MODALS, ROUTERS } from '../../const';
+import { MODALS, ROUTERS, FORM_TYPES } from '../../const';
 import styles from './Hero.module.css';
 
 const Hero = () => {
@@ -15,7 +15,9 @@ const Hero = () => {
     if (isLoggedIn) {
       navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id));
     } else {
-      dispatch(showModal({ modal: MODALS.AUTH, defaultValue: 'signIn' }));
+      dispatch(
+        showModal({ modal: MODALS.AUTH, defaultValue: FORM_TYPES.SIGN_IN })
+      );
     }
   };
 
@@ -25,21 +27,38 @@ const Hero = () => {
         <h1 className={styles.title}>Improve Your Culinary Talents</h1>
         <div>
           <p className={styles.subtitle}>
-            Amazing recipes for beginners in the world of cooking, enveloping you in the aromas and tastes of various cuisines.
+            Amazing recipes for beginners in the world of cooking, enveloping
+            you in the aromas and tastes of various cuisines.
           </p>
         </div>
         <div>
-          <button className={styles.button} onClick={handleAddRecipeClick}>Add recipe</button>
+          <button className={styles.button} onClick={handleAddRecipeClick}>
+            Add recipe
+          </button>
         </div>
 
         <div className={styles.images}>
           <picture>
-            <source media="(min-width: 768px)" srcSet="/images/hero/tiramisu@1.webp" />
-            <img className={styles.mainImage} src="/images/hero/tiramisu@2.webp" alt="Tiramisu dessert in a glass" />
+            <source
+              media="(min-width: 768px)"
+              srcSet="/images/hero/tiramisu@1.webp"
+            />
+            <img
+              className={styles.mainImage}
+              src="/images/hero/tiramisu@2.webp"
+              alt="Tiramisu dessert in a glass"
+            />
           </picture>
           <picture>
-            <source media="(min-width: 768px)" srcSet="/images/hero/sliced_beef@1.webp" />
-            <img className={styles.secondaryImage} src="/images/hero/sliced_beef@2.webp" alt="Sliced beef Wellington" />
+            <source
+              media="(min-width: 768px)"
+              srcSet="/images/hero/sliced_beef@1.webp"
+            />
+            <img
+              className={styles.secondaryImage}
+              src="/images/hero/sliced_beef@2.webp"
+              alt="Sliced beef Wellington"
+            />
           </picture>
         </div>
       </div>
