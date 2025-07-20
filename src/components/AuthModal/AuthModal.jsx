@@ -18,12 +18,14 @@ const AuthModal = ({ isOpen, onClose, defaultValue = FORM_TYPES.SIGN_IN }) => {
     <Modal open={isOpen} onClose={onClose}>
       {showSignInForm ? (
         <div className={css.wrapper}>
-          <h2 className={css.title}>SIGN IN</h2>
+          <h2 className={css.title}>Sign in</h2>
           <SignInForm onSuccess={onClose} />
 
           <div className={css.footer}>
-            <span>Don&#39;t have an account?</span>{' '}
-            <Link onClick={handleChangeForm(FORM_TYPES.SIGN_UP)}>
+            <span className={css.footerTitle}>Don&#39;t have an account?</span>{' '}
+            <Link
+              className={css.footerLink}
+              onClick={handleChangeForm(FORM_TYPES.SIGN_UP) }>
               Create an account
             </Link>
           </div>

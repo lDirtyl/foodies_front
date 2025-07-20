@@ -74,7 +74,7 @@ const SignInForm = ({ onSuccess }) => {
               isLoading={loading}
               disabled={loading || isSubmitting || !isDirty}
             >
-              SIGN IN
+              Sign in
             </Button>
           </div>
         </form>
