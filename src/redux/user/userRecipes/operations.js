@@ -91,7 +91,7 @@ export const createRecipe = createAsyncThunk(
 
       // After creating, refetch user data to update counts and recipes
       const userId = getState().auth.user.id;
-      await dispatch(fetchUserProfileData({ userId }));
+      await dispatch(fetchUserProfileData(userId));
       await dispatch(fetchUserRecipes({ userId }));
 
       dispatch(setLoading(false));
