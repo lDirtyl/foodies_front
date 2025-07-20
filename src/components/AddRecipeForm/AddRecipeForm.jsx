@@ -28,7 +28,7 @@ const AddRecipeForm = () => {
   useEffect(() => {
     const fetchRecipeData = async () => {
       try {
-        const response = await api.get('/recipes/creation-data');
+        const response = await api.get('/recipes/creation-data/');
         setRecipeData(response.data);
       } catch (error) {
         console.error('Error fetching recipe data:', error);

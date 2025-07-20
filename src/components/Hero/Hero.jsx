@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { showModal } from '../../redux/common/slice';
 import { MODALS, ROUTERS } from '../../const';
 import styles from './Hero.module.css';
@@ -9,10 +9,11 @@ const Hero = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
 
   const handleAddRecipeClick = () => {
     if (isLoggedIn) {
-      navigate(ROUTERS.ADD_RECIPE);
+      navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id));
     } else {
       dispatch(showModal({ modal: MODALS.AUTH, defaultValue: 'signIn' }));
     }

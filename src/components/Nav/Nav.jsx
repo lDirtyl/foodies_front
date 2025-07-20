@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTERS, THEMES, MODALS } from '../../const';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
 import { showModal } from '../../redux/common/slice';
 import { Logo } from '../Logo/Logo';
 
@@ -27,6 +27,7 @@ const Nav = ({ theme, contrast = false }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
 
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 767px)');
@@ -50,11 +51,11 @@ const Nav = ({ theme, contrast = false }) => {
         showModal({
           modal: MODALS.AUTH,
           defaultValue: 'signIn',
-          onClose: () => navigate(ROUTERS.ADD_RECIPE),
+          onClose: () => navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id)),
         })
       );
     } else {
-      navigate(ROUTERS.ADD_RECIPE);
+      navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id));
     }
     handleOnCloseClick();
   };
@@ -118,7 +119,7 @@ const Nav = ({ theme, contrast = false }) => {
             <NavLink
               onClick={handleAddRecipeClick}
               className={props => buildClassName(props, contrast)}
-              to={ROUTERS.ADD_RECIPE}
+              to={ROUTERS.ADD_RECIPE.replace(':id', user.id)}
             >
               Add recipe
             </NavLink>

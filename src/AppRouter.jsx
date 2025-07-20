@@ -14,7 +14,7 @@ export default function AppRouter() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
           <Route path="recipe/:id" element={<RecipePage />} />
-          <Route path="add-recipe" element={<AddRecipePage />} />
+          <Route path="users/:id/add-recipe" element={<AddRecipePage />} />
           <Route path="user/:id" element={<UserPage />}>
             <Route index element={<UserPageLayout />} />
             <Route path="recipes" element={<UserPageLayout />} />
