@@ -1,0 +1,31 @@
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 0;
+
+  font-family: 'Mulish', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+
+  background-color: transparent;
+}
+
+.input::placeholder {
+  color: #bfbfbf;
+}
+
+.input:focus {
+  outline: none;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.underline {
+  display: none; /* можна використати для анімації, якщо потрібно */
+}

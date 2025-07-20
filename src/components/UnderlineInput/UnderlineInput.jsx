@@ -1,7 +1,7 @@
-import styles from './Input.module.css';
+import styles from './UnderlineInput.module.css';
 import clsx from 'clsx';
 
-export const Input = ({ placeholder = '', className, ...props }) => {
+export const UnderlineInput = ({ placeholder = '', className, ...props }) => {
   return (
     <div className={styles.inputWrapper}>
       <input
