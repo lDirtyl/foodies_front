@@ -23,18 +23,25 @@ const AddRecipeForm = () => {
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [currentIngredient, setCurrentIngredient] = useState({ id: '', measure: '' });
-  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
+  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [], areas: [] });
 
   useEffect(() => {
-    const fetchRecipeData = async () => {
+    const fetchRecipeFormData = async () => {
       try {
         const response = await api.get('/recipes/creation-data');
-        setRecipeData(response.data);
+        setRecipeData({
+          categories: response.data.categories || [],
+          ingredients: response.data.ingredients || [],
+          areas: response.data.areas || [],
+        });
       } catch (error) {
-        console.error('Error fetching recipe data:', error);
+        console.error('Error fetching recipe form data:', error);
+        // Set empty arrays on error to prevent crashes
+        setRecipeData({ categories: [], ingredients: [], areas: [] });
       }
     };
-    fetchRecipeData();
+
+    fetchRecipeFormData();
   }, []);
 
   const handleChange = (e) => {
