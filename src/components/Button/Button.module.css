@@ -1,8 +1,8 @@
 .button {
   outline: none;
   padding: 16px 32px;
-  height: 56px;
-  min-width: 156px;
+  height: 48px;
+  min-width: 124px;
   cursor: pointer;
   transition: all var(--trns-fast);
   border-radius: 30px;
@@ -30,6 +30,12 @@
   padding: 10px 24px;
   height: 44px;
   min-width: 116px;
+}
+
+.button.medium {
+  padding: 12px 24px !important;
+  height: 48px !important;
+  min-width: 124px !important;
 }
 
 .iconLoading {
@@ -110,5 +116,13 @@
 
   to {
     transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .button {
+    min-width: 146px;
+    height: 56px;
+    padding: 16px 32px;
   }
 }

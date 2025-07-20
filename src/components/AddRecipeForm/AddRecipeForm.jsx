@@ -217,9 +217,10 @@ const AddRecipeForm = () => {
         <div className={styles.rightColumn}>
           <div className={styles.formSection}>
             <div className={styles.formGroup}>
-              <label className={styles.sectionTitle}>
+              <label className={styles.recipeTitleLabel}>
                 THE NAME OF THE RECIPE
               </label>
+
               <div className={styles.inputWrapper}>
                 <UnderlineInput
                   name="title"
@@ -317,6 +318,7 @@ const AddRecipeForm = () => {
             </div>
           </div>
 
+          <label className={styles.sectionTitle}>RECIPE PREPARATION</label>
           <div className={styles.formSection}>
             <UnderlineInput
               type="textarea"
@@ -338,7 +340,7 @@ const AddRecipeForm = () => {
               type="button"
             />
 
-            <Button type="submit" variant="primary" className="medium">
+            <Button type="submit" variant="primary">
               Publish
             </Button>
           </div>
