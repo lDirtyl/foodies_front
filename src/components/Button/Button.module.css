@@ -14,9 +14,16 @@
   text-align: center;
   text-transform: uppercase;
   font-family: 'Mulish Medium', Arial, sans-serif;
+  font-size: 14px;
   background-color: transparent;
   border: 1px solid transparent;
   color: var(--dark-gray-color);
+}
+
+@media (min-width: 768px) {
+  .button {
+    font-size: 16px;
+  }
 }
 
 .button.small {
