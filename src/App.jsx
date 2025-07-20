@@ -10,7 +10,6 @@ function App() {
       <AuthInitializer />
       <AppRouter />
       <QuestWidget />
-      <StyleGuide />
       <Toaster />
     </>
   );

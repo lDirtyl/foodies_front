@@ -125,6 +125,16 @@
   gap: 20px;
 }
 
+.formGroup .recipeTitleLabel {
+  font-family: 'Mulish', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #bfbebe;
+}
+
 .formGroup {
   flex: 1;
   display: flex;
@@ -134,10 +144,13 @@
 
 .formGroup label,
 .sectionTitle {
-  color: rgba(26, 26, 26, 0.5);
-  font-size: 12px;
-  font-weight: 700;
+  font-family: 'Mulish', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.02em; /* -2% */
   text-transform: uppercase;
+  color: #050505;
 }
 
 .timeSelector {
@@ -393,7 +406,13 @@
   text-align: center;
 }
 
-.button.medium {
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.medium {
   padding: 12px 24px !important;
   height: 48px !important;
   min-width: 124px !important;
@@ -437,41 +456,47 @@
 
 @media screen and (min-width: 768px) {
   .mainLayout {
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
     gap: 40px;
   }
 
   .leftColumn {
-    flex: 0 0 280px;
+    width: 100%;
+    align-items: center;
   }
 
   .imageUploader {
-    width: 280px;
-    height: 280px;
+    width: 704px;
+    height: 400px;
   }
 
-  .addIngredientBtn {
-    width: auto;
-    justify-content: flex-start;
-  }
-
-  .publishButton {
-    width: auto;
-    text-align: left;
+  .rightColumn {
+    width: 100%;
+    max-width: 704px;
   }
 }
 
 @media screen and (min-width: 1440px) {
   .mainLayout {
+    flex-direction: row;
     gap: 50px;
+    align-items: flex-start;
   }
 
   .leftColumn {
-    flex: 0 0 320px;
+    width: 551px;
+    flex-shrink: 0;
   }
 
   .imageUploader {
-    width: 320px;
-    height: 320px;
+    width: 551px; /* ← прямо вказуємо */
+    height: 400px;
+  }
+
+  .rightColumn {
+    flex: 1;
+    max-width: 704px;
+    width: 100%;
   }
 }
