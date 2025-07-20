@@ -44,9 +44,11 @@ const UserPage = () => {
   };
 
   const handleTabClick = tab => {
-    if (!user) return;
-    
-    const userId = user.id;
+    if (!userId) {
+      console.error('UserPage: Cannot navigate, userId is missing from URL params.');
+      return;
+    }
+
     switch (tab) {
       case 'MY RECIPES':
       case 'RECIPES':
@@ -110,7 +112,7 @@ const UserPage = () => {
       description="Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us."
       breadcrumbItems={[
         { label: 'HOME', path: '/' },
-        { label: 'PROFILE', path: `/user/${user.id}` },
+        { label: 'PROFILE', path: `/user/${userId}` },
       ]}
     >
       <div className={styles.container}>
