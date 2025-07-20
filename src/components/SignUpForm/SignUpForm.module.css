@@ -2,3 +2,33 @@
   width: 100%;
 }
 
+.button {
+  outline: none;
+  width: 100%;
+  padding: 14px 110px;
+  transition: all var(--trns-fast);
+  border-radius: 30px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  cursor: pointer;
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .button {
+    padding: 16px 165px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1440px) {
+  /*styles are the same as for the tablet*/
+}
+

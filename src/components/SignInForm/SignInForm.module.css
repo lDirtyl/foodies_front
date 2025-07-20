@@ -16,3 +16,18 @@
   letter-spacing: -0.28px;
   cursor: pointer;
 }
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .button {
+    padding: 16px 165px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1440px) {
+  /*styles are the same as for the tablet*/
+}

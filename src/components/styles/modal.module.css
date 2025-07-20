@@ -3,35 +3,76 @@
 }
 
 .title {
-  font-size: 32px;
-  margin-bottom: 40px;
+  font-size: 28px;
+  margin-bottom: 32px;
   text-transform: uppercase;
+  font-weight: 800;
+  line-height: 32px;
+  letter-spacing: -0.56px;
 }
 
 .footer {
   text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
+  margin-top: 16px;
+  font-size: 12px;
   text-decoration: none;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.24px;
 }
 
-.createAccount {
-  text-align: center;
-  margin-top: 20px;
+
+.footerTitle {
+  color: #BFBEBE;
+}
+
+.footerLink {
+  color: #050505;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
 }
 
 .createAccountButton {
-  background: none;
-  border: none;
-  color: var(--black-color);
+  border-radius: 30px;
+  color: white;
   font-size: 14px;
   text-decoration: underline;
   cursor: pointer;
   padding: 8px 16px;
-  border-radius: 4px;
   transition: background-color 0.2s;
 }
 
 .createAccountButton:hover {
   background-color: var(--white-color);
+}
+
+/* Tablet */
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 32px;
+    margin-bottom: 40px;
+    line-height: 40px;
+    letter-spacing: -0.64px;
+  }
+
+  .footer {
+    margin-top: 20px;
+    font-size: 14px;
+    letter-spacing: -0.28px;
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 1440px) {
+  .title {
+    font-size: 32px;
+    margin-bottom: 40px;
+    line-height: 40px;
+    letter-spacing: -0.64px;
+  }
 }

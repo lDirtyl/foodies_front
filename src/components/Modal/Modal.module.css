@@ -14,51 +14,44 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 375px;
+  max-width: 343px;
   width: 100%;
   overflow-y: auto;
   background: var(--white-color);
-  border: 1px solid var(--dark-gray-color);
-  border-radius: 30px;
-  padding: 20px 0 60px 0;
+  border-radius: 20px;
+  padding: 60px 30px;
 }
 
 .header {
-  display: flex;
-  padding: 0 20px;
-  margin-bottom: 20px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
 }
 
 .closeIcon {
-  margin-left: auto;
   cursor: pointer;
+  width: 24px;
+  height: 24px;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 20px;
-}
-
+/*tablet*/
 @media only screen and (min-width: 768px) {
   .modal {
-    max-width: 561px;
-    padding: 20px 0 80px 0;
+    max-width: 560px;
+    padding: 80px;
+    border-radius: 30px;
   }
+
   .header {
-    margin-bottom: 36px;
-  }
-  .content {
-    padding: 0 60px;
+    top: 20px;
+    right: 20px;
   }
 }
 
 /* desktop */
 @media only screen and (min-width: 1440px) {
-  .content {
-    padding: 0 80px;
-  }
+  /*styles are the same as for the tablet*/
 }
 
 @keyframes fade {

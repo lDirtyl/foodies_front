@@ -85,6 +85,7 @@ const SignUpForm = ({ onSuccess }) => {
               variant="primary"
               isLoading={loading}
               disabled={loading || isSubmitting || !isDirty}
+              className={styles.button}
             >
               CREATE
             </Button>

@@ -75,7 +75,7 @@ const SignInForm = ({ onSuccess }) => {
               disabled={loading || isSubmitting || !isDirty}
               className={styles.button}
             >
-              SIGN IN
+              Sign in
             </Button>
           </div>
         </form>
