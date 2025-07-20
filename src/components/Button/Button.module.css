@@ -13,10 +13,17 @@
   gap: 8px;
   text-align: center;
   text-transform: uppercase;
-  font-family: "Mulish Medium", Arial, sans-serif;
+  font-family: 'Mulish Medium', Arial, sans-serif;
+  font-size: 14px;
   background-color: transparent;
   border: 1px solid transparent;
   color: var(--dark-gray-color);
+}
+
+@media (min-width: 768px) {
+  .button {
+    font-size: 16px;
+  }
 }
 
 .button.small {
@@ -79,7 +86,7 @@
 }
 
 .button.secondary-reversed:disabled,
-.button.secondary-reversed:disabled:hover{
+.button.secondary-reversed:disabled:hover {
   background-color: var(--black-color);
   color: var(--gray-color);
   border: 1px solid var(--gray-color);
@@ -96,7 +103,6 @@
   width: 100%;
 }
 
-
 @keyframes rotate {
   from {
     transform: rotate(0deg);
@@ -106,4 +112,3 @@
     transform: rotate(180deg);
   }
 }
-

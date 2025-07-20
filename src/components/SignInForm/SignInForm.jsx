@@ -73,6 +73,7 @@ const SignInForm = ({ onSuccess }) => {
               type="submit"
               isLoading={loading}
               disabled={loading || isSubmitting || !isDirty}
+              className={styles.button}
             >
               Sign in
             </Button>

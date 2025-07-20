@@ -54,7 +54,7 @@ const Categories = () => {
               <span className={styles.categoryName}>{category.name}</span>
               <span className={styles.arrowWrapper}>
                 <img
-                  src="public/icons/arrow-up-right-white.svg"
+                  src="/icons/arrow-up-right-white.svg"
                   alt="arrow"
                   className={styles.arrow}
                 />

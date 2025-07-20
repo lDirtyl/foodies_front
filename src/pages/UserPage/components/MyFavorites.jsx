@@ -17,8 +17,11 @@ const MyFavorites = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchFavoriteRecipes({ page: currentPage }));
-  }, [currentPage, dispatch]);
+    // Запрашиваем данные только если это необходимо
+    if (!favoriteRecipes.length || currentPage > 1) {
+      dispatch(fetchFavoriteRecipes({ page: currentPage }));
+    }
+  }, [currentPage, dispatch, favoriteRecipes.length]);
 
   return (
     <ListItems

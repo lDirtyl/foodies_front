@@ -1,17 +1,19 @@
 .button {
+  width: 186px;
+  height: 48px;
+  padding: 12px 24px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  height: 48px;
+
   border-radius: var(--border-radius-m);
   cursor: pointer;
   white-space: nowrap;
 
   font-family: 'Mulish', sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 14px;
   letter-spacing: -0.02em;
   text-transform: uppercase;
@@ -27,6 +29,8 @@
 
 .icon {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 18px;
   height: 18px;
 }
@@ -37,10 +41,12 @@
   border: 1px solid var(--black-color);
   color: var(--black-color);
 }
+
 .outline:hover {
   background-color: var(--black-color);
   color: var(--white-color);
 }
+
 .outline:hover .icon img,
 .outline:hover .icon svg {
   filter: brightness(0) invert(1);
@@ -52,12 +58,13 @@
   color: var(--white-color);
 }
 
-/* Responsive */
+/* Tablet & up */
 @media (min-width: 768px) {
   .button {
-    padding: 16px 32px;
+    width: auto;
     height: 56px;
-    font-size: 12px;
+    padding: 16px 32px;
+    font-size: 14px;
     line-height: 18px;
   }
 

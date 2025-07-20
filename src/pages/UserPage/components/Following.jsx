@@ -17,8 +17,11 @@ const Following = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchFollowing({ page: currentPage }));
-  }, [currentPage, dispatch]);
+    // Запрашиваем данные только если это необходимо
+    if (!following.length || currentPage > 1) {
+      dispatch(fetchFollowing({ page: currentPage }));
+    }
+  }, [currentPage, dispatch, following.length]);
 
   return (
     <ListItems

@@ -1,11 +1,14 @@
 import clsx from 'clsx';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IoMdMenu } from 'react-icons/io';
 import { useMediaQuery } from '@mui/material';
 import { IoClose } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { ROUTERS, THEMES } from '../../const';
+import { ROUTERS, THEMES, MODALS } from '../../const';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/selectors';
+import { showModal } from '../../redux/common/slice';
 import { Logo } from '../Logo/Logo';
 
 import stylesNavigation from '../styles/navigation.module.css';
@@ -21,6 +24,11 @@ const buildClassName = ({ isActive }, contrast = false) => {
 };
 
 const Nav = ({ theme, contrast = false }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
+
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 767px)');
   const className = clsx(
@@ -34,6 +42,22 @@ const Nav = ({ theme, contrast = false }) => {
 
   const handleOnCloseClick = () => {
     setIsOpen(false);
+  };
+
+  const handleAddRecipeClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      dispatch(
+        showModal({
+          modal: MODALS.AUTH,
+          defaultValue: 'signIn',
+          onClose: () => navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id)),
+        })
+      );
+    } else {
+      navigate(ROUTERS.ADD_RECIPE.replace(':id', user.id));
+    }
+    handleOnCloseClick();
   };
 
   useEffect(() => {
@@ -93,9 +117,9 @@ const Nav = ({ theme, contrast = false }) => {
               Home
             </NavLink>
             <NavLink
-              onClick={handleOnCloseClick}
+              onClick={handleAddRecipeClick}
               className={props => buildClassName(props, contrast)}
-              to={ROUTERS.ADD_RECIPE}
+              to={ROUTERS.ADD_RECIPE.replace(':id', user.id)}
             >
               Add recipe
             </NavLink>

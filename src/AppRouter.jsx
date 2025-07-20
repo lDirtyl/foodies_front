@@ -6,6 +6,7 @@ import AddRecipePage from './pages/AddRecipePage/AddRecipePage';
 import UserPage from './pages/UserPage/UserPage';
 import UserPageLayout from './pages/UserPage/UserPageLayout';
 import CategoriesPage from './pages/CategoriesPage/CategoriesPage';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
 export default function AppRouter() {
   return (
@@ -14,7 +15,7 @@ export default function AppRouter() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
           <Route path="recipe/:id" element={<RecipePage />} />
-          <Route path="recipe/add" element={<AddRecipePage />} />
+          <Route path="users/:id/add-recipe" element={<AddRecipePage />} />
           <Route path="user/:id" element={<UserPage />}>
             <Route index element={<UserPageLayout />} />
             <Route path="recipes" element={<UserPageLayout />} />
@@ -24,6 +25,7 @@ export default function AppRouter() {
           </Route>
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="categories/:id" element={<CategoriesPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

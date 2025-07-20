@@ -66,3 +66,13 @@ export const deleteRecipe = async (recipeId, token) => {
   });
   return data;
 };
+
+export const createRecipe = async (recipeData, token) => {
+  const { data } = await axios.post('/recipes', recipeData, {
+    headers: {
+      Authorization: getAuthorizationHeader(token),
+      // 'Content-Type': 'multipart/form-data' is set automatically by browser for FormData
+    },
+  });
+  return data;
+};
