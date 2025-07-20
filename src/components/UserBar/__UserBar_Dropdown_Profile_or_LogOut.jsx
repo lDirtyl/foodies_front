@@ -39,7 +39,7 @@ const UserBarDropdownProfileOrLogOut = ({ user, onProfile }) => {
   return (
     <div className={styles.profileDropdownWrapper} ref={dropdownRef}>
       <button
-        className={clsx(styles.profileButton, '_placeholder_xo6oc_35')}
+        className={clsx(styles.profileButton, styles.placeholder)}
         onClick={handleToggle}
       >
         <Avatar src={user?.avatarURL} alt={user?.name} size={'small'} />
