@@ -1,4 +1,39 @@
-/* AddRecipePage.module.css */
-.page {
-  padding: 2rem;
+.container {
+  padding: 40px 20px;
+  max-width: 1240px;
+  margin: 0 auto;
+  font-family: 'Mulish', sans-serif;
+}
+
+.breadcrumbs {
+  color: #BFBEBE;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.breadcrumbs span:last-child {
+  color: #050505;
+}
+
+.header {
+  margin-bottom: 80px;
+}
+
+.title {
+  color: #050505;
+  font-size: 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 0 0 20px 0;
+}
+
+.description {
+  color: #1A1A1A;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  max-width: 450px;
 }

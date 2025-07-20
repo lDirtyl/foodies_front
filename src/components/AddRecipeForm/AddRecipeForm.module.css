@@ -1,0 +1,244 @@
+.container {
+  padding: 20px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainDetails {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.fileInputContainer {
+  flex-shrink: 0;
+}
+
+.fileInput {
+  width: 100%;
+}
+
+.mainLayout {
+  display: flex;
+  gap: 50px;
+}
+
+.leftColumn {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rightColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.imageUploader {
+  width: 320px;
+  height: 320px;
+  background-color: #F5F5F5;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.imageLabel {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M32.0001 5.33325C46.7277 5.33325 58.6667 17.2723 58.6667 31.9999C58.6667 46.7275 46.7277 58.6666 32.0001 58.6666C17.2725 58.6666 5.33341 46.7275 5.33341 31.9999C5.33341 17.2723 17.2725 5.33325 32.0001 5.33325ZM32.0001 29.3333V42.6666M25.3334 35.9999H38.6667M21.3334 21.3333H42.6667' stroke='%231A1A1A' stroke-opacity='0.3' stroke-width='2' stroke-linecap='round'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.uploadLink {
+  color: #050505;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputField, .textareaField, .selectField, .measureInput {
+  background-color: #F5F5F5;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 15px;
+  padding: 16px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.textareaContainer {
+  position: relative;
+}
+
+.textareaField {
+  resize: none;
+  height: 120px;
+}
+
+.textareaField.instructions {
+  height: 160px;
+}
+
+.charCounter {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  font-size: 12px;
+  color: rgba(26, 26, 26, 0.5);
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.formGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formGroup label, .sectionTitle {
+  color: rgba(26, 26, 26, 0.5);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.timeSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F5F5F5;
+  border: 1px solid rgba(26, 26, 26, 0.1);
+  border-radius: 15px;
+  padding: 10px 16px;
+}
+
+.timeSelector button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.timeSelector span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.ingredientSelect {
+  flex-grow: 1;
+}
+
+.measureInput {
+  flex-basis: 120px;
+}
+
+.addIngredientBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  border-radius: 30px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.ingredientItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredientInfo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.ingredientImage {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ingredientImage img {
+  width: 100%;
+  height: 150px;
+  padding: 14px;
+  background-color: #22252a;
+  border: 1px solid rgba(250, 250, 250, 0.2);
+  border-radius: 6px;
+  color: #fafafa;
+  font-size: 14px;
+  resize: none;
+}
+
+.publishButton {
+  padding: 14px 40px;
+  background-color: #8aa936;
+  color: #fafafa;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+}
+
+.publishButton:disabled {
+  background-color: #7f8c6a; /* Darker, less saturated green */
+  cursor: not-allowed;
+}

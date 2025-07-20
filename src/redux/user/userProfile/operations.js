@@ -22,13 +22,25 @@ export const fetchUserProfileData = createAsyncThunk(
   'userProfile/fetchUserProfileData',
   async (userId, { dispatch, getState }) => {
     try {
+      const state = getState();
+      const currentUser = state.auth.user;
+      let effectiveUserId = userId;
+
+      // If the userId from params is invalid, but we are logged in,
+      // assume we are trying to view our own profile.
+      if ((!userId || userId === 'undefined') && currentUser && currentUser.id) {
+        effectiveUserId = currentUser.id;
+      }
+
+      // If there's still no valid ID, then we can't proceed.
+      if (!effectiveUserId) {
+        return;
+      }
       dispatch(setLoading(true));
       dispatch(setError(null));
 
-      const token = selectToken(getState());
-      // Get current user from auth state
-      const currentUser = getState().auth.user;
-      const isOwnProfile = currentUser && currentUser.id === userId;
+      const token = selectToken(state);
+      const isOwnProfile = currentUser && currentUser.id === effectiveUserId;
 
       dispatch(setIsOwnProfile(isOwnProfile));
 

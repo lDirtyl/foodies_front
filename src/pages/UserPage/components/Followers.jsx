@@ -20,10 +20,12 @@ const Followers = () => {
   };
 
   useEffect(() => {
-    if (user?.id) {
+    // Запрашиваем данные только если это необходимо
+    // Например, если мы переключаем страницу или если данные еще не загружены
+    if (user?.id && (!followers.length || currentPage > 1)) {
       dispatch(fetchFollowers({ page: currentPage, userId: user.id }));
     }
-  }, [currentPage, user?.id, dispatch]);
+  }, [currentPage, user?.id, dispatch, followers.length]);
 
   const getEmptyMessage = () => {
     if (isOwnProfile) {

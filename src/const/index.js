@@ -1,7 +1,7 @@
 export const ROUTERS = {
   HOME: '/',
   USER: '/user',
-  ADD_RECIPE: '/recipe/add',
+  ADD_RECIPE: '/add-recipe',
 };
 
 export const THEMES = {

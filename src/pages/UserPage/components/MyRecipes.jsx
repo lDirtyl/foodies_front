@@ -20,10 +20,11 @@ const MyRecipes = () => {
   };
 
   useEffect(() => {
-    if (user?.id) {
+    // Запрашиваем данные только если это необходимо
+    if (user?.id && (!userRecipes.length || currentPage > 1)) {
       dispatch(fetchUserRecipes({ page: currentPage, userId: user.id }));
     }
-  }, [currentPage, user?.id, dispatch]);
+  }, [currentPage, user?.id, dispatch, userRecipes.length]);
 
   const getEmptyMessage = () => {
     if (isOwnProfile) {

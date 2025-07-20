@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { selectUser } from '../../redux/auth/selectors';
 import styles from './__UserBar_Dropdown_Profile_or_LogOut.module.css';
 import Avatar from '../Avatar/Avatar';
 import LogOutModal from '../LogOutModal/LogOutModal';
 
 const UserBarDropdownProfileOrLogOut = ({ user, onProfile }) => {
+  const authUser = useSelector(selectUser);
+  const userId = authUser?.id;
   const [open, setOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const dropdownRef = useRef(null);
@@ -51,7 +55,7 @@ const UserBarDropdownProfileOrLogOut = ({ user, onProfile }) => {
       {open && (
         <div className={styles.dropdownMenu}>
           <Link
-            to={user?.id ? `/user/${user.id}` : '/profile'}
+            to={userId ? `/user/${userId}` : '/profile'}
             className={styles.profileMenuItem}
             onClick={handleProfile}
             tabIndex={0}
