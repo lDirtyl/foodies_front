@@ -4,6 +4,11 @@
   text-align: center;
   font-weight: bold;
   font-size: 1.1rem;
+  border-radius: 0px 0px 30px 30px;
+  padding: 0 16px 0 16px;
+  min-width: 359px;
+  margin-left: 8px;
+  margin-right: 8px;
 }
 
 .wrapper {
@@ -19,9 +24,16 @@
   margin: 40px 0;
 }
 
-@media screen and (min-width: 768px) {
-  .wrapper {
-    flex-direction: row;
-    justify-content: space-between;
+@media only screen and (min-width: 768px) {
+  .footer {
+    min-width: 736px;
+    margin: 0px 16px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .footer {
+    max-width: 1400px;
+    margin: 0 auto;
   }
 }
