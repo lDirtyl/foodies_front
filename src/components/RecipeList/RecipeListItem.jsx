@@ -18,9 +18,9 @@ const RecipeListItem = ({
   onViewRecipe,
 }) => {
   if (!recipe) return null;
-
-  const avatarUrl = recipe.user?.avatar?.startsWith('http')
-    ? recipe.user.avatar
+  
+  const avatarUrl = recipe.owner?.avatarURL?.startsWith('http')
+    ? recipe.owner.avatarURL
     : DEFAULT_AVATAR_URL;
 
   const recipeId = recipe.id || recipe._id;
@@ -50,14 +50,14 @@ const RecipeListItem = ({
           >
             <img
               src={avatarUrl}
-              alt={recipe.user?.name || 'Anonymous'}
+              alt={recipe.owner?.name || 'Anonymous'}
               className={styles.avatar}
               onError={e => {
                 e.target.onerror = null; 
                 e.target.src = DEFAULT_AVATAR_URL;
               }}
             />
-            {recipe.user?.name || 'Anonymous'}
+            {recipe.owner?.name || 'Anonymous'}
           </button>
           <div className={styles.wrap}>
             <ButtonIcon
