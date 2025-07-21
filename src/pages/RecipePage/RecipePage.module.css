@@ -1,4 +1,19 @@
-/* RecipePage.module.css */
-.page {
-  padding: 2rem;
+.recipePage {
+  min-height: 100vh;
+  padding: 40px 0;
+  background-color: var(--background-color, #fafafa);
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .recipePage {
+    padding: 60px 0;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1440px) {
+  .recipePage {
+    padding: 80px 0;
+  }
 }

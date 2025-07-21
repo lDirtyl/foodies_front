@@ -1,0 +1,73 @@
+.recipePreparation {
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--black-color);
+  text-transform: uppercase;
+  margin: 0 0 32px 0;
+}
+
+.instructionsContainer {
+  margin-bottom: 40px;
+}
+
+.instructions {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-color);
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.actionContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.favoriteButton {
+  min-width: 200px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .title {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .instructions {
+    font-size: 18px;
+  }
+
+  .favoriteButton {
+    min-width: 250px;
+    padding: 18px 40px;
+    font-size: 18px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1440px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .instructions {
+    font-size: 20px;
+    line-height: 1.7;
+  }
+
+  .favoriteButton {
+    min-width: 300px;
+    padding: 20px 48px;
+  }
+}

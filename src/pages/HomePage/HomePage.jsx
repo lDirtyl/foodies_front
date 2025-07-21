@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
-import Hero from '../../components/Hero/Hero.jsx';
 import Reciepes from '../../components/Reciepes/Reciepes';
+import Hero from '../../components/Hero/Hero.jsx';
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -34,6 +34,12 @@ export default function HomePage() {
         ) : (
           <Reciepes category={selectedCategory} onBack={handleBackToCategories} />
         )}
+      </section>
+
+      {/* Latest Recipes */}
+      <section style={{ marginTop: '60px' }}>
+        <h3>Latest Recipes</h3>
+        <p>Check out the newest additions to our recipe collection...</p>
       </section>
 
       <Testimonials />

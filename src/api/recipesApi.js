@@ -76,3 +76,18 @@ export const createRecipe = async (recipeData, token) => {
   });
   return data;
 };
+
+// Get single recipe by ID
+export const getRecipeById = async (recipeId, token = null) => {
+  const headers = token ? { Authorization: getAuthorizationHeader(token) } : {};
+  const { data } = await axios.get(`/recipes/${recipeId}`, { headers });
+  return data;
+};
+
+// Get popular recipes
+export const getPopularRecipes = async (limit = 4) => {
+  const { data } = await axios.get('/recipes/popular', {
+    params: { limit },
+  });
+  return data;
+};

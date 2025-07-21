@@ -6,6 +6,7 @@ import {
   fetchUserRecipes,
   fetchFavorites,
   fetchRecipeById,
+  fetchPopularRecipes,
   toggleFavoriteThunk,
   createRecipe,
   deleteRecipeThunk,
@@ -14,8 +15,9 @@ import {
 const initialState = {
   recipes: [],
   userRecipes: [],
-  favoriteIds: [],
+  favorites: [],
   currentRecipe: null,
+  popularRecipes: [],
   categories: [],
   areas: [],
   availableIngredients: [],
@@ -24,6 +26,8 @@ const initialState = {
   totalPages: 1,
   totalRecipes: 0,
   isLoading: false,
+  isLoadingRecipe: false,
+  isLoadingPopular: false,
   error: null,
   activeTab: 'my-recipes',
   filters: {
@@ -43,6 +47,9 @@ const recipesSlice = createSlice({
     setUserRecipes: (state, action) => {
       state.userRecipes = action.payload;
     },
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
     setCurrentRecipe: (state, action) => {
       state.currentRecipe = action.payload;
     },
@@ -57,11 +64,9 @@ const recipesSlice = createSlice({
       if (userRecipe) {
         userRecipe.isFavorite = !userRecipe.isFavorite;
         if (userRecipe.isFavorite) {
-          if (!state.favoriteIds.includes(recipeId)) {
-            state.favoriteIds.push(recipeId);
-          }
+          state.favorites.push(userRecipe);
         } else {
-          state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
+          state.favorites = state.favorites.filter(r => r.id !== recipeId);
         }
       }
     },
@@ -69,7 +74,7 @@ const recipesSlice = createSlice({
       const recipeId = action.payload;
       state.recipes = state.recipes.filter(r => r.id !== recipeId);
       state.userRecipes = state.userRecipes.filter(r => r.id !== recipeId);
-      state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
+      state.favorites = state.favorites.filter(r => r.id !== recipeId);
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
@@ -132,16 +137,17 @@ const recipesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
-        state.recipes = action.payload.recipes;
-        state.totalPages = action.payload.pagination.totalPages;
-        state.totalRecipes = action.payload.pagination.total;
+        state.isLoading = false;
+        state.recipes = action.payload.recipes || action.payload.data || [];
+        state.totalPages = action.payload.pagination?.totalPages || Math.ceil((action.payload.total || 0) / (action.payload.limit || 10));
+        state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
+        state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
         if (action.payload.availableIngredients) {
           state.availableIngredients = action.payload.availableIngredients;
         }
         if (action.payload.availableAreas) {
           state.availableAreas = action.payload.availableAreas;
         }
-        state.isLoading = false;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.isLoading = false;
@@ -172,8 +178,7 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
-        const favoritesData = action.payload.recipes || action.payload.data || [];
-        state.favoriteIds = favoritesData.map(fav => fav.id);
+        state.favorites = action.payload.recipes || action.payload.data || [];
         state.totalPages = action.payload.pagination ? Math.ceil((action.payload.pagination.total || 0) / (action.payload.pagination.limit || 10)) : action.payload.totalPages || 1;
         state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
         state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
@@ -185,15 +190,15 @@ const recipesSlice = createSlice({
 
       // Fetch single recipe
       .addCase(fetchRecipeById.pending, state => {
-        state.isLoading = true;
+        state.isLoadingRecipe = true;
         state.error = null;
       })
       .addCase(fetchRecipeById.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingRecipe = false;
         state.currentRecipe = action.payload.data || action.payload;
       })
       .addCase(fetchRecipeById.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isLoadingRecipe = false;
         state.error = action.payload || 'Failed to fetch recipe';
       })
 
@@ -217,13 +222,16 @@ const recipesSlice = createSlice({
           state.currentRecipe.isFavorite = isFavorite;
         }
 
-        // Update favoriteIds array
+        // Update favorites array
         if (isFavorite) {
-          if (!state.favoriteIds.includes(id)) {
-            state.favoriteIds.push(id);
+          const recipe =
+            state.userRecipes.find(r => r.id === id) ||
+            state.recipes.find(r => r.id === id);
+          if (recipe && !state.favorites.find(r => r.id === id)) {
+            state.favorites.push(recipe);
           }
         } else {
-          state.favoriteIds = state.favoriteIds.filter(favId => favId !== id);
+          state.favorites = state.favorites.filter(r => r.id !== id);
         }
       })
       .addCase(toggleFavoriteThunk.rejected, (state, action) => {
@@ -254,10 +262,24 @@ const recipesSlice = createSlice({
         const recipeId = action.payload;
         state.recipes = state.recipes.filter(r => r.id !== recipeId);
         state.userRecipes = state.userRecipes.filter(r => r.id !== recipeId);
-        state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
+        state.favorites = state.favorites.filter(r => r.id !== recipeId);
       })
       .addCase(deleteRecipeThunk.rejected, (state, action) => {
         state.error = action.payload || 'Failed to delete recipe';
+      })
+
+      // Fetch popular recipes
+      .addCase(fetchPopularRecipes.pending, state => {
+        state.isLoadingPopular = true;
+        state.error = null;
+      })
+      .addCase(fetchPopularRecipes.fulfilled, (state, action) => {
+        state.isLoadingPopular = false;
+        state.popularRecipes = action.payload.recipes || action.payload || [];
+      })
+      .addCase(fetchPopularRecipes.rejected, (state, action) => {
+        state.isLoadingPopular = false;
+        state.error = action.payload || 'Failed to fetch popular recipes';
       });
   },
 });
@@ -265,6 +287,7 @@ const recipesSlice = createSlice({
 export const {
   setRecipes,
   setUserRecipes,
+  setFavorites,
   setCurrentRecipe,
   toggleFavorite,
   deleteRecipe,

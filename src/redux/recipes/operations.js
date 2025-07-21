@@ -133,3 +133,15 @@ export const deleteRecipeThunk = createAsyncThunk(
     }
   }
 );
+
+export const fetchPopularRecipes = createAsyncThunk(
+  'recipes/fetchPopularRecipes',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await recipesService.getPopularRecipes();
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

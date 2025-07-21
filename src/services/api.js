@@ -179,6 +179,16 @@ export const recipesService = {
     }
   },
 
+  getPopularRecipes: async () => {
+    try {
+      const response = await api.get('/recipes/popular');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching popular recipes:', error);
+      throw error;
+    }
+  },
+
   create: async recipeData => {
     try {
       const response = await privateApi.post('/recipes', recipeData);

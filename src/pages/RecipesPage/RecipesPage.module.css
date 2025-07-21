@@ -1,0 +1,77 @@
+.recipesPage {
+  padding: 40px 0;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.recipesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+/* Видаляємо старі стилі для recipeCard, тепер використовуємо RecipeCard компонент */
+
+.errorContainer {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.errorContainer h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
+}
+
+.errorContainer p {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.emptyState p {
+  font-size: 18px;
+  color: var(--color-text-secondary);
+}
+
+.viewButton {
+  padding: 8px 16px;
+  background: var(--color-green);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.viewButton:hover {
+  background: var(--color-green-hover);
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+  .title {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+  
+  .recipesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+}
