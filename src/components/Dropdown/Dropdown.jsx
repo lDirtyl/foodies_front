@@ -31,7 +31,7 @@ export const Dropdown = ({
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
-        <span>{selected?.label || placeholder}</span>
+        <div>{selected ? selected.label : placeholder}</div>
         <img
           src="/icons/chevron-down.svg"
           alt="toggle"
