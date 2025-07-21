@@ -57,7 +57,7 @@ export const logout = createAsyncThunk(
     } = getState();
 
     try {
-      await usersLogout(token);
+      await usersLogout();
     } catch ({ message }) {
       return rejectWithValue(message);
     }
@@ -73,7 +73,7 @@ export const refreshUser = createAsyncThunk(
 
     if (token) {
       try {
-        const userData = await fetchCurrentUser(token);
+        const userData = await fetchCurrentUser();
         return userData;
       } catch (error) {
         return rejectWithValue(error.message || 'Failed to refresh user');

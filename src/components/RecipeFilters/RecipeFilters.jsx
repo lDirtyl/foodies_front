@@ -1,74 +1,119 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setFilters,
-  clearFilters,
-  fetchCategories,
-  fetchAreas,
-} from '../../redux/recipes';
+import React from 'react';
+import ReactCountryFlag from 'react-country-flag';
 import { Dropdown } from '../Dropdown/Dropdown';
-
+import IngredientFilter from '../IngredientFilter/IngredientFilter';
 import styles from './RecipeFilters.module.css';
 
-const RecipeFilters = () => {
-  const dispatch = useDispatch();
-  const { filters, categories, areas } = useSelector(state => state.recipes);
+const nationalityToCountryCode = {
+  American: 'US',
+  British: 'GB',
+  Canadian: 'CA',
+  Chinese: 'CN',
+  Croatian: 'HR',
+  Dutch: 'NL',
+  Egyptian: 'EG',
+  French: 'FR',
+  Greek: 'GR',
+  Indian: 'IN',
+  Irish: 'IE',
+  Italian: 'IT',
+  Jamaican: 'JM',
+  Japanese: 'JP',
+  Kenyan: 'KE',
+  Malaysian: 'MY',
+  Mexican: 'MX',
+  Moroccan: 'MA',
+  Polish: 'PL',
+  Portuguese: 'PT',
+  Spanish: 'ES',
+  Thai: 'TH',
+  Tunisian: 'TN',
+  Turkish: 'TR',
+  Ukrainian: 'UA',
+  Vietnamese: 'VN',
+  Unknown: 'RU',
+};
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-    dispatch(fetchAreas());
-  }, [dispatch]);
+const RecipeFilters = ({ ingredients, areas, onFilterChange, currentFilters, availableIngredients, availableAreas }) => {
 
-  const categoryOptions = [
-    { value: '', label: 'All Categories' },
-    ...categories.map(category => ({
-      value: category.id,
-      label: category.name,
-      id: category.id,
-      thumb: category.thumb,
+  const ingredientOptions = [
+    { value: '', label: 'All ingredients' },
+    ...(ingredients || []).map(ing => ({
+      value: ing.id,
+      label: ing.name,
+      thumb: ing.thumb,
     })),
   ];
+
+  const sortedAreas = (areas || []).slice().sort((a, b) => {
+    // Rule 1: Ukraine always first
+    if (a.name === 'Ukrainian' && b.name !== 'Ukrainian') return -1;
+    if (b.name === 'Ukrainian' && a.name !== 'Ukrainian') return 1;
+
+    // Rule 2: Unknown always last
+    if (a.name === 'Unknown' && b.name !== 'Unknown') return 1;
+    if (b.name === 'Unknown' && a.name !== 'Unknown') return -1;
+
+    // Rule 3: Available before unavailable
+    const isAAvailable = availableAreas && availableAreas.includes(a.id);
+    const isBAvailable = availableAreas && availableAreas.includes(b.id);
+    if (isAAvailable && !isBAvailable) return -1;
+    if (!isAAvailable && isBAvailable) return 1;
+
+    // Rule 4: Alphabetical fallback
+    return a.name.localeCompare(b.name);
+  });
 
   const areaOptions = [
     { value: '', label: 'All Areas' },
-    ...areas.map(area => ({
-      value: area.id,
-      label: area.name,
-      id: area.id,
-    })),
+    ...sortedAreas.map(area => {
+      const countryCode = nationalityToCountryCode[area.name];
+      return {
+        value: area.id,
+        label: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {countryCode && <ReactCountryFlag countryCode={countryCode} svg />}
+            <span>{area.name}</span>
+            {area.name === 'Unknown' && <span style={{ marginRight: 'auto' }}>💩</span>}
+          </div>
+        ),
+        searchLabel: area.name,
+      };
+    }),
   ];
 
-  const handleCategoryChange = selectedOption => {
-    dispatch(setFilters({ category: selectedOption.value }));
+  const handleIngredientChange = selectedOption => {
+    onFilterChange({ ingredient: selectedOption.value });
   };
 
   const handleAreaChange = selectedOption => {
-    dispatch(setFilters({ area: selectedOption.value }));
+    onFilterChange({ area: selectedOption.value });
   };
 
   const handleClearFilters = () => {
-    dispatch(clearFilters());
+    onFilterChange({ ingredient: '', area: '' });
   };
 
   return (
     <div className={styles.wrapper}>
-      <Dropdown
-        options={categoryOptions}
-        placeholder="All Categories"
-        value={filters.category}
-        onChange={handleCategoryChange}
+      <IngredientFilter
+        options={ingredientOptions}
+        value={currentFilters.ingredient}
+        onChange={handleIngredientChange}
+        availableOptions={availableIngredients}
       />
 
       <Dropdown
         options={areaOptions}
         placeholder="All Areas"
-        value={filters.area}
+        value={currentFilters.area}
         onChange={handleAreaChange}
+        availableOptions={availableAreas}
       />
 
-      {(filters.category || filters.area) && (
-        <button onClick={handleClearFilters} className="clear-filters-btn">
-          Clear Filters
+      {(currentFilters.ingredient || currentFilters.area) && (
+        <button onClick={handleClearFilters} className={styles.clearButton}>
+          Reset
         </button>
       )}
     </div>

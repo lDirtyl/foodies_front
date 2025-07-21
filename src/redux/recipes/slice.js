@@ -20,17 +20,20 @@ const initialState = {
   popularRecipes: [],
   categories: [],
   areas: [],
+  availableIngredients: [],
+  availableAreas: [],
   currentPage: 1,
-  totalPages: 3,
+  totalPages: 1,
   totalRecipes: 0,
   isLoading: false,
   isLoadingRecipe: false,
   isLoadingPopular: false,
   error: null,
-  activeTab: 'MY RECIPES',
+  activeTab: 'my-recipes',
   filters: {
     category: '',
     area: '',
+    ingredient: '',
   },
 };
 
@@ -91,7 +94,7 @@ const recipesSlice = createSlice({
       state.currentPage = 1;
     },
     clearFilters: state => {
-      state.filters = { category: '', area: '' };
+      state.filters = { category: '', area: '', ingredient: '' };
       state.currentPage = 1;
     },
     setLoading: (state, action) => {
@@ -135,12 +138,16 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log('fetchRecipes.fulfilled payload:', action.payload);
-        // Обробляємо як API відповідь, так і mock дані
         state.recipes = action.payload.recipes || action.payload.data || [];
-        state.totalPages = Math.ceil((action.payload.pagination?.total || action.payload.total || 0) / (action.payload.pagination?.limit || 10));
+        state.totalPages = action.payload.pagination?.totalPages || Math.ceil((action.payload.total || 0) / (action.payload.limit || 10));
         state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
         state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
+        if (action.payload.availableIngredients) {
+          state.availableIngredients = action.payload.availableIngredients;
+        }
+        if (action.payload.availableAreas) {
+          state.availableAreas = action.payload.availableAreas;
+        }
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.isLoading = false;
@@ -183,29 +190,16 @@ const recipesSlice = createSlice({
 
       // Fetch single recipe
       .addCase(fetchRecipeById.pending, state => {
-        console.log('=== REDUX: fetchRecipeById.pending ===');
-        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
         state.isLoadingRecipe = true;
         state.error = null;
-        // НЕ очищаємо currentRecipe під час завантаження
-        console.log('State after pending:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
       })
       .addCase(fetchRecipeById.fulfilled, (state, action) => {
-        console.log('=== REDUX: fetchRecipeById.fulfilled ===');
-        console.log('Payload:', action.payload?.id, action.payload?.title);
-        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
         state.isLoadingRecipe = false;
-        state.currentRecipe = action.payload;
-        console.log('State after fulfilled:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
+        state.currentRecipe = action.payload.data || action.payload;
       })
       .addCase(fetchRecipeById.rejected, (state, action) => {
-        console.log('=== REDUX: fetchRecipeById.rejected ===');
-        console.log('Error payload:', action.payload);
-        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
         state.isLoadingRecipe = false;
         state.error = action.payload || 'Failed to fetch recipe';
-        // НЕ очищаємо currentRecipe при помилці, якщо була попередня успішна версія
-        console.log('State after rejected:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
       })
 
       // Toggle favorite

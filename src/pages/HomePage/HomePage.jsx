@@ -1,27 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
+import Reciepes from '../../components/Reciepes/Reciepes';
+import Hero from '../../components/Hero/Hero.jsx';
 
 export default function HomePage() {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategorySelect = category => {
+    setSelectedCategory(category);
+    const paginationAnchor = document.getElementById('paginationAnchor');
+    if (paginationAnchor) {
+      paginationAnchor.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleBackToCategories = () => {
+    setSelectedCategory(null);
+  };
+
   return (
-    <PageWrapper
-      title="FOODIES"
-      description="Discover amazing recipes from talented chefs around the world"
-      containerSize="wide"
-      showBreadcrumbs={false}
-    >
+    <PageWrapper showBreadcrumbs={false}>
       {/* Hero Section */}
       <section style={{ marginBottom: '60px' }}>
-        <h3>Featured Recipes</h3>
-        <p>Explore our collection of delicious recipes...</p>
+        <Hero />
       </section>
 
       {/* Categories Section */}
-      <section style={{ marginTop: '60px' }}>
-        {/* <h3>Popular Categories</h3>
-        <p>Browse recipes by category...</p> */}
-        <Categories />
+      <section style={{ marginTop: '60px' }} id="paginationAnchor">
+        {!selectedCategory ? (
+          <Categories onCategorySelect={handleCategorySelect} />
+        ) : (
+          <Reciepes category={selectedCategory} onBack={handleBackToCategories} />
+        )}
       </section>
 
       {/* Latest Recipes */}

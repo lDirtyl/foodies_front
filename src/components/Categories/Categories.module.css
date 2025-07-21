@@ -129,6 +129,8 @@
   font-weight: 800;
   line-height: 24px;
   letter-spacing: -0.32px;
+  height: 125px; /* Half height for mobile */
+  width: 100%;
 }
 
 /* Responsive adjustments */
@@ -163,10 +165,7 @@
     border-radius: 30px;
   }
 
-  .categoriesGrid > :nth-child(3),
-  .categoriesGrid > :nth-child(8),
-  .categoriesGrid > :nth-child(13),
-  .categoriesGrid > :nth-child(18) {
+  .categoriesGrid > :nth-child(5n + 3) {
     grid-column: 1 / -1;
   }
 
@@ -186,6 +185,8 @@
   .allCategories {
     font-size: 20px;
     letter-spacing: -0.4px;
+    height: 185px; /* Half height for tablet */
+    grid-column: 1 / -1; /* Full width for grid */
   }
 }
 
@@ -201,21 +202,31 @@
     justify-content: start;
   }
 
-  .categoriesGrid> :nth-child(1),
-  .categoriesGrid> :nth-child(2),
-  .categoriesGrid> :nth-child(5),
-  .categoriesGrid> :nth-child(6),
-  .categoriesGrid> :nth-child(7),
-  .categoriesGrid> :nth-child(9),
-  .categoriesGrid> :nth-child(11),
-  .categoriesGrid> :nth-child(12) {
-    width: 325px;
+  /* Pattern for desktop: 2 small, 2 wide, 3 small, 1 wide, 1 small, 1 wide, 2 small... Repeats every 12 items */
+  .categoriesGrid> :nth-child(12n + 1),
+  .categoriesGrid> :nth-child(12n + 2),
+  .categoriesGrid> :nth-child(12n + 5),
+  .categoriesGrid> :nth-child(12n + 6),
+  .categoriesGrid> :nth-child(12n + 7),
+  .categoriesGrid> :nth-child(12n + 9),
+  .categoriesGrid> :nth-child(12n + 11),
+  .categoriesGrid> :nth-child(12n + 12) {
+    width: 325px; /* Small card */
   }
 
-  .categoriesGrid> :nth-child(3),
-  .categoriesGrid> :nth-child(4),
-  .categoriesGrid> :nth-child(8),
-   .categoriesGrid> :nth-child(10) {
-    width: 590px;
+  .categoriesGrid> :nth-child(12n + 3),
+  .categoriesGrid> :nth-child(12n + 4),
+  .categoriesGrid> :nth-child(12n + 8),
+  .categoriesGrid> :nth-child(12n + 10) {
+    width: 590px; /* Wide card */
   }
+
+  .allCategories {
+    width: 100%; /* Full width for flex */
+  }
+  .ShowAllRecepi{
+    height: 185px;
+    flex-basis: 100%;
+  }
+
 }
