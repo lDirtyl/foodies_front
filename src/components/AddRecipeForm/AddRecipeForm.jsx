@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { createRecipe } from '../../redux/user/userRecipes/operations';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { showModal } from '../../redux/common/slice';
+import { MODALS } from '../../const';
 import api from '../../api/api';
 import styles from './AddRecipeForm.module.css';
 import { Input } from '../Input/Input';
@@ -58,10 +61,11 @@ const TrashIcon = () => (
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    area: '',
+    areaId: '',
     categoryId: '',
     time: '40',
     ingredients: [],
@@ -80,6 +84,7 @@ const AddRecipeForm = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [quantityError, setQuantityError] = useState(false);
   const searchWrapperRef = useRef(null);
   const imageContainerRef = useRef(null);
 
@@ -149,6 +154,11 @@ const AddRecipeForm = () => {
   };
 
   const addIngredient = () => {
+    if (selectedIngredient && !quantity) {
+      setQuantityError(true);
+      return;
+    }
+
     if (selectedIngredient && quantity) {
       const newIngredient = { ...selectedIngredient, measure: quantity };
       if (!formData.ingredients.some(ing => ing.id === newIngredient.id)) {
@@ -158,6 +168,7 @@ const AddRecipeForm = () => {
       setSearchTerm('');
       setQuantity('');
       setIsSuggestionsVisible(false);
+      setQuantityError(false); // Reset error on success
     }
   };
 
@@ -168,7 +179,7 @@ const AddRecipeForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = 'Enter a title for the recipe.';
-    if (!formData.area) newErrors.area = 'Please select an area.';
+    if (!formData.areaId) newErrors.areaId = 'Please select an area.';
     if (!formData.categoryId) newErrors.categoryId = 'Please select a category.';
     if (!formData.time) newErrors.time = 'Specify the cooking time.';
     if (formData.ingredients.length === 0) newErrors.ingredients = 'Add at least one ingredient.';
@@ -187,6 +198,11 @@ const AddRecipeForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    if (!isLoggedIn) {
+      dispatch(showModal({ modal: MODALS.AUTH }));
+      return;
+    }
     if (!validateForm()) {
       console.log('Validation failed');
       return;
@@ -317,13 +333,13 @@ const AddRecipeForm = () => {
             <div className={`${styles.formGroup} ${styles.areaField}`}>
                 <label>AREA</label>
                 <Dropdown
-                  options={(recipeData.areas || []).map(area => ({ value: area.name, label: area.name }))}
-                  value={formData.area}
-                  onChange={option => setFormData(prev => ({ ...prev, area: option.value }))}
+                  options={(recipeData.areas || []).map(area => ({ value: area.id, label: area.name }))}
+                  value={formData.areaId}
+                  onChange={option => setFormData(prev => ({ ...prev, areaId: option.value }))}
                   placeholder="Select an area"
-                  classNameWrapper={errors.area ? styles.invalid : ''}
+                  classNameWrapper={errors.areaId ? styles.invalid : ''}
                 />
-                {errors.area && <p className={styles.errorText}>{errors.area}</p>}
+                {errors.areaId && <p className={styles.errorText}>{errors.areaId}</p>}
             </div>
 
             <div className={styles.row}>
@@ -398,7 +414,11 @@ const AddRecipeForm = () => {
                   disabled={isLoading}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={() => setIsFocused(true)}
-                  onBlur={() => setIsFocused(false)}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setIsFocused(false);
+                    }, 150); // Delay to allow click event to register
+                  }}
                   className={`${styles.inputField} ${errors.ingredients ? styles.invalid : ''}`}
                 />
                 {isSuggestionsVisible && suggestions.length > 0 && (
@@ -412,14 +432,22 @@ const AddRecipeForm = () => {
                   </ul>
                 )}
               </div>
-              <input
-                type="text"
-                placeholder="Quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                onFocus={() => setIsSuggestionsVisible(false)} 
-                className={styles.measureInput}
-              />
+              <div className={styles.quantityInputWrapper}>
+                <input
+                  type="text"
+                  placeholder="Quantity"
+                  value={quantity}
+                  onChange={(e) => {
+                    setQuantity(e.target.value);
+                    if (quantityError) {
+                      setQuantityError(false);
+                    }
+                  }}
+                  onFocus={() => setIsSuggestionsVisible(false)}
+                  className={`${styles.measureInput} ${quantityError ? styles.invalid : ''}`}
+                />
+                {quantityError && <p className={styles.errorText}>Add Quantity</p>}
+              </div>
             </div>
             <ButtonOutline type="button" onClick={addIngredient} icon={<PlusIcon />}>
               Add Ingredient
