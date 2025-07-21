@@ -19,7 +19,6 @@ export default function Footer() {
       <Container>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
           <Copyright />
-          <Link to="/testpage_add_recepi" style={{ color: 'inherit', textDecoration: 'none' }}>Test Add Recipe Page</Link>
         </div>
       </Container>
     </footer>
