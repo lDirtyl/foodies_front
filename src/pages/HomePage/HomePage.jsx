@@ -2,7 +2,6 @@ import React from 'react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import Categories from '../../components/Categories/Categories';
 import Testimonials from '../../components/Testimonials/Testimonials';
-import UserIdExample from '../../components/UserIdExample/UserIdExample';
 
 export default function HomePage() {
   return (
@@ -16,11 +15,6 @@ export default function HomePage() {
       <section style={{ marginBottom: '60px' }}>
         <h3>Featured Recipes</h3>
         <p>Explore our collection of delicious recipes...</p>
-      </section>
-
-      {/* User ID Example Section */}
-      <section style={{ marginBottom: '60px' }}>
-        <UserIdExample />
       </section>
 
       {/* Categories Section */}

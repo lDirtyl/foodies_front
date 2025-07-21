@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { fetchRecipeById } from '../../redux/recipes/operations';
@@ -11,34 +11,15 @@ import styles from './RecipeInfo.module.css';
 const RecipeInfo = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { currentRecipe, isLoadingRecipe, error } = useSelector(state => state.recipes);
-  const { favorites } = useSelector(state => state.recipes);
-  const lastFetchedId = useRef(null);
-
-  console.log('=== RecipeInfo render ===');
-  console.log('ID:', id);
-  console.log('currentRecipe:', currentRecipe?.id);
-  console.log('isLoadingRecipe:', isLoadingRecipe);
-  console.log('error:', error);
-  console.log('lastFetchedId:', lastFetchedId.current);
+  const { currentRecipe, isLoadingRecipe, error, favorites } = useSelector(state => state.recipes);
 
   useEffect(() => {
-    console.log('RecipeInfo useEffect triggered');
-    
-    if (id && id !== lastFetchedId.current) {
-      console.log('Fetching recipe for ID:', id);
-      lastFetchedId.current = id;
+    if (id && (!currentRecipe || currentRecipe.id !== id)) {
       dispatch(fetchRecipeById(id));
     }
-    
-    return () => {
-      console.log('RecipeInfo cleanup');
-    };
-  }, [dispatch, id]);
+  }, [dispatch, id, currentRecipe]);
 
-  // Якщо завантажується і ще немає рецепту
   if (isLoadingRecipe && !currentRecipe) {
-    console.log('Showing loading...');
     return (
       <div className={styles.loadingContainer}>
         <LoadingIndicator />
@@ -47,7 +28,6 @@ const RecipeInfo = () => {
   }
 
   if (error && !currentRecipe) {
-    console.log('Showing error...');
     return (
       <div className={styles.errorContainer}>
         <h2>Error loading recipe</h2>
@@ -57,7 +37,6 @@ const RecipeInfo = () => {
   }
 
   if (!currentRecipe) {
-    console.log('No recipe found...');
     return (
       <div className={styles.notFoundContainer}>
         <h2>Recipe not found</h2>
@@ -68,15 +47,12 @@ const RecipeInfo = () => {
 
   // Перевіряємо, чи завантажений рецепт відповідає поточному ID
   if (currentRecipe.id !== id) {
-    console.log('Recipe ID mismatch, showing loading...');
     return (
       <div className={styles.loadingContainer}>
         <LoadingIndicator />
       </div>
     );
   }
-
-  console.log('Rendering recipe:', currentRecipe.title);
 
   // Check if recipe is in favorites
   const isFavorite = favorites.some(fav => fav.id === currentRecipe.id);
