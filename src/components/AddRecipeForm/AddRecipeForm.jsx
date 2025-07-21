@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { createRecipe } from '../../redux/user/userRecipes/operations';
 import api from '../../api/api';
@@ -68,72 +68,127 @@ const AddRecipeForm = () => {
     thumb: null,
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const [currentIngredient, setCurrentIngredient] = useState({
-    id: '',
-    measure: '',
-  });
-  const [recipeData, setRecipeData] = useState({
-    categories: [],
-    ingredients: [],
-  });
+  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
+  const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState({});
+
+  // --- Ingredient Management State ---
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [quantity, setQuantity] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const searchWrapperRef = useRef(null);
+  const imageContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchRecipeData = async () => {
       try {
+        setIsLoading(true);
         const response = await api.get('/recipes/creation-data');
+        // Assuming the response.data is { categories: [...], ingredients: [...] }
         setRecipeData(response.data);
       } catch (error) {
         console.error('Error fetching recipe data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchRecipeData();
   }, []);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, thumb: file }));
-      setImagePreview(URL.createObjectURL(file));
+  // --- Ingredient Logic from United_ui_ux ---
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = recipeData.ingredients.filter(ing =>
+        ing.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSuggestions(filtered);
+      setIsSuggestionsVisible(true);
+    } else {
+      if (isFocused) {
+        setSuggestions(recipeData.ingredients);
+        setIsSuggestionsVisible(true);
+      } else {
+        setSuggestions([]);
+        setIsSuggestionsVisible(false);
+      }
     }
-  };
+  }, [searchTerm, isFocused, recipeData.ingredients]);
 
-  const handleTimeChange = amount => {
-    setFormData(prev => {
-      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
-      return { ...prev, time: newTime.toString() };
-    });
+  useEffect(() => {
+    const container = imageContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e) => {
+      if (container.scrollWidth <= container.clientWidth) return;
+      e.preventDefault();
+      container.scrollLeft += e.deltaY;
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, [isSuggestionsVisible]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(event.target)) {
+        setIsSuggestionsVisible(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchWrapperRef]);
+
+  const handleSelectIngredient = (ingredient) => {
+    setSelectedIngredient(ingredient);
+    setSearchTerm(ingredient.name);
+    setIsSuggestionsVisible(false);
   };
 
   const addIngredient = () => {
-    if (!currentIngredient.id || !currentIngredient.measure) return;
-    const ingredientDetails = recipeData.ingredients.find(
-      ing => ing.id.toString() === currentIngredient.id
-    );
-    if (!ingredientDetails) return;
-    setFormData(prev => ({
-      ...prev,
-      ingredients: [
-        ...prev.ingredients,
-        { id: ingredientDetails.id, measure: currentIngredient.measure },
-      ],
-    }));
-    setCurrentIngredient({ id: '', measure: '' });
+    if (selectedIngredient && quantity) {
+      const newIngredient = { ...selectedIngredient, measure: quantity };
+      if (!formData.ingredients.some(ing => ing.id === newIngredient.id)) {
+        setFormData(prev => ({ ...prev, ingredients: [...prev.ingredients, newIngredient] }));
+      }
+      setSelectedIngredient(null);
+      setSearchTerm('');
+      setQuantity('');
+      setIsSuggestionsVisible(false);
+    }
   };
 
-  const removeIngredient = idToRemove => {
-    setFormData(prev => ({
-      ...prev,
-      ingredients: prev.ingredients.filter(ing => ing.id !== idToRemove),
-    }));
+  const removeIngredient = id => {
+    setFormData(prev => ({ ...prev, ingredients: prev.ingredients.filter(ing => ing.id !== id) }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title.trim()) newErrors.title = 'Enter a title for the recipe.';
+    if (!formData.categoryId) newErrors.categoryId = 'Please select a category.';
+    if (!formData.time) newErrors.time = 'Specify the cooking time.';
+    if (formData.ingredients.length === 0) newErrors.ingredients = 'Add at least one ingredient.';
+    if (!formData.instructions.trim()) newErrors.instructions = 'Enter the recipe instructions.';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      setTimeout(() => {
+        setErrors({});
+      }, 5000);
+    }
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if (!validateForm()) {
+      console.log('Validation failed');
+      return;
+    }
 
     let imageUrl = '';
     // Step 1: Upload image if present
@@ -185,6 +240,26 @@ const AddRecipeForm = () => {
     }
   };
 
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, thumb: file }));
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleTimeChange = amount => {
+    setFormData(prev => {
+      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
+      return { ...prev, time: newTime.toString() };
+    });
+  };
+
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.mainLayout}>
@@ -227,7 +302,9 @@ const AddRecipeForm = () => {
                   placeholder="Enter a description of the dish"
                   value={formData.title}
                   onChange={handleChange}
+                  className={errors.title ? styles.invalid : ''}
                 />
+                {errors.title && <p className={styles.errorText}>{errors.title}</p>}
 
                 <span className={styles.charCounter}>
                   {formData.title.length}/200
@@ -248,11 +325,13 @@ const AddRecipeForm = () => {
                     setFormData(prev => ({ ...prev, categoryId: option.value }))
                   }
                   placeholder="Select a category"
+                  classNameWrapper={errors.categoryId ? styles.invalid : ''}
                 />
+                {errors.categoryId && <p className={styles.errorText}>{errors.categoryId}</p>}
               </div>
               <div className={styles.formGroup}>
                 <label>COOKING TIME</label>
-                <div className={styles.timeSelector}>
+                <div className={`${styles.timeSelector} ${errors.time ? styles.invalid : ''}`}>
                   <button type="button" onClick={() => handleTimeChange(-5)}>
                     <MinusIcon />
                   </button>
@@ -261,57 +340,96 @@ const AddRecipeForm = () => {
                     <PlusIcon />
                   </button>
                 </div>
+                {errors.time && <p className={styles.errorText}>{errors.time}</p>}
               </div>
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div className={styles.formSection} ref={searchWrapperRef}>
             <label className={styles.sectionTitle}>Ingredients</label>
+            {isSuggestionsVisible && suggestions.length > 0 && (
+              <div className={styles.suggestionsImageContainer} ref={imageContainerRef}>
+                {suggestions.map(ing => (
+                  <img
+                    key={`${ing.id}-image`}
+                    src={ing.thumb}
+                    alt={ing.name}
+                    className={styles.suggestionImage}
+                    onClick={() => handleSelectIngredient(ing)}
+                    title={ing.name}
+                  />
+                ))}
+              </div>
+            )}
             <div className={styles.row}>
-              <Dropdown
-                options={recipeData.ingredients.map(ing => ({
-                  value: ing.id,
-                  label: ing.name,
-                }))}
-                value={currentIngredient.id}
-                onChange={option =>
-                  setCurrentIngredient(p => ({ ...p, id: option.value }))
-                }
-                placeholder="Add the ingredient"
-              />
-              <UnderlineInput
-                name="measure"
-                placeholder="Enter quantity"
-                value={currentIngredient.measure}
-                onChange={e =>
-                  setCurrentIngredient(p => ({ ...p, measure: e.target.value }))
-                }
+              <div className={styles.ingredientSearchWrapper}>
+                {(isSuggestionsVisible || selectedIngredient) && (
+                  <div className={styles.suggestionsImageContainer} ref={imageContainerRef}>
+                    {(isSuggestionsVisible ? suggestions : [selectedIngredient]).map(ing => (
+                      ing && <img
+                        key={`${ing.id}-image`}
+                        src={ing.thumb}
+                        alt={ing.name}
+                        className={styles.suggestionImage}
+                        onClick={() => handleSelectIngredient(ing)}
+                        title={ing.name}
+                      />
+                    ))}
+                  </div>
+                )}
+                <input
+                  type="text"
+                  placeholder={isLoading ? "Loading..." : "Add the ingredient"}
+                  value={searchTerm}
+                  disabled={isLoading}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className={`${styles.inputField} ${errors.ingredients ? styles.invalid : ''}`}
+                />
+                {isSuggestionsVisible && suggestions.length > 0 && (
+                  <ul className={styles.suggestionsList}>
+                    {suggestions.map(ing => (
+                      <li key={ing.id} onClick={() => handleSelectIngredient(ing)}>
+                        <img src={ing.thumb} alt={ing.name} />
+                        <span>{ing.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <input
+                type="text"
+                placeholder="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                onFocus={() => setIsSuggestionsVisible(false)} 
+                className={styles.measureInput}
               />
             </div>
-            <ButtonOutline
-              type="button"
-              onClick={addIngredient}
-              icon={<PlusIcon />}
-            >
-              Add ingredient
+            <ButtonOutline type="button" onClick={addIngredient} icon={<PlusIcon />}>
+              Add Ingredient
             </ButtonOutline>
+            {errors.ingredients && <p className={styles.errorText}>{errors.ingredients}</p>}
             <div className={styles.ingredientsList}>
               {formData.ingredients.map(ing => (
                 <div key={ing.id} className={styles.ingredientItem}>
-                  <div className={styles.ingredientInfo}>
-                    <div className={styles.ingredientImage}>
-                      <img src={ing.thumb} alt={ing.name} />
-                    </div>
-                    <div className={styles.ingredientDetails}>
-                      <span>{ing.name}</span>
-                      <small>{ing.measure}</small>
-                    </div>
+                  <div className={styles.ingredientImage}>
+                    <img src={ing.thumb} alt={ing.name} />
+                  </div>
+                  <div className={styles.ingredientDetails}>
+                    <span>{ing.name}</span>
+                    <small>{ing.measure}</small>
                   </div>
                   <button
                     type="button"
+                    className={styles.removeIngredientBtn}
                     onClick={() => removeIngredient(ing.id)}
                   >
-                    <CloseIcon />
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L4 12" stroke="#050505" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M4 4L12 12" stroke="#050505" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </button>
                 </div>
               ))}
@@ -330,7 +448,9 @@ const AddRecipeForm = () => {
               maxLength={2000}
               counter={formData.instructions.length}
               counterMax={2000}
+              className={errors.instructions ? styles.invalid : ''}
             />
+            {errors.instructions && <p className={styles.errorText}>{errors.instructions}</p>}
           </div>
 
           <div className={styles.actionButtons}>

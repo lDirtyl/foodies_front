@@ -1,0 +1,415 @@
+/* --- General Styles & Variables --- */
+:root {
+  --primary-color: #22252a;
+  --secondary-color: #8baa36;
+  --text-color: #3e4462;
+  --light-text-color: #7e7e7e;
+  --background-color: #fafafa;
+  --white-color: #ffffff;
+  --border-color: #e0e0e0;
+  --error-color: #e74a3b;
+  --success-color: #3cbc81;
+  --font-family: 'Poppins', sans-serif;
+}
+
+.addRecipePage {
+  padding: 16px;
+  max-width: 1240px;
+  margin: 0 auto;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--light-text-color);
+  margin-bottom: 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fieldsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* --- Image Uploader --- */
+.imageUploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.imageLabel {
+  cursor: pointer;
+  width: 280px;
+  height: 270px;
+  border-radius: 8px;
+  background-color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.imagePreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uploadPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-color);
+  text-align: center;
+}
+
+.uploadIcon {
+  font-size: 50px;
+}
+
+.removeImageButton {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+/* --- Form Elements --- */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.inputWrapper, .textareaWrapper, .selectWrapper {
+  position: relative;
+}
+
+.inputField, .selectField, .textareaField {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--white-color);
+  font-size: 14px;
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
+}
+
+.inputField::placeholder, .textareaField::placeholder {
+  color: var(--light-text-color);
+}
+
+.inputField:focus, .selectField:focus, .textareaField:focus {
+  outline: none;
+  border-color: var(--secondary-color);
+}
+
+.charCounter {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--light-text-color);
+}
+
+.textareaWrapper .charCounter {
+  top: auto;
+  bottom: 12px;
+  transform: none;
+}
+
+.textareaField {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* --- Validation States --- */
+.valid {
+  border-color: var(--success-color) !important;
+}
+
+.invalid {
+  border-color: var(--error-color) !important;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: var(--error-color);
+  margin-top: 4px;
+}
+
+
+/* --- Specific Controls --- */
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cookingTimeSelector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+  width: fit-content;
+}
+
+.timeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--secondary-color);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.timeValue {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* --- Ingredients Section --- */
+.ingredientsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ingredientsControls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ingredientSearchWrapper {
+  position: relative;
+}
+
+.suggestionsImageContainer {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: max-content; /* Make it responsive to the parent width */
+        min-width: 320px;
+        max-width: 1100px;
+    height: min-content;
+        min-height: 80px;
+        max-height: 230px; /* Set a fixed height for 3 rows of images (60*3 + 8*2) */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    z-index: 1001;
+    display: flex;
+    flex-flow: column wrap; /* Arrange items in columns, then wrap horizontally */
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Disable vertical scrolling */
+}
+
+.suggestionImage {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.suggestionImage:hover {
+    border-color: #8BAA36; /* Highlight on hover */
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestionsList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionsList li:hover {
+  background-color: #f0f0f0;
+}
+
+.suggestionsList img {
+  width: 32px;
+  height: 32px;
+}
+
+.addButton {
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: var(--secondary-color);
+}
+
+.ingredientChipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ebf3d4;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.chipImage {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.chipName {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.chipQuantity {
+  color: var(--light-text-color);
+}
+
+.chipRemoveButton {
+  background: none;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* --- Form Actions --- */
+.formActions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.resetButton {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.publishButton {
+  padding: 12px 32px;
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: opacity 0.3s ease;
+}
+
+.publishButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --- Media Queries (Mobile First) --- */
+
+/* Tablet */
+@media (min-width: 768px) {
+  .title { font-size: 32px; }
+  .mainContent { flex-direction: row; align-items: flex-start; }
+  .imageUploader { flex-shrink: 0; }
+  .row { flex-direction: row; gap: 32px; align-items: flex-end; }
+  .row .formGroup { flex: 1; }
+  .ingredientsControls { flex-direction: row; align-items: center; }
+  .quantityInput { max-width: 150px; }
+  .formActions { justify-content: flex-end; }
+}
+
+/* Desktop */
+@media (min-width: 1200px) {
+  .title { font-size: 44px; }
+  .imageUploader { align-items: flex-start; }
+  .imageLabel { width: 360px; height: 345px; }
+  .formActions { justify-content: start; }
+}
