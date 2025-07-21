@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { createRecipe } from '../../redux/user/userRecipes/operations';
 import api from '../../api/api';
@@ -68,68 +68,99 @@ const AddRecipeForm = () => {
     thumb: null,
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const [currentIngredient, setCurrentIngredient] = useState({
-    id: '',
-    measure: '',
-  });
-  const [recipeData, setRecipeData] = useState({
-    categories: [],
-    ingredients: [],
-  });
+  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
+  const [isLoading, setIsLoading] = useState(true);
+
+  // --- Ingredient Management State ---
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
+  const [quantity, setQuantity] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const searchWrapperRef = useRef(null);
+  const imageContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchRecipeData = async () => {
       try {
+        setIsLoading(true);
         const response = await api.get('/recipes/creation-data');
+        // Assuming the response.data is { categories: [...], ingredients: [...] }
         setRecipeData(response.data);
       } catch (error) {
         console.error('Error fetching recipe data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchRecipeData();
   }, []);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, thumb: file }));
-      setImagePreview(URL.createObjectURL(file));
+  // --- Ingredient Logic from United_ui_ux ---
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = recipeData.ingredients.filter(ing =>
+        ing.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSuggestions(filtered);
+      setIsSuggestionsVisible(true);
+    } else {
+      if (isFocused) {
+        setSuggestions(recipeData.ingredients);
+        setIsSuggestionsVisible(true);
+      } else {
+        setSuggestions([]);
+        setIsSuggestionsVisible(false);
+      }
     }
-  };
+  }, [searchTerm, isFocused, recipeData.ingredients]);
 
-  const handleTimeChange = amount => {
-    setFormData(prev => {
-      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
-      return { ...prev, time: newTime.toString() };
-    });
+  useEffect(() => {
+    const container = imageContainerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e) => {
+      if (container.scrollWidth <= container.clientWidth) return;
+      e.preventDefault();
+      container.scrollLeft += e.deltaY;
+    };
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
+  }, [isSuggestionsVisible]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchWrapperRef.current && !searchWrapperRef.current.contains(event.target)) {
+        setIsSuggestionsVisible(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchWrapperRef]);
+
+  const handleSelectIngredient = (ingredient) => {
+    setSelectedIngredient(ingredient);
+    setSearchTerm(ingredient.name);
+    setIsSuggestionsVisible(false);
   };
 
   const addIngredient = () => {
-    if (!currentIngredient.id || !currentIngredient.measure) return;
-    const ingredientDetails = recipeData.ingredients.find(
-      ing => ing.id.toString() === currentIngredient.id
-    );
-    if (!ingredientDetails) return;
-    setFormData(prev => ({
-      ...prev,
-      ingredients: [
-        ...prev.ingredients,
-        { id: ingredientDetails.id, measure: currentIngredient.measure },
-      ],
-    }));
-    setCurrentIngredient({ id: '', measure: '' });
+    if (selectedIngredient && quantity) {
+      const newIngredient = { ...selectedIngredient, measure: quantity };
+      if (!formData.ingredients.some(ing => ing.id === newIngredient.id)) {
+        setFormData(prev => ({ ...prev, ingredients: [...prev.ingredients, newIngredient] }));
+      }
+      setSelectedIngredient(null);
+      setSearchTerm('');
+      setQuantity('');
+      setIsSuggestionsVisible(false);
+    }
   };
 
-  const removeIngredient = idToRemove => {
-    setFormData(prev => ({
-      ...prev,
-      ingredients: prev.ingredients.filter(ing => ing.id !== idToRemove),
-    }));
+  const removeIngredient = id => {
+    setFormData(prev => ({ ...prev, ingredients: prev.ingredients.filter(ing => ing.id !== id) }));
   };
 
   const handleSubmit = async e => {
@@ -183,6 +214,26 @@ const AddRecipeForm = () => {
       console.error('Failed to publish recipe:', error);
       alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
     }
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, thumb: file }));
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleTimeChange = amount => {
+    setFormData(prev => {
+      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
+      return { ...prev, time: newTime.toString() };
+    });
   };
 
   return (
@@ -265,35 +316,70 @@ const AddRecipeForm = () => {
             </div>
           </div>
 
-          <div className={styles.formSection}>
+          <div className={styles.formSection} ref={searchWrapperRef}>
             <label className={styles.sectionTitle}>Ingredients</label>
+            {isSuggestionsVisible && suggestions.length > 0 && (
+              <div className={styles.suggestionsImageContainer} ref={imageContainerRef}>
+                {suggestions.map(ing => (
+                  <img
+                    key={`${ing.id}-image`}
+                    src={ing.thumb}
+                    alt={ing.name}
+                    className={styles.suggestionImage}
+                    onClick={() => handleSelectIngredient(ing)}
+                    title={ing.name}
+                  />
+                ))}
+              </div>
+            )}
             <div className={styles.row}>
-              <Dropdown
-                options={recipeData.ingredients.map(ing => ({
-                  value: ing.id,
-                  label: ing.name,
-                }))}
-                value={currentIngredient.id}
-                onChange={option =>
-                  setCurrentIngredient(p => ({ ...p, id: option.value }))
-                }
-                placeholder="Add the ingredient"
-              />
-              <UnderlineInput
-                name="measure"
-                placeholder="Enter quantity"
-                value={currentIngredient.measure}
-                onChange={e =>
-                  setCurrentIngredient(p => ({ ...p, measure: e.target.value }))
-                }
+              <div className={styles.ingredientSearchWrapper}>
+                {(isSuggestionsVisible || selectedIngredient) && (
+                  <div className={styles.suggestionsImageContainer} ref={imageContainerRef}>
+                    {(isSuggestionsVisible ? suggestions : [selectedIngredient]).map(ing => (
+                      ing && <img
+                        key={`${ing.id}-image`}
+                        src={ing.thumb}
+                        alt={ing.name}
+                        className={styles.suggestionImage}
+                        onClick={() => handleSelectIngredient(ing)}
+                        title={ing.name}
+                      />
+                    ))}
+                  </div>
+                )}
+                <input
+                  type="text"
+                  placeholder={isLoading ? "Loading..." : "Add the ingredient"}
+                  value={searchTerm}
+                  disabled={isLoading}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  className={styles.inputField}
+                />
+                {isSuggestionsVisible && suggestions.length > 0 && (
+                  <ul className={styles.suggestionsList}>
+                    {suggestions.map(ing => (
+                      <li key={ing.id} onClick={() => handleSelectIngredient(ing)}>
+                        <img src={ing.thumb} alt={ing.name} />
+                        <span>{ing.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <input
+                type="text"
+                placeholder="Quantity"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                onFocus={() => setIsSuggestionsVisible(false)} 
+                className={styles.measureInput}
               />
             </div>
-            <ButtonOutline
-              type="button"
-              onClick={addIngredient}
-              icon={<PlusIcon />}
-            >
-              Add ingredient
+            <ButtonOutline type="button" onClick={addIngredient} icon={<PlusIcon />}>
+              Add Ingredient
             </ButtonOutline>
             <div className={styles.ingredientsList}>
               {formData.ingredients.map(ing => (

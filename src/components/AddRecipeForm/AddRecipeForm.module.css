@@ -252,20 +252,95 @@
 
 .removeIngredientBtn {
   position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
+  top: 12px;
+  right: -15px;
+  background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  width: 16px;
-  height: 16px;
+  line-height: 1;
 }
 
 .removeIngredientBtn svg {
-  width: 18px;
-  height: 18px;
-  stroke: #050505;
+  display: block;
+}
+
+.ingredientSearchWrapper {
+  position: relative;
+  flex-grow: 1;
+}
+
+.suggestionsImageContainer {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: max-content; /* Make it responsive to the parent width */
+    min-width: 80px;
+    max-width: 600px;
+  height: min-content;
+    min-height: 85px;
+    max-height: 230px; /* Set a fixed height for 3 rows of images (60*3 + 8*2) */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  z-index: 1001;
+  display: flex;
+  flex-flow: column wrap; /* Key for multi-row layout */
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px ;
+  overflow-x: auto; /* Horizontal scroll */
+  overflow-y: hidden; /* No vertical scroll */
+  box-sizing: border-box;
+}
+
+.suggestionImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.suggestionImage:hover {
+  border-color: #8BAA36; /* Highlight on hover */
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white-color);
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestionsList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionsList li:hover {
+  background-color: #f0f0f0;
+}
+
+.suggestionsList img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
 }
 
 .publishButton {
