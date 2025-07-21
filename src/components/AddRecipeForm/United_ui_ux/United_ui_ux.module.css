@@ -223,6 +223,43 @@
   position: relative;
 }
 
+.suggestionsImageContainer {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: min-content; /* Make it responsive to the parent width */
+        min-width: 320px;
+        max-width: 1100px;
+    height: min-content;
+        min-height: 80px;
+        max-height: 230px; /* Set a fixed height for 3 rows of images (60*3 + 8*2) */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    z-index: 1001;
+    display: flex;
+    flex-flow: column wrap; /* Arrange items in columns, then wrap horizontally */
+    gap: 8px;
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Disable vertical scrolling */
+}
+
+.suggestionImage {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.suggestionImage:hover {
+    border-color: #8BAA36; /* Highlight on hover */
+}
+
 .suggestionsList {
   position: absolute;
   top: 100%;

@@ -149,6 +149,20 @@ const IngredientsManager = ({ ingredients, setIngredients, allIngredients = [], 
         <div className={styles.ingredientsSection}>
             <div className={styles.ingredientsControls} ref={searchWrapperRef}>
                 <div className={styles.ingredientSearchWrapper}>
+                    {isSuggestionsVisible && suggestions.length > 0 && (
+                        <div className={styles.suggestionsImageContainer}>
+                            {suggestions.map(ing => (
+                                <img
+                                    key={`${ing.id}-image`}
+                                    src={ing.thumb}
+                                    alt={ing.name}
+                                    className={styles.suggestionImage}
+                                    onClick={() => handleSelectIngredient(ing)}
+                                    title={ing.name} // Add tooltip for accessibility
+                                />
+                            ))}
+                        </div>
+                    )}
                     <input 
                         type="text"
                         placeholder={isLoading ? "Loading ingredients..." : "Add the ingredient"}
