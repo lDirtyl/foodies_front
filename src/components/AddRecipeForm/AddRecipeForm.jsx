@@ -70,6 +70,7 @@ const AddRecipeForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
   const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState({});
 
   // --- Ingredient Management State ---
   const [selectedIngredient, setSelectedIngredient] = useState(null);
@@ -163,8 +164,31 @@ const AddRecipeForm = () => {
     setFormData(prev => ({ ...prev, ingredients: prev.ingredients.filter(ing => ing.id !== id) }));
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.title.trim()) newErrors.title = 'Enter a title for the recipe.';
+    if (!formData.categoryId) newErrors.categoryId = 'Please select a category.';
+    if (!formData.time) newErrors.time = 'Specify the cooking time.';
+    if (formData.ingredients.length === 0) newErrors.ingredients = 'Add at least one ingredient.';
+    if (!formData.instructions.trim()) newErrors.instructions = 'Enter the recipe instructions.';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      setTimeout(() => {
+        setErrors({});
+      }, 5000);
+    }
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
+    if (!validateForm()) {
+      console.log('Validation failed');
+      return;
+    }
 
     let imageUrl = '';
     // Step 1: Upload image if present
@@ -278,7 +302,9 @@ const AddRecipeForm = () => {
                   placeholder="Enter a description of the dish"
                   value={formData.title}
                   onChange={handleChange}
+                  className={errors.title ? styles.invalid : ''}
                 />
+                {errors.title && <p className={styles.errorText}>{errors.title}</p>}
 
                 <span className={styles.charCounter}>
                   {formData.title.length}/200
@@ -299,11 +325,13 @@ const AddRecipeForm = () => {
                     setFormData(prev => ({ ...prev, categoryId: option.value }))
                   }
                   placeholder="Select a category"
+                  classNameWrapper={errors.categoryId ? styles.invalid : ''}
                 />
+                {errors.categoryId && <p className={styles.errorText}>{errors.categoryId}</p>}
               </div>
               <div className={styles.formGroup}>
                 <label>COOKING TIME</label>
-                <div className={styles.timeSelector}>
+                <div className={`${styles.timeSelector} ${errors.time ? styles.invalid : ''}`}>
                   <button type="button" onClick={() => handleTimeChange(-5)}>
                     <MinusIcon />
                   </button>
@@ -312,6 +340,7 @@ const AddRecipeForm = () => {
                     <PlusIcon />
                   </button>
                 </div>
+                {errors.time && <p className={styles.errorText}>{errors.time}</p>}
               </div>
             </div>
           </div>
@@ -356,7 +385,7 @@ const AddRecipeForm = () => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
-                  className={styles.inputField}
+                  className={`${styles.inputField} ${errors.ingredients ? styles.invalid : ''}`}
                 />
                 {isSuggestionsVisible && suggestions.length > 0 && (
                   <ul className={styles.suggestionsList}>
@@ -381,6 +410,7 @@ const AddRecipeForm = () => {
             <ButtonOutline type="button" onClick={addIngredient} icon={<PlusIcon />}>
               Add Ingredient
             </ButtonOutline>
+            {errors.ingredients && <p className={styles.errorText}>{errors.ingredients}</p>}
             <div className={styles.ingredientsList}>
               {formData.ingredients.map(ing => (
                 <div key={ing.id} className={styles.ingredientItem}>
@@ -418,7 +448,9 @@ const AddRecipeForm = () => {
               maxLength={2000}
               counter={formData.instructions.length}
               counterMax={2000}
+              className={errors.instructions ? styles.invalid : ''}
             />
+            {errors.instructions && <p className={styles.errorText}>{errors.instructions}</p>}
           </div>
 
           <div className={styles.actionButtons}>

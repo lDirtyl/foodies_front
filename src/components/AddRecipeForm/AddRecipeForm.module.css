@@ -607,3 +607,15 @@
     width: 100%;
   }
 }
+
+.invalid {
+  border: 1px solid #e74c3c !important;
+  border-radius: 15px; /* Ensure border radius is consistent */
+}
+
+.errorText {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 8px;
+}
