@@ -12,6 +12,8 @@ import { UnderlineInput } from '../UnderlineInput/UnderlineInput';
 import { ButtonOutline } from '../ButtonOutline/ButtonOutline';
 import { ButtonIcon } from '../ButtonIcon/ButtonIcon';
 import Button from '../Button/Button';
+import ReactCountryFlag from 'react-country-flag';
+
 
 // Mock icons - replace with actual icon components
 const PlusIcon = () => (
@@ -58,6 +60,35 @@ const TrashIcon = () => (
     />
   </svg>
 );
+
+const nationalityToCountryCode = {
+  American: 'US',
+  British: 'GB',
+  Canadian: 'CA',
+  Chinese: 'CN',
+  Croatian: 'HR',
+  Dutch: 'NL',
+  Egyptian: 'EG',
+  French: 'FR',
+  Greek: 'GR',
+  Indian: 'IN',
+  Irish: 'IE',
+  Italian: 'IT',
+  Jamaican: 'JM',
+  Japanese: 'JP',
+  Kenyan: 'KE',
+  Malaysian: 'MY',
+  Mexican: 'MX',
+  Moroccan: 'MA',
+  Polish: 'PL',
+  Portuguese: 'PT',
+  Spanish: 'ES',
+  Thai: 'TH',
+  Tunisian: 'TN',
+  Turkish: 'TR',
+  Ukrainian: 'UA',
+  Vietnamese: 'VN',
+};
 
 const AddRecipeForm = () => {
   const dispatch = useDispatch();
@@ -333,7 +364,18 @@ const AddRecipeForm = () => {
             <div className={`${styles.formGroup} ${styles.areaField}`}>
                 <label>AREA</label>
                 <Dropdown
-                  options={(recipeData.areas || []).map(area => ({ value: area.id, label: area.name }))}
+                  options={(recipeData.areas || []).map(area => {
+                    const countryCode = nationalityToCountryCode[area.name];
+                    return {
+                      value: area.id,
+                      label: (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {countryCode && <ReactCountryFlag countryCode={countryCode} svg />}
+                          <span>{area.name}</span>
+                        </div>
+                      ),
+                    };
+                  })}
                   value={formData.areaId}
                   onChange={option => setFormData(prev => ({ ...prev, areaId: option.value }))}
                   placeholder="Select an area"
