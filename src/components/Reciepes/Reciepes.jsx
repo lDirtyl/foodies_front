@@ -106,7 +106,8 @@ const Reciepes = ({ category, onBack }) => {
       </div>
 
       <div className={styles.filtersSection}>
-        <RecipeFilters ingredients={ingredients} areas={areas} onFilterChange={handleFilterChange} currentFilters={filters} availableIngredients={availableIngredients} availableAreas={availableAreas} />
+        <RecipeFilters ingredients={ingredients} areas={areas} onFilterChange={handleFilterChange} currentFilters={filters} availableIngredients={category.id === 'all' ? null : availableIngredients}
+          availableAreas={category.id === 'all' ? null : availableAreas} />
         <div className={styles.listWrapper}>
           <RecipeList recipes={clientPagedData.pagedRecipes} isLoading={isLoading} error={error} />
           {clientPagedData.totalPages > 1 && (

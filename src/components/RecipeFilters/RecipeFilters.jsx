@@ -31,6 +31,7 @@ const nationalityToCountryCode = {
   Turkish: 'TR',
   Ukrainian: 'UA',
   Vietnamese: 'VN',
+  Unknown: 'RU',
 };
 
 const RecipeFilters = ({ ingredients, areas, onFilterChange, currentFilters, availableIngredients, availableAreas }) => {
@@ -44,9 +45,28 @@ const RecipeFilters = ({ ingredients, areas, onFilterChange, currentFilters, ava
     })),
   ];
 
+  const sortedAreas = (areas || []).slice().sort((a, b) => {
+    // Rule 1: Ukraine always first
+    if (a.name === 'Ukrainian' && b.name !== 'Ukrainian') return -1;
+    if (b.name === 'Ukrainian' && a.name !== 'Ukrainian') return 1;
+
+    // Rule 2: Unknown always last
+    if (a.name === 'Unknown' && b.name !== 'Unknown') return 1;
+    if (b.name === 'Unknown' && a.name !== 'Unknown') return -1;
+
+    // Rule 3: Available before unavailable
+    const isAAvailable = availableAreas && availableAreas.includes(a.id);
+    const isBAvailable = availableAreas && availableAreas.includes(b.id);
+    if (isAAvailable && !isBAvailable) return -1;
+    if (!isAAvailable && isBAvailable) return 1;
+
+    // Rule 4: Alphabetical fallback
+    return a.name.localeCompare(b.name);
+  });
+
   const areaOptions = [
     { value: '', label: 'All Areas' },
-    ...(areas || []).map(area => {
+    ...sortedAreas.map(area => {
       const countryCode = nationalityToCountryCode[area.name];
       return {
         value: area.id,
@@ -54,9 +74,10 @@ const RecipeFilters = ({ ingredients, areas, onFilterChange, currentFilters, ava
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {countryCode && <ReactCountryFlag countryCode={countryCode} svg />}
             <span>{area.name}</span>
+            {area.name === 'Unknown' && <span style={{ marginRight: 'auto' }}>💩</span>}
           </div>
         ),
-        searchLabel: area.name, // for searching
+        searchLabel: area.name,
       };
     }),
   ];
