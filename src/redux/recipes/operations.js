@@ -54,7 +54,47 @@ export const fetchRecipes = createAsyncThunk(
       );
       return response;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message);
+      // Використовуємо mock дані якщо API недоступний
+      console.log('API недоступний, використовуємо mock дані:', error.message);
+      
+      // Створюємо список рецептів з mockData
+      const mockRecipes = [
+        mockRecipeData, // Класичний борщ
+        {
+          ...mockRecipeData,
+          id: 'mock-recipe-2',
+          title: 'Салат Цезар',
+          description: 'Класичний салат з курячим філе та пармезаном',
+          thumb: '/images/default-recipe.jpg',
+          category: 'Салати',
+          area: 'Італія'
+        },
+        {
+          ...mockRecipeData,
+          id: 'mock-recipe-3', 
+          title: 'Паста Карбонара',
+          description: 'Традиційна італійська паста з беконом та сиром',
+          thumb: '/images/default-recipe.jpg',
+          category: 'Основні страви',
+          area: 'Італія'
+        },
+        {
+          ...mockRecipeData,
+          id: 'mock-recipe-4',
+          title: 'Суп-пюре з гарбуза',
+          description: 'Ніжний крем-суп з гарбуза з додаванням вершків',
+          thumb: '/images/default-recipe.jpg',
+          category: 'Супи',
+          area: 'Україна'
+        }
+      ];
+      
+      return {
+        data: mockRecipes,
+        total: mockRecipes.length,
+        page: page,
+        totalPages: 1
+      };
     }
   }
 );

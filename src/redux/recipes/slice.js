@@ -135,10 +135,12 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.recipes = action.payload.recipes || [];
-        state.totalPages = Math.ceil((action.payload.pagination?.total || 0) / (action.payload.pagination?.limit || 10));
-        state.totalRecipes = action.payload.pagination?.total || 0;
-        state.currentPage = action.payload.pagination?.page || 1;
+        console.log('fetchRecipes.fulfilled payload:', action.payload);
+        // Обробляємо як API відповідь, так і mock дані
+        state.recipes = action.payload.recipes || action.payload.data || [];
+        state.totalPages = Math.ceil((action.payload.pagination?.total || action.payload.total || 0) / (action.payload.pagination?.limit || 10));
+        state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
+        state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.isLoading = false;

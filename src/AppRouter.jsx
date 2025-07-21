@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import HomePage from './pages/HomePage/HomePage';
 import RecipePage from './pages/RecipePage/RecipePage';
+import RecipesPage from './pages/RecipesPage/RecipesPage';
 import TestRecipeDebug from './pages/TestRecipeDebug/TestRecipeDebug';
 import AddRecipePage from './pages/AddRecipePage/AddRecipePage';
 import UserPage from './pages/UserPage/UserPage';
@@ -17,6 +18,7 @@ export default function AppRouter() {
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="recipes" element={<RecipesPage />} />
           <Route path="recipe/:id" element={<RecipePage />} />
           <Route path="recipe-debug/:id" element={<TestRecipeDebug />} />
           <Route path="users/:id/add-recipe" element={<AddRecipePage />} />
