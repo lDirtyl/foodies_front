@@ -6,10 +6,16 @@ import styles from './IngredientFilter.module.css';
 const IngredientFilter = ({ options = [], value = '', onChange, availableOptions }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [displayValue, setDisplayValue] = useState('');
   const wrapperRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const inputRef = useRef(null);
 
   const selectedOption = options.find(opt => opt.value === value);
+
+  useEffect(() => {
+    setDisplayValue(selectedOption ? selectedOption.label : '');
+  }, [selectedOption]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -24,14 +30,20 @@ const IngredientFilter = ({ options = [], value = '', onChange, availableOptions
   }, [wrapperRef]);
 
   const handleSelect = option => {
-    setSearchTerm('');
-    setIsOpen(false);
     onChange({ ingredient: option.value });
+    setSearchTerm(''); // Clear search term
+    setIsOpen(false);
   };
 
-  const filteredOptions = options.filter(opt =>
-    opt.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOptions = options
+    .filter(opt => opt.value && opt.label.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      const isAAvailable = !availableOptions || availableOptions.includes(a.value);
+      const isBAvailable = !availableOptions || availableOptions.includes(b.value);
+      if (isAAvailable && !isBAvailable) return -1;
+      if (!isAAvailable && isBAvailable) return 1;
+      return 0;
+    });
 
   const availableIngredientsToDisplay = options.filter(opt => 
     opt.value && (!availableOptions || availableOptions.includes(opt.value))
@@ -83,13 +95,21 @@ const IngredientFilter = ({ options = [], value = '', onChange, availableOptions
           </div>
         </div>
       )}
-      <div className={styles.toggle} onClick={() => setIsOpen(!isOpen)}>
+      <div className={styles.toggle} onClick={() => inputRef.current.focus()}>
         <input
+          ref={inputRef}
           type="text"
-          placeholder={selectedOption ? selectedOption.label : 'All ingredients'}
-          value={searchTerm}
-          onChange={e => setSearchTerm(e.target.value)}
-          onFocus={() => setIsOpen(true)}
+          placeholder="All ingredients"
+          value={isOpen ? searchTerm : displayValue}
+          onChange={e => {
+            setSearchTerm(e.target.value);
+            setDisplayValue(e.target.value);
+          }}
+          onFocus={() => {
+            setIsOpen(true);
+            setDisplayValue('');
+            setSearchTerm('');
+          }}
           className={styles.input}
         />
         <img
@@ -102,7 +122,6 @@ const IngredientFilter = ({ options = [], value = '', onChange, availableOptions
       {isOpen && (
         <ul className={styles.menu}>
           {filteredOptions.map(opt => {
-            if (!opt.value) return null; // Skip 'All Ingredients' option
             const isAvailable = !availableOptions || availableOptions.includes(opt.value);
             return (
               <li
