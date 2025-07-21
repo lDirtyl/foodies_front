@@ -91,6 +91,7 @@ const IngredientsManager = ({ ingredients, setIngredients, allIngredients = [], 
     const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const searchWrapperRef = useRef(null);
+    const imageContainerRef = useRef(null);
 
     useEffect(() => {
         if (searchTerm) {
@@ -109,6 +110,27 @@ const IngredientsManager = ({ ingredients, setIngredients, allIngredients = [], 
             }
         }
     }, [searchTerm, isFocused, allIngredients]);
+
+    useEffect(() => {
+        const container = imageContainerRef.current;
+        if (!container) return;
+
+        const handleWheel = (e) => {
+            // If there's no horizontal overflow, do nothing
+            if (container.scrollWidth <= container.clientWidth) return;
+
+            // Prevent the default vertical scroll
+            e.preventDefault();
+            // Adjust the horizontal scroll position
+            container.scrollLeft += e.deltaY;
+        };
+
+        container.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+            container.removeEventListener('wheel', handleWheel);
+        };
+    }, [isSuggestionsVisible]); // Re-attach if visibility changes
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -150,7 +172,7 @@ const IngredientsManager = ({ ingredients, setIngredients, allIngredients = [], 
             <div className={styles.ingredientsControls} ref={searchWrapperRef}>
                 <div className={styles.ingredientSearchWrapper}>
                     {isSuggestionsVisible && suggestions.length > 0 && (
-                        <div className={styles.suggestionsImageContainer}>
+                        <div className={styles.suggestionsImageContainer} ref={imageContainerRef}>
                             {suggestions.map(ing => (
                                 <img
                                     key={`${ing.id}-image`}
