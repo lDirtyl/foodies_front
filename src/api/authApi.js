@@ -1,33 +1,20 @@
-import axios from './default';
-import { getAuthorizationHeader } from './utils';
+import { publicApi, privateApi } from '../services/api';
 
 export const usersSignup = async user => {
-  const { data } = await axios.post('/users/register', user);
+  const { data } = await publicApi.post('/users/register', user);
   return data;
 };
 
 export const usersLogin = async user => {
-  const { data } = await axios.post('/users/login', user);
+  const { data } = await publicApi.post('/users/login', user);
   return data;
 };
 
-export const usersLogout = async token => {
-  await axios.post(
-    '/users/logout',
-    {},
-    {
-      headers: {
-        Authorization: getAuthorizationHeader(token),
-      },
-    }
-  );
+export const usersLogout = async () => {
+  await privateApi.post('/users/logout');
 };
 
-export const fetchCurrentUser = async token => {
-  const { data } = await axios.get('/users/current', {
-    headers: {
-      Authorization: getAuthorizationHeader(token),
-    },
-  });
+export const fetchCurrentUser = async () => {
+  const { data } = await privateApi.get('/users/current');
   return data;
 };

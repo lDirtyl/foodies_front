@@ -7,6 +7,7 @@ export const Dropdown = ({
   placeholder = 'Select an option',
   value = '',
   onChange,
+  availableOptions,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(null);
@@ -31,7 +32,7 @@ export const Dropdown = ({
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
-        <div>{selected ? selected.label : placeholder}</div>
+        <div>{selected ? (selected.searchLabel || selected.label) : placeholder}</div>
         <img
           src="/icons/chevron-down.svg"
           alt="toggle"
@@ -41,15 +42,18 @@ export const Dropdown = ({
 
       {isOpen && (
         <ul className={styles.menu}>
-          {options.map(opt => (
-            <li
-              key={opt.value}
-              className={styles.item}
-              onClick={() => handleSelect(opt)}
-            >
-              {opt.label}
-            </li>
-          ))}
+          {options.map(opt => {
+            const isAvailable = !availableOptions || !opt.value || availableOptions.includes(opt.value);
+            return (
+              <li
+                key={opt.value}
+                className={clsx(styles.item, !isAvailable && styles.disabled)}
+                onClick={() => isAvailable && handleSelect(opt)}
+              >
+                {opt.label}
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

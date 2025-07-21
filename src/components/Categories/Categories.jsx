@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+
 import { categoriesService } from '../../services/api';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import styles from './Categories.module.css';
 
 const MAX_CATEGORIES = 11;
 
-const Categories = () => {
+const Categories = ({ onCategorySelect }) => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,13 +42,13 @@ const Categories = () => {
       </div>
       <div className={styles.categoriesGrid}>
         {categories.map(category => (
-          <Link
-            to={`/categories/${category.id}`}
+          <div
             key={category.id}
             className={styles.categoryCard}
             style={{
               backgroundImage: `url(${categoriesService.getImageUrl(category.thumb)})`
             }}
+            onClick={() => onCategorySelect(category)}
           >
             <div className={styles.categoryOverlay}>
               <span className={styles.categoryName}>{category.name}</span>
@@ -65,15 +65,15 @@ const Categories = () => {
                 />
               </span>
             </div>
-          </Link>
+          </div>
         ))}
-        <Link to="/categories" className={`${styles.categoryCard} ${styles.allCategories}`}>
+        <div className={`${styles.categoryCard} ${styles.allCategories}`} onClick={() => onCategorySelect({ id: 'all', name: 'All categories' })}>
           <div>
             <span>
               All categories
             </span>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );

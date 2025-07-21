@@ -18,15 +18,18 @@ const initialState = {
   currentRecipe: null,
   categories: [],
   areas: [],
+  availableIngredients: [],
+  availableAreas: [],
   currentPage: 1,
-  totalPages: 3,
+  totalPages: 1,
   totalRecipes: 0,
   isLoading: false,
   error: null,
-  activeTab: 'MY RECIPES',
+  activeTab: 'my-recipes',
   filters: {
     category: '',
     area: '',
+    ingredient: '',
   },
 };
 
@@ -87,7 +90,7 @@ const recipesSlice = createSlice({
       state.currentPage = 1;
     },
     clearFilters: state => {
-      state.filters = { category: '', area: '' };
+      state.filters = { category: '', area: '', ingredient: '' };
       state.currentPage = 1;
     },
     setLoading: (state, action) => {
@@ -130,11 +133,16 @@ const recipesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchRecipes.fulfilled, (state, action) => {
+        state.recipes = action.payload.recipes;
+        state.totalPages = action.payload.pagination.totalPages;
+        state.totalRecipes = action.payload.pagination.total;
+        if (action.payload.availableIngredients) {
+          state.availableIngredients = action.payload.availableIngredients;
+        }
+        if (action.payload.availableAreas) {
+          state.availableAreas = action.payload.availableAreas;
+        }
         state.isLoading = false;
-        state.recipes = action.payload.recipes || [];
-        state.totalPages = Math.ceil((action.payload.pagination?.total || 0) / (action.payload.pagination?.limit || 10));
-        state.totalRecipes = action.payload.pagination?.total || 0;
-        state.currentPage = action.payload.pagination?.page || 1;
       })
       .addCase(fetchRecipes.rejected, (state, action) => {
         state.isLoading = false;
