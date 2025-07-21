@@ -161,7 +161,7 @@ export const recipesService = {
 
   addToFavorites: async id => {
     try {
-      const response = await privateApi.post(`/recipes/${id}/favorites`);
+      const response = await privateApi.post(`/recipes/${id}/favorite`);
       return response.data;
     } catch (error) {
       console.error('Error adding to favorites:', error);
@@ -171,7 +171,7 @@ export const recipesService = {
 
   removeFromFavorites: async id => {
     try {
-      const response = await privateApi.delete(`/recipes/${id}/favorites`);
+      const response = await privateApi.delete(`/recipes/${id}/favorite`);
       return response.data;
     } catch (error) {
       console.error('Error removing from favorites:', error);

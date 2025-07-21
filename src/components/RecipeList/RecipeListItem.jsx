@@ -61,10 +61,15 @@ const RecipeListItem = ({
           </button>
           <div className={styles.wrap}>
             <ButtonIcon
-              icon={<img src="/icons/heart.svg" alt="Favorite" />}
+              icon={
+                <img 
+                  src="/icons/heart.svg" 
+                  alt="Favorite" 
+                />
+              }
               onClick={handleFavoriteClick}
               title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              variant="light"
+              variant={isFavorite ? "dark" : "light"}
             />
 
             <ButtonIcon
