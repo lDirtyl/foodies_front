@@ -125,6 +125,10 @@
   gap: 20px;
 }
 
+.areaField {
+  max-width: 290px;
+}
+
 .formGroup .recipeTitleLabel {
   font-family: 'Mulish', sans-serif;
   font-weight: 800;
@@ -279,7 +283,7 @@
     max-width: 600px;
   height: min-content;
     min-height: 85px;
-    max-height: 230px; /* Set a fixed height for 3 rows of images (60*3 + 8*2) */
+    max-height: 235px; /* Set a fixed height for 3 rows of images (60*3 + 8*2) */
   background-color: #fff;
   border: 1px solid #ccc;
   z-index: 1001;
@@ -610,7 +614,7 @@
 
 .invalid {
   border: 1px solid #e74c3c !important;
-  border-radius: 15px; /* Ensure border radius is consistent */
+  border-radius: 8px; /* Ensure border radius is consistent */
 }
 
 .errorText {

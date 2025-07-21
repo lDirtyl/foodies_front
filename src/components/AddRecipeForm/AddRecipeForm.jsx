@@ -61,6 +61,7 @@ const AddRecipeForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    area: '',
     categoryId: '',
     time: '40',
     ingredients: [],
@@ -68,7 +69,7 @@ const AddRecipeForm = () => {
     thumb: null,
   });
   const [imagePreview, setImagePreview] = useState(null);
-  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
+  const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [], areas: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [errors, setErrors] = useState({});
 
@@ -167,6 +168,7 @@ const AddRecipeForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = 'Enter a title for the recipe.';
+    if (!formData.area) newErrors.area = 'Please select an area.';
     if (!formData.categoryId) newErrors.categoryId = 'Please select a category.';
     if (!formData.time) newErrors.time = 'Specify the cooking time.';
     if (formData.ingredients.length === 0) newErrors.ingredients = 'Add at least one ingredient.';
@@ -310,6 +312,18 @@ const AddRecipeForm = () => {
                   {formData.title.length}/200
                 </span>
               </div>
+            </div>
+
+            <div className={`${styles.formGroup} ${styles.areaField}`}>
+                <label>AREA</label>
+                <Dropdown
+                  options={(recipeData.areas || []).map(area => ({ value: area.name, label: area.name }))}
+                  value={formData.area}
+                  onChange={option => setFormData(prev => ({ ...prev, area: option.value }))}
+                  placeholder="Select an area"
+                  classNameWrapper={errors.area ? styles.invalid : ''}
+                />
+                {errors.area && <p className={styles.errorText}>{errors.area}</p>}
             </div>
 
             <div className={styles.row}>
