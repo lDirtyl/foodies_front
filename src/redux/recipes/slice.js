@@ -14,7 +14,7 @@ import {
 const initialState = {
   recipes: [],
   userRecipes: [],
-  favorites: [],
+  favoriteIds: [],
   currentRecipe: null,
   categories: [],
   areas: [],
@@ -43,9 +43,6 @@ const recipesSlice = createSlice({
     setUserRecipes: (state, action) => {
       state.userRecipes = action.payload;
     },
-    setFavorites: (state, action) => {
-      state.favorites = action.payload;
-    },
     setCurrentRecipe: (state, action) => {
       state.currentRecipe = action.payload;
     },
@@ -60,9 +57,11 @@ const recipesSlice = createSlice({
       if (userRecipe) {
         userRecipe.isFavorite = !userRecipe.isFavorite;
         if (userRecipe.isFavorite) {
-          state.favorites.push(userRecipe);
+          if (!state.favoriteIds.includes(recipeId)) {
+            state.favoriteIds.push(recipeId);
+          }
         } else {
-          state.favorites = state.favorites.filter(r => r.id !== recipeId);
+          state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
         }
       }
     },
@@ -70,7 +69,7 @@ const recipesSlice = createSlice({
       const recipeId = action.payload;
       state.recipes = state.recipes.filter(r => r.id !== recipeId);
       state.userRecipes = state.userRecipes.filter(r => r.id !== recipeId);
-      state.favorites = state.favorites.filter(r => r.id !== recipeId);
+      state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
     },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
@@ -173,7 +172,8 @@ const recipesSlice = createSlice({
       })
       .addCase(fetchFavorites.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.favorites = action.payload.recipes || action.payload.data || [];
+        const favoritesData = action.payload.recipes || action.payload.data || [];
+        state.favoriteIds = favoritesData.map(fav => fav.id);
         state.totalPages = action.payload.pagination ? Math.ceil((action.payload.pagination.total || 0) / (action.payload.pagination.limit || 10)) : action.payload.totalPages || 1;
         state.totalRecipes = action.payload.pagination?.total || action.payload.total || 0;
         state.currentPage = action.payload.pagination?.page || action.payload.page || 1;
@@ -217,16 +217,13 @@ const recipesSlice = createSlice({
           state.currentRecipe.isFavorite = isFavorite;
         }
 
-        // Update favorites array
+        // Update favoriteIds array
         if (isFavorite) {
-          const recipe =
-            state.userRecipes.find(r => r.id === id) ||
-            state.recipes.find(r => r.id === id);
-          if (recipe && !state.favorites.find(r => r.id === id)) {
-            state.favorites.push(recipe);
+          if (!state.favoriteIds.includes(id)) {
+            state.favoriteIds.push(id);
           }
         } else {
-          state.favorites = state.favorites.filter(r => r.id !== id);
+          state.favoriteIds = state.favoriteIds.filter(favId => favId !== id);
         }
       })
       .addCase(toggleFavoriteThunk.rejected, (state, action) => {
@@ -257,7 +254,7 @@ const recipesSlice = createSlice({
         const recipeId = action.payload;
         state.recipes = state.recipes.filter(r => r.id !== recipeId);
         state.userRecipes = state.userRecipes.filter(r => r.id !== recipeId);
-        state.favorites = state.favorites.filter(r => r.id !== recipeId);
+        state.favoriteIds = state.favoriteIds.filter(id => id !== recipeId);
       })
       .addCase(deleteRecipeThunk.rejected, (state, action) => {
         state.error = action.payload || 'Failed to delete recipe';
@@ -268,7 +265,6 @@ const recipesSlice = createSlice({
 export const {
   setRecipes,
   setUserRecipes,
-  setFavorites,
   setCurrentRecipe,
   toggleFavorite,
   deleteRecipe,

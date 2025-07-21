@@ -1,8 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toggleFavoriteThunk } from '../../redux/recipes';
+import { toggleFavoriteThunk, fetchFavorites } from '../../redux/recipes';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { selectFavoriteIdsSet } from '../../redux/recipes/selectors';
+import { showModal } from '../../redux/common/slice';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
-import RecipePagination from '../RecipePagination/RecipePagination';
+import { MODALS, FORM_TYPES } from '../../const';
 
 import RecipeListItem from './RecipeListItem';
 
@@ -11,14 +15,28 @@ import styles from './RecipeList.module.css';
 const RecipeList = ({ recipes = [], isLoading = false, error = null }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const favoriteIds = useSelector(selectFavoriteIdsSet);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchFavorites({ page: 1, limit: 100 }));
+    }
+  }, [dispatch, isLoggedIn]);
 
   const handleToggleFavorite = recipe => {
-    dispatch(
-      toggleFavoriteThunk({
-        id: recipe.id,
-        isFavorite: recipe.isFavorite,
-      })
-    );
+    if (isLoggedIn) {
+      dispatch(
+        toggleFavoriteThunk({
+          id: recipe.id,
+          isFavorite: favoriteIds.has(recipe.id),
+        })
+      );
+    } else {
+      dispatch(
+        showModal({ modal: MODALS.AUTH, defaultValue: FORM_TYPES.SIGN_IN })
+      );
+    }
   };
 
   const handleAuthorClick = author => {
@@ -42,7 +60,10 @@ const RecipeList = ({ recipes = [], isLoading = false, error = null }) => {
   }
 
   if (error) {
-    const errorMessage = typeof error === 'string' ? error : error?.message || 'An unknown error occurred';
+    const errorMessage =
+      typeof error === 'string'
+        ? error
+        : error?.message || 'An unknown error occurred';
     return (
       <div className="error-message">
         <p>Error loading recipes: {errorMessage}</p>
@@ -61,16 +82,20 @@ const RecipeList = ({ recipes = [], isLoading = false, error = null }) => {
 
   return (
     <ul className={styles.wrapper}>
-      {recipes.map(recipe => (
-        <RecipeListItem
-          key={recipe.id}
-          recipe={recipe}
-          isFavorite={recipe.isFavorite}
-          onFavoriteToggle={() => handleToggleFavorite(recipe)}
-          onAuthorClick={() => handleAuthorClick(recipe.author)}
-          onViewRecipe={() => handleViewRecipe(recipe)}
-        />
-      ))}
+      {recipes.map(recipe => {
+        const isFavorite = isLoggedIn && favoriteIds.has(recipe.id);
+        
+        return (
+          <RecipeListItem
+            key={recipe.id}
+            recipe={recipe}
+            isFavorite={isFavorite}
+            onFavoriteToggle={() => handleToggleFavorite(recipe)}
+            onAuthorClick={() => handleAuthorClick(recipe.author)}
+            onViewRecipe={() => handleViewRecipe(recipe)}
+          />
+        );
+      })}
     </ul>
   );
 };

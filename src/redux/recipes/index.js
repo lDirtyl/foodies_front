@@ -13,7 +13,8 @@ export {
 export {
   selectRecipes,
   selectUserRecipes,
-  selectFavorites,
+  selectFavoriteIds,
+  selectFavoriteIdsSet,
   selectCurrentRecipe,
   selectCategories,
   selectAreas,
@@ -35,7 +36,6 @@ export {
 export {
   setRecipes,
   setUserRecipes,
-  setFavorites,
   setCurrentRecipe,
   toggleFavorite,
   deleteRecipe,
