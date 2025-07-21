@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { createRecipe } from '../../../redux/user/userRecipes/operations';
 import api from '../../../api/api';
@@ -8,1062 +8,346 @@ import { Link } from 'react-router-dom';
 
 import styles from './United_ui_ux.module.css';
 
-// --------- Helper Components (previously separate files) ---------
 
-const Input = ({ placeholder = '', className, ...props }) => {
-  return (
-    <div className={styles.inputWrapper}>
-      <input
-        type="text"
-        className={clsx(styles.input, className)}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className={styles.underline}></span>
-    </div>
-  );
-};
 
-const Dropdown = ({ options = [], placeholder = 'Select an option', value = '', onChange }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
+// --- Компоненты --- 
 
-  useEffect(() => {
-    const selectedOption = options.find(opt => opt.value === value);
-    setSelected(selectedOption || null);
-  }, [value, options]);
-
-  const handleSelect = option => {
-    setSelected(option);
-    setIsOpen(false);
-    if (onChange) {
-      onChange(option);
-    }
-  };
-
-  return (
-    <div className={styles.wrapper}>
-      <button
-        className={styles.toggle}
-        onClick={() => setIsOpen(!isOpen)}
-        type="button"
-      >
-        <span>{selected?.label || placeholder}</span>
-        <img
-          src="/icons/chevron-down.svg"
-          alt="toggle"
-          className={clsx(styles.icon, isOpen && styles.rotate)}
-        />
-      </button>
-
-      {isOpen && (
-        <ul className={styles.menu}>
-          {options.map(opt => (
-            <li
-              key={opt.value}
-              className={styles.item}
-              onClick={() => handleSelect(opt)}
-            >
-              {opt.label}
-            </li>
-          ))}
-        </ul>
+// Компонент для загрузки изображения
+const RecipeImageUploader = ({ image, onImageChange }) => (
+  <div className={styles.imageUploader}>
+    <label htmlFor="file-upload" className={styles.imageLabel}>
+      {image ? (
+        <img src={image} alt="Recipe preview" className={styles.imagePreview} />
+      ) : (
+        <div className={styles.uploadPlaceholder}>
+          <span className={styles.uploadIcon}>📷</span>
+          <span>Upload a photo</span>
+        </div>
       )}
+    </label>
+    <input id="file-upload" type="file" accept="image/*" onChange={onImageChange} style={{ display: 'none' }} />
+    {image && (
+        <button type="button" onClick={() => onImageChange({ target: { files: [] }})} className={styles.removeImageButton}>
+            Upload another photo
+        </button>
+    )}
+  </div>
+);
+
+// Компонент поля ввода с валидацией и счетчиком
+const ValidatedInput = ({ value, onChange, placeholder, maxLength, id, isValid }) => (
+  <div className={styles.inputWrapper}>
+    <input
+      id={id}
+      type="text"
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      maxLength={maxLength}
+      className={`${styles.inputField} ${value ? (isValid ? styles.valid : styles.invalid) : ''}`}
+    />
+    <span className={styles.charCounter}>{value.length}/{maxLength}</span>
+    {!isValid && value.length > 0 && <p className={styles.errorMessage}>This field is required</p>}
+  </div>
+);
+
+// Компонент выпадающего списка
+const CustomSelect = ({ options, value, onChange, placeholder, id, isValid }) => (
+    <div className={styles.selectWrapper}>
+        <select 
+            id={id} 
+            value={value} 
+            onChange={onChange} 
+            className={`${styles.selectField} ${value ? (isValid ? styles.valid : styles.invalid) : ''}`}>
+            <option value="" disabled>{placeholder}</option>
+            {options.map(option => (
+                <option key={option} value={option}>{option}</option>
+            ))}
+        </select>
+        {!isValid && value && <p className={styles.errorMessage}>Please select a category</p>}
     </div>
-  );
-};
+);
 
-const UnderlineInput = ({ placeholder = '', className, ...props }) => {
-  return (
-    <div className={styles.inputWrapper}>
-      <input
-        type="text"
-        className={clsx(styles.input, className)}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className={styles.underline}></span>
-    </div>
-  );
-};
+// Компонент для выбора времени приготовления
+const CookingTimeSelector = ({ time, setTime }) => {
+    const increment = () => setTime(prev => prev + 5);
+    const decrement = () => setTime(prev => Math.max(5, prev - 5));
 
-const ButtonOutline = ({ children, icon = null, variant = 'outline', ...props }) => {
-  return (
-    <button
-      className={clsx(styles.button, styles[variant], icon && styles.withIcon)}
-      {...props}
-    >
-      <span className={styles.label}>{children}</span>
-      {icon && <span className={styles.icon}>{icon}</span>}
-    </button>
-  );
-};
-
-const ButtonIcon = ({ icon, variant = 'dark', size = 'large', classNames = [], noBorder = false, ...props }) => {
-  return (
-    <button
-      className={clsx(
-        styles.button,
-        styles[variant],
-        styles[size],
-        noBorder && styles.noBorder,
-        ...classNames
-      )}
-      {...props}
-    >
-      <span className={styles.icon}>{icon}</span>
-    </button>
-  );
-};
-
-const Button = ({
-  onClick,
-  children,
-  href,
-  to,
-  variant,
-  className,
-  isLoading,
-  type = 'button',
-  disabled = false,
-  small = false,
-  fullWidth = false,
-}) => {
-  const clickHandler = event => {
-    if (onClick) {
-      event.preventDefault();
-      onClick(event);
-    }
-  };
-
-  const classNames = clsx(
-    styles.button,
-    variant && styles[variant],
-    small && styles.small,
-    fullWidth && styles.fullWidth,
-    className
-  );
-
-  if (href) {
     return (
-      <a
-        href={href}
-        className={classNames}
-        rel="nofollow noopener"
-        target="_blank"
-      >
-        {children}
-      </a>
+        <div className={styles.cookingTimeSelector}>
+            <button type="button" onClick={decrement} className={styles.timeButton}>-</button>
+            <span className={styles.timeValue}>{time} min</span>
+            <button type="button" onClick={increment} className={styles.timeButton}>+</button>
+        </div>
     );
-  } else if (to) {
-    return (
-      <Link to={to} className={classNames}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      className={classNames}
-      type={type}
-      onClick={clickHandler}
-      disabled={disabled}
-    >
-      {isLoading ? <FiLoader className={styles.iconLoading} /> : children}
-    </button>
-  );
 };
 
-// Mock icons - replace with actual icon components
-const PlusIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 22 22">
-    <path
-      d="M11 5v12M5 11h12"
-      stroke="#050505"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const MinusIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24">
-    <path
-      d="M5 12h14"
-      stroke="#050505"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const CloseIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16">
-    <path
-      d="M4 12L12 4M4 4L12 12"
-      stroke="#050505"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+// Компонент для добавления ингредиентов
+const IngredientsManager = ({ ingredients, setIngredients, allIngredients = [], isLoading }) => {
+    const [currentIngredient, setCurrentIngredient] = useState(null);
+    const [quantity, setQuantity] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [isSuggestionsVisible, setIsSuggestionsVisible] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const searchWrapperRef = useRef(null);
 
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allIngredients.filter(ing => 
+                ing.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setSuggestions(filtered);
+            setIsSuggestionsVisible(true);
+        } else {
+            if (isFocused) {
+                setSuggestions(allIngredients);
+                setIsSuggestionsVisible(true);
+            } else {
+                setSuggestions([]);
+                setIsSuggestionsVisible(false);
+            }
+        }
+    }, [searchTerm, isFocused, allIngredients]);
 
-// --------- Main Combined Component ---------
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (searchWrapperRef.current && !searchWrapperRef.current.contains(event.target)) {
+                setIsSuggestionsVisible(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [searchWrapperRef]);
 
-const UnitedAddRecipeForm = () => {
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    categoryId: '',
-    time: '40',
-    ingredients: [],
-    instructions: '',
-    thumb: null,
-  });
-  const [imagePreview, setImagePreview] = useState(null);
-  const [currentIngredient, setCurrentIngredient] = useState({
-    id: '',
-    measure: '',
-  });
-  const [recipeData, setRecipeData] = useState({
-    categories: [],
-    ingredients: [],
-  });
-
-  useEffect(() => {
-    const fetchRecipeData = async () => {
-      try {
-        const response = await api.get('/recipes/creation-data');
-        setRecipeData(response.data);
-      } catch (error) {
-        console.error('Error fetching recipe data:', error);
-      }
-    };
-    fetchRecipeData();
-  }, []);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, thumb: file }));
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleTimeChange = amount => {
-    setFormData(prev => {
-      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
-      return { ...prev, time: newTime.toString() };
-    });
-  };
-
-  const addIngredient = () => {
-    if (!currentIngredient.id || !currentIngredient.measure) return;
-    const ingredientDetails = recipeData.ingredients.find(
-      ing => ing.id.toString() === currentIngredient.id
-    );
-    if (!ingredientDetails) return;
-    setFormData(prev => ({
-      ...prev,
-      ingredients: [
-        ...prev.ingredients,
-        { id: ingredientDetails.id, measure: currentIngredient.measure, name: ingredientDetails.name, thumb: ingredientDetails.thumb },
-      ],
-    }));
-    setCurrentIngredient({ id: '', measure: '' });
-  };
-
-  const removeIngredient = idToRemove => {
-    setFormData(prev => ({
-      ...prev,
-      ingredients: prev.ingredients.filter(ing => ing.id !== idToRemove),
-    }));
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    let imageUrl = '';
-    if (formData.thumb) {
-      const imageFormData = new FormData();
-      imageFormData.append('image', formData.thumb);
-      try {
-        const imageResponse = await api.post('/users/upload-image', imageFormData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
-        imageUrl = imageResponse.data.imageUrl;
-      } catch (error) {
-        console.error('Failed to upload image:', error.response?.data || error.message);
-        alert(`Error uploading image: ${error.response?.data?.message || 'An unexpected error occurred.'}`);
-        return;
-      }
-    }
-
-    const recipePayload = {
-      ...formData,
-      thumb: imageUrl,
-      ingredients: formData.ingredients.map(ing => ({ id: ing.id, measure: ing.measure })),
+    const handleAddIngredient = () => {
+        if (currentIngredient && quantity) {
+            const newIngredient = { ...currentIngredient, quantity };
+            if (!ingredients.some(ing => ing.id === newIngredient.id)) {
+                 setIngredients([...ingredients, newIngredient]);
+            }
+            setCurrentIngredient(null);
+            setSearchTerm('');
+            setQuantity('');
+            setIsSuggestionsVisible(false);
+        }
     };
 
-    try {
-      await dispatch(createRecipe(recipePayload)).unwrap();
-      alert('Recipe published successfully!');
-    } catch (error) {
-      console.error('Failed to publish recipe:', error);
-      alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
-    }
-  };
+    const handleRemoveIngredient = (id) => {
+        setIngredients(ingredients.filter(ing => ing.id !== id));
+    };
 
-  return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.mainLayout}>
-        <div className={styles.leftColumn}>
-          <div className={styles.imageUploader}>
-            <input
-              type="file"
-              id="thumb"
-              name="thumb"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="thumb" className={styles.imageLabel}>
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt="Recipe preview"
-                  className={styles.imagePreview}
-                />
-              ) : (
-                <div className={styles.placeholder}>
-                  <span className={styles.icon}></span>
-                  <span>Upload a photo</span>
+    const handleSelectIngredient = (ingredient) => {
+        setCurrentIngredient(ingredient);
+        setSearchTerm(ingredient.name);
+        setIsSuggestionsVisible(false);
+    };
+
+    return (
+        <div className={styles.ingredientsSection}>
+            <div className={styles.ingredientsControls} ref={searchWrapperRef}>
+                <div className={styles.ingredientSearchWrapper}>
+                    <input 
+                        type="text"
+                        placeholder={isLoading ? "Loading ingredients..." : "Add the ingredient"}
+                        value={searchTerm}
+                        disabled={isLoading}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => {
+                            // Delay hiding suggestions to allow click on a suggestion
+                            setTimeout(() => {
+                                setIsFocused(false);
+                            }, 200);
+                        }}
+                        className={styles.inputField}
+                    />
+                    {isSuggestionsVisible && suggestions.length > 0 && (
+                        <ul className={styles.suggestionsList}>
+                            {suggestions.map(ing => (
+                                <li key={ing.id} onClick={() => handleSelectIngredient(ing)}>
+                                    <img src={ing.thumb} alt={ing.name} />
+                                    <span>{ing.name}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
-              )}
-            </label>
-          </div>
+                <input 
+                    type="text"
+                    placeholder="Enter quantity"
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
+                    className={`${styles.inputField} ${styles.quantityInput}`}
+                />
+                <button type="button" onClick={handleAddIngredient} className={styles.addButton}>Add Ingredient +</button>
+            </div>
+
+            {ingredients.length > 0 && (
+                <ul className={styles.ingredientChipList}>
+                    {ingredients.map(ing => (
+                        <li key={ing.id} className={styles.ingredientChip}>
+                            <img src={ing.thumb} alt={ing.name} className={styles.chipImage}/>
+                            <span className={styles.chipName}>{ing.name}</span>
+                            <span className={styles.chipQuantity}>{ing.quantity}</span>
+                            <button type="button" onClick={() => handleRemoveIngredient(ing.id)} className={styles.chipRemoveButton}>×</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
-
-        <div className={styles.rightColumn}>
-          <div className={styles.formSection}>
-            <div className={styles.formGroup}>
-              <label className={styles.recipeTitleLabel}>THE NAME OF THE RECIPE</label>
-              <div className={styles.inputWrapper}>
-                <UnderlineInput
-                  name="title"
-                  placeholder="Enter a description of the dish"
-                  value={formData.title}
-                  onChange={handleChange}
-                />
-                <span className={styles.charCounter}>{formData.title.length}/200</span>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.formGroup}>
-                <label>CATEGORY</label>
-                <Dropdown
-                  options={recipeData.categories.map(cat => ({ value: cat.id, label: cat.name }))}
-                  value={formData.categoryId}
-                  onChange={option => setFormData(prev => ({ ...prev, categoryId: option.value }))}
-                  placeholder="Select a category"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>COOKING TIME</label>
-                <div className={styles.timeSelector}>
-                  <button type="button" onClick={() => handleTimeChange(-5)}><MinusIcon /></button>
-                  <span>{formData.time} min</span>
-                  <button type="button" onClick={() => handleTimeChange(5)}><PlusIcon /></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.formSection}>
-            <label className={styles.sectionTitle}>Ingredients</label>
-            <div className={styles.row}>
-              <Dropdown
-                options={recipeData.ingredients.map(ing => ({ value: ing.id, label: ing.name }))}
-                value={currentIngredient.id}
-                onChange={option => setCurrentIngredient(p => ({ ...p, id: option.value }))}
-                placeholder="Add the ingredient"
-              />
-              <UnderlineInput
-                name="measure"
-                placeholder="Enter quantity"
-                value={currentIngredient.measure}
-                onChange={e => setCurrentIngredient(p => ({ ...p, measure: e.target.value }))}
-              />
-            </div>
-            <ButtonOutline type="button" onClick={addIngredient} icon={<PlusIcon />}>
-              Add ingredient
-            </ButtonOutline>
-            <div className={styles.ingredientsList}>
-              {formData.ingredients.map(ing => (
-                <div key={ing.id} className={styles.ingredientItem}>
-                  <div className={styles.ingredientInfo}>
-                    <div className={styles.ingredientImage}>
-                      <img src={ing.thumb} alt={ing.name} />
-                    </div>
-                    <div className={styles.ingredientDetails}>
-                      <span>{ing.name}</span>
-                      <small>{ing.measure}</small>
-                    </div>
-                  </div>
-                  <button type="button" onClick={() => removeIngredient(ing.id)}>
-                    <CloseIcon />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <label className={styles.sectionTitle}>RECIPE PREPARATION</label>
-          <div className={styles.formSection}>
-            <UnderlineInput
-              type="textarea"
-              name="instructions"
-              label="Recipe Preparation"
-              placeholder="Enter recipe"
-              value={formData.instructions}
-              onChange={handleChange}
-              maxLength={2000}
-            />
-             <span className={styles.charCounter}>{formData.instructions.length}/2000</span>
-          </div>
-
-          <div className={styles.actionButtons}>
-            <ButtonIcon
-              icon={<img src="/icons/trash.svg" alt="Delete" />}
-              variant="transparent"
-              type="button"
-            />
-            <Button type="submit" variant="primary">
-              Publish
-            </Button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
+    );
 };
 
-export default UnitedAddRecipeForm;
-
-
-/*
-================================================================================
-========================= ORIGINAL COMPONENT SOURCES =========================
-================================================================================
-*/
-
-/*
---- Original file: src/components/AddRecipeForm/AddRecipeForm.jsx ---
-
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { createRecipe } from '../../redux/user/userRecipes/operations';
-import api from '../../api/api';
-import styles from './AddRecipeForm.module.css';
-import { Input } from '../Input/Input';
-import { Dropdown } from '../Dropdown/Dropdown';
-import { UnderlineInput } from '../UnderlineInput/UnderlineInput';
-import { ButtonOutline } from '../ButtonOutline/ButtonOutline';
-import { ButtonIcon } from '../ButtonIcon/ButtonIcon';
-import Button from '../Button/Button';
-
-// Mock icons - replace with actual icon components
-const PlusIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 22 22">
-    <path
-      d="M11 5v12M5 11h12"
-      stroke="#050505"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const MinusIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24">
-    <path
-      d="M5 12h14"
-      stroke="#050505"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const CloseIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16">
-    <path
-      d="M4 12L12 4M4 4L12 12"
-      stroke="#050505"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-const TrashIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 20 20">
-    <path
-      d="M6.666 15.833V8.333M10 15.833V8.333M13.333 15.833V8.333M2.5 5h15M15.833 5V3.333a1.667 1.667 0 00-1.666-1.666H5.833a1.667 1.667 0 00-1.666 1.666V5m2.5 0v12.5a1.667 1.667 0 001.667 1.667h5a1.667 1.667 0 001.667-1.667V5"
-      stroke="#1A1A1A"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
+// Основной компонент формы
 const AddRecipeForm = () => {
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    categoryId: '',
-    time: '40',
-    ingredients: [],
-    instructions: '',
-    thumb: null,
-  });
-  const [imagePreview, setImagePreview] = useState(null);
-  const [currentIngredient, setCurrentIngredient] = useState({
-    id: '',
-    measure: '',
-  });
-  const [recipeData, setRecipeData] = useState({
-    categories: [],
-    ingredients: [],
-  });
+        const [recipeData, setRecipeData] = useState({ categories: [], ingredients: [] });
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRecipeData = async () => {
-      try {
-        const response = await api.get('/recipes/creation-data');
-        setRecipeData(response.data);
-      } catch (error) {
-        console.error('Error fetching recipe data:', error);
-      }
+    useEffect(() => {
+        const fetchRecipeData = async () => {
+            try {
+                // Предполагается, что у вас есть такой эндпоинт
+                const response = await api.get('/recipes/creation-data'); 
+                setRecipeData(response.data);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching recipe data:', error);
+                setIsLoading(false);
+                // Здесь можно установить какие-то моковые данные или показать ошибку
+            }
+        };
+        fetchRecipeData();
+    }, []);
+    const [recipeImage, setRecipeImage] = useState(null);
+    const [recipeName, setRecipeName] = useState('');
+    const [recipeDescription, setRecipeDescription] = useState('');
+    const [category, setCategory] = useState('');
+    const [cookingTime, setCookingTime] = useState(30);
+    const [ingredients, setIngredients] = useState([]);
+    const [recipePreparation, setRecipePreparation] = useState('');
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setRecipeImage(URL.createObjectURL(e.target.files[0]));
+        } else {
+            setRecipeImage(null);
+        }
     };
-    fetchRecipeData();
-  }, []);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    const isFormValid = 
+        recipeImage && 
+        recipeName.length > 2 && 
+        recipeDescription.length > 10 && 
+        category && 
+        ingredients.length > 0 && 
+        recipePreparation.length > 20;
 
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, thumb: file }));
-      setImagePreview(URL.createObjectURL(file));
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isFormValid) {
+            const recipeData = {
+                image: recipeImage,
+                name: recipeName,
+                description: recipeDescription,
+                category,
+                time: cookingTime,
+                ingredients,
+                instructions: recipePreparation,
+            };
+            console.log('Recipe Submitted:', recipeData);
+            // Здесь будет логика отправки данных на сервер
+            alert('Recipe submitted successfully!');
+        } else {
+            alert('Please fill all fields correctly.');
+        }
+    };
+    
+    const handleReset = () => {
+        setRecipeImage(null);
+        setRecipeName('');
+        setRecipeDescription('');
+        setCategory('');
+        setCookingTime(30);
+        setIngredients([]);
+        setRecipePreparation('');
     }
-  };
 
-  const handleTimeChange = amount => {
-    setFormData(prev => {
-      const newTime = Math.max(5, parseInt(prev.time || 0) + amount);
-      return { ...prev, time: newTime.toString() };
-    });
-  };
+    return (
+        <div className={styles.addRecipePage}>
+            <h1 className={styles.title}>Add Recipe</h1>
+            <p className={styles.subtitle}>Reveal your culinary art, share your favorite recipe and create gastronomic masterpieces with us.</p>
 
-  const addIngredient = () => {
-    if (!currentIngredient.id || !currentIngredient.measure) return;
-    const ingredientDetails = recipeData.ingredients.find(
-      ing => ing.id.toString() === currentIngredient.id
+            <form className={styles.form} onSubmit={handleSubmit} noValidate>
+                <div className={styles.mainContent}>
+                    <RecipeImageUploader image={recipeImage} onImageChange={handleImageChange} />
+                    <div className={styles.fieldsColumn}>
+                        <ValidatedInput 
+                            id="recipe-name"
+                            placeholder="The name of the recipe"
+                            value={recipeName}
+                            onChange={(e) => setRecipeName(e.target.value)}
+                            maxLength={100}
+                            isValid={recipeName.length > 2}
+                        />
+                        <ValidatedInput 
+                            id="recipe-description"
+                            placeholder="Enter a description of the dish"
+                            value={recipeDescription}
+                            onChange={(e) => setRecipeDescription(e.target.value)}
+                            maxLength={200}
+                            isValid={recipeDescription.length > 10}
+                        />
+                        <div className={styles.row}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="category" className={styles.label}>Category</label>
+                                <CustomSelect 
+                                    id="category"
+                                    options={recipeData.categories.map(c => c.name)}
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    placeholder="Select a category"
+                                    isValid={!!category}
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Cooking Time</label>
+                                <CookingTimeSelector time={cookingTime} setTime={setCookingTime} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Ingredients</label>
+                    <IngredientsManager ingredients={ingredients} setIngredients={setIngredients} allIngredients={recipeData.ingredients} isLoading={isLoading} />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label htmlFor="preparation" className={styles.label}>Recipe Preparation</label>
+                     <div className={styles.textareaWrapper}>
+                        <textarea
+                            id="preparation"
+                            value={recipePreparation}
+                            onChange={(e) => setRecipePreparation(e.target.value)}
+                            placeholder="Enter recipe"
+                            maxLength={500}
+                            className={`${styles.textareaField} ${recipePreparation ? (recipePreparation.length > 20 ? styles.valid : styles.invalid) : ''}`}
+                        />
+                        <span className={styles.charCounter}>{recipePreparation.length}/500</span>
+                        {recipePreparation && recipePreparation.length <= 20 && <p className={styles.errorMessage}>Description must be longer than 20 characters.</p>}
+                    </div>
+                </div>
+
+                <div className={styles.formActions}>
+                    <button type="button" className={styles.resetButton} onClick={handleReset}>🗑️</button>
+                    <button type="submit" className={styles.publishButton} disabled={!isFormValid}>Publish</button>
+                </div>
+            </form>
+        </div>
     );
-    if (!ingredientDetails) return;
-    setFormData(prev => ({
-      ...prev,
-      ingredients: [
-        ...prev.ingredients,
-        { id: ingredientDetails.id, measure: currentIngredient.measure },
-      ],
-    }));
-    setCurrentIngredient({ id: '', measure: '' });
-  };
-
-  const removeIngredient = idToRemove => {
-    setFormData(prev => ({
-      ...prev,
-      ingredients: prev.ingredients.filter(ing => ing.id !== idToRemove),
-    }));
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    let imageUrl = '';
-    // Step 1: Upload image if present
-    if (formData.thumb) {
-      const imageFormData = new FormData();
-      imageFormData.append('image', formData.thumb);
-      try {
-        const imageResponse = await api.post(
-          '/users/upload-image',
-          imageFormData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
-        imageUrl = imageResponse.data.imageUrl;
-      } catch (error) {
-        console.error(
-          'Failed to upload image:',
-          error.response?.data || error.message
-        );
-        alert(
-          `Error uploading image: ${
-            error.response?.data?.message || 'An unexpected error occurred.'
-          }`
-        );
-        return; // Stop if image upload fails
-      }
-    }
-
-    // Step 2: Prepare and submit recipe data
-    const recipePayload = {
-      ...formData,
-      thumb: imageUrl, // Use the URL from the uploaded image
-      ingredients: formData.ingredients.map(ing => ({
-        id: ing.id,
-        measure: ing.measure,
-      })),
-    };
-
-    try {
-      await dispatch(createRecipe(recipePayload)).unwrap();
-      alert('Recipe published successfully!');
-      // Optionally, redirect or clear form here
-    } catch (error) {
-      console.error('Failed to publish recipe:', error);
-      alert(`Error: ${error.message || 'An unexpected error occurred.'}`);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.mainLayout}>
-        <div className={styles.leftColumn}>
-          <div className={styles.imageUploader}>
-            <input
-              type="file"
-              id="thumb"
-              name="thumb"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="thumb" className={styles.imageLabel}>
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt="Recipe preview"
-                  className={styles.imagePreview}
-                />
-              ) : (
-                <div className={styles.placeholder}>
-                  <span className={styles.icon}></span>
-                  <span>Upload a photo</span>
-                </div>
-              )}
-            </label>
-          </div>
-        </div>
-
-        <div className={styles.rightColumn}>
-          <div className={styles.formSection}>
-            <div className={styles.formGroup}>
-              <label className={styles.recipeTitleLabel}>
-                THE NAME OF THE RECIPE
-              </label>
-
-              <div className={styles.inputWrapper}>
-                <UnderlineInput
-                  name="title"
-                  placeholder="Enter a description of the dish"
-                  value={formData.title}
-                  onChange={handleChange}
-                />
-
-                <span className={styles.charCounter}>
-                  {formData.title.length}/200
-                </span>
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={styles.formGroup}>
-                <label>CATEGORY</label>
-                <Dropdown
-                  options={recipeData.categories.map(cat => ({
-                    value: cat.id,
-                    label: cat.name,
-                  }))}
-                  value={formData.categoryId}
-                  onChange={option =>
-                    setFormData(prev => ({ ...prev, categoryId: option.value }))
-                  }
-                  placeholder="Select a category"
-                />
-              </div>
-              <div className={styles.formGroup}>
-                <label>COOKING TIME</label>
-                <div className={styles.timeSelector}>
-                  <button type="button" onClick={() => handleTimeChange(-5)}>
-                    <MinusIcon />
-                  </button>
-                  <span>{formData.time} min</span>
-                  <button type="button" onClick={() => handleTimeChange(5)}>
-                    <PlusIcon />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.formSection}>
-            <label className={styles.sectionTitle}>Ingredients</label>
-            <div className={styles.row}>
-              <Dropdown
-                options={recipeData.ingredients.map(ing => ({
-                  value: ing.id,
-                  label: ing.name,
-                }))}
-                value={currentIngredient.id}
-                onChange={option =>
-                  setCurrentIngredient(p => ({ ...p, id: option.value }))
-                }
-                placeholder="Add the ingredient"
-              />
-              <UnderlineInput
-                name="measure"
-                placeholder="Enter quantity"
-                value={currentIngredient.measure}
-                onChange={e =>
-                  setCurrentIngredient(p => ({ ...p, measure: e.target.value }))
-                }
-              />
-            </div>
-            <ButtonOutline
-              type="button"
-              onClick={addIngredient}
-              icon={<PlusIcon />}
-            >
-              Add ingredient
-            </ButtonOutline>
-            <div className={styles.ingredientsList}>
-              {formData.ingredients.map(ing => (
-                <div key={ing.id} className={styles.ingredientItem}>
-                  <div className={styles.ingredientInfo}>
-                    <div className={styles.ingredientImage}>
-                      <img src={ing.thumb} alt={ing.name} />
-                    </div>
-                    <div className={styles.ingredientDetails}>
-                      <span>{ing.name}</span>
-                      <small>{ing.measure}</small>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => removeIngredient(ing.id)}
-                  >
-                    <CloseIcon />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <label className={styles.sectionTitle}>RECIPE PREPARATION</label>
-          <div className={styles.formSection}>
-            <UnderlineInput
-              type="textarea"
-              name="instructions"
-              label="Recipe Preparation"
-              placeholder="Enter recipe"
-              value={formData.instructions}
-              onChange={handleChange}
-              maxLength={2000}
-              counter={formData.instructions.length}
-              counterMax={2000}
-            />
-          </div>
-
-          <div className={styles.actionButtons}>
-            <ButtonIcon
-              icon={<img src="/icons/trash.svg" alt="Delete" />}
-              variant="transparent"
-              type="button"
-            />
-
-            <Button type="submit" variant="primary">
-              Publish
-            </Button>
-          </div>
-        </div>
-      </div>
-    </form>
-  );
 };
 
 export default AddRecipeForm;
-
-*/
-
-/*
---- Original file: src/components/Input/Input.jsx ---
-
-import styles from './Input.module.css';
-import clsx from 'clsx';
-
-export const Input = ({ placeholder = '', className, ...props }) => {
-  return (
-    <div className={styles.inputWrapper}>
-      <input
-        type="text"
-        className={clsx(styles.input, className)}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className={styles.underline}></span>
-    </div>
-  );
-};
-
-*/
-
-/*
---- Original file: src/components/Dropdown/Dropdown.jsx ---
-
-import styles from './Dropdown.module.css';
-import clsx from 'clsx';
-import { useState, useEffect } from 'react';
-
-export const Dropdown = ({
-  options = [],
-  placeholder = 'Select an option',
-  value = '',
-  onChange,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
-
-  useEffect(() => {
-    const selectedOption = options.find(opt => opt.value === value);
-    setSelected(selectedOption || null);
-  }, [value, options]);
-
-  const handleSelect = option => {
-    setSelected(option);
-    setIsOpen(false);
-    if (onChange) {
-      onChange(option);
-    }
-  };
-
-  return (
-    <div className={styles.wrapper}>
-      <button
-        className={styles.toggle}
-        onClick={() => setIsOpen(!isOpen)}
-        type="button"
-      >
-        <span>{selected?.label || placeholder}</span>
-        <img
-          src="/icons/chevron-down.svg"
-          alt="toggle"
-          className={clsx(styles.icon, isOpen && styles.rotate)}
-        />
-      </button>
-
-      {isOpen && (
-        <ul className={styles.menu}>
-          {options.map(opt => (
-            <li
-              key={opt.value}
-              className={styles.item}
-              onClick={() => handleSelect(opt)}
-            >
-              {opt.label}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-
-*/
-
-/*
---- Original file: src/components/UnderlineInput/UnderlineInput.jsx ---
-
-import styles from './UnderlineInput.module.css';
-import clsx from 'clsx';
-
-export const UnderlineInput = ({ placeholder = '', className, ...props }) => {
-  return (
-    <div className={styles.inputWrapper}>
-      <input
-        type="text"
-        className={clsx(styles.input, className)}
-        placeholder={placeholder}
-        {...props}
-      />
-      <span className={styles.underline}></span>
-    </div>
-  );
-};
-
-*/
-
-/*
---- Original file: src/components/ButtonOutline/ButtonOutline.jsx ---
-
-import styles from './ButtonOutline.module.css';
-import clsx from 'clsx';
-
-export const ButtonOutline = ({
-  children,
-  icon = null,
-  variant = 'outline',
-  ...props
-}) => {
-  return (
-    <button
-      className={clsx(styles.button, styles[variant], icon && styles.withIcon)}
-      {...props}
-    >
-      <span className={styles.label}>{children}</span>
-      {icon && <span className={styles.icon}>{icon}</span>}
-    </button>
-  );
-};
-
-*/
-
-/*
---- Original file: src/components/ButtonIcon/ButtonIcon.jsx ---
-
-import clsx from 'clsx';
-import styles from './ButtonIcon.module.css';
-
-export const ButtonIcon = ({
-  icon,
-  variant = 'dark',
-  size = 'large',
-  classNames = [],
-  noBorder = false,
-  ...props
-}) => {
-  return (
-    <button
-      className={clsx(
-        styles.button,
-        styles[variant],
-        styles[size],
-        noBorder && styles.noBorder,
-        ...classNames
-      )}
-      {...props}
-    >
-      <span className={styles.icon}>{icon}</span>
-    </button>
-  );
-};
-
-export default ButtonIcon;
-
-*/
-
-/*
---- Original file: src/components/Button/Button.jsx ---
-
-import clsx from 'clsx';
-import { FiLoader } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-
-import { TYPES, VARIANTS } from './const';
-
-import styles from './Button.module.css';
-
-const Button = ({
-  onClick,
-  children,
-  href,
-  to,
-  variant,
-  className,
-  isLoading,
-  type = TYPES.BUTTON,
-  disabled = false,
-  small = false,
-  fullWidth = false,
-}) => {
-  const clickHandler = event => {
-    if (onClick) {
-      event.preventDefault();
-      onClick(event);
-    }
-  };
-
-  const classNames = clsx(
-    styles.button,
-    variant && styles[variant],
-    small && styles.small,
-    fullWidth && styles.fullWidth,
-    className
-  );
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        className={classNames}
-        rel="nofollow noopener"
-        target="_blank"
-      >
-        {children}
-      </a>
-    );
-  } else if (to) {
-    return (
-      <Link to={to} className={classNames}>
-        {children}
-      </Link>
-    );
-  }
-
-  return (
-    <button
-      className={classNames}
-      type={type}
-      onClick={clickHandler}
-      disabled={disabled}
-    >
-      {isLoading ? <FiLoader className={styles.iconLoading} /> : children}
-    </button>
-  );
-};
-
-Button.variants = Object.assign({}, VARIANTS);
-Button.types = Object.assign({}, TYPES);
-
-export default Button;
-
-*/

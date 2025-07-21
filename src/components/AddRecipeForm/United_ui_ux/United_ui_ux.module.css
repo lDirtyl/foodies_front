@@ -1,84 +1,75 @@
-/*
-================================================================================
-=========================== ORIGINAL CSS SOURCES ===========================
-================================================================================
-*/
+/* --- General Styles & Variables --- */
+:root {
+  --primary-color: #22252a;
+  --secondary-color: #8baa36;
+  --text-color: #3e4462;
+  --light-text-color: #7e7e7e;
+  --background-color: #fafafa;
+  --white-color: #ffffff;
+  --border-color: #e0e0e0;
+  --error-color: #e74a3b;
+  --success-color: #3cbc81;
+  --font-family: 'Poppins', sans-serif;
+}
 
-/* --- Original file: src/components/AddRecipeForm/AddRecipeForm.module.css --- */
-
-.container {
-  padding: 20px;
+.addRecipePage {
+  padding: 16px;
   max-width: 1240px;
   margin: 0 auto;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
 }
 
 .title {
   font-size: 28px;
   font-weight: 600;
-  margin-bottom: 40px;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--light-text-color);
+  margin-bottom: 32px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.mainDetails {
-  display: flex;
   gap: 32px;
-  margin-bottom: 40px;
 }
 
-.fileInputContainer {
-  flex-shrink: 0;
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.fileInput {
+.fieldsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   width: 100%;
 }
 
-.mainLayout {
-  display: flex;
-  gap: 50px;
-}
-
-.leftColumn {
-  flex: 0 0 320px;
+/* --- Image Uploader --- */
+.imageUploader {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 16px;
 }
 
-.rightColumn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-
-.imageUploader {
-  width: 320px;
-  height: 320px;
-  background-color: #f5f5f5;
-  border-radius: 30px;
+.imageLabel {
+  cursor: pointer;
+  width: 280px;
+  height: 270px;
+  border-radius: 8px;
+  background-color: var(--secondary-color);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 2px dashed #dcdcdc;
-  position: relative;
-}
-
-.imageLabel {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .imagePreview {
@@ -87,702 +78,301 @@
   object-fit: cover;
 }
 
-.uploadLink {
-  color: #050505;
-  font-size: 16px;
-  font-weight: 500;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 12px;
-  text-align: center;
-  color: #333;
-  margin-bottom: 24px;
-}
-
-.formSection {
+.uploadPlaceholder {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  color: var(--white-color);
+  text-align: center;
 }
 
-.inputField,
-.textareaField,
-.selectField,
-.measureInput {
-  background-color: #f5f5f5;
-  border: 1px solid rgba(26, 26, 26, 0.1);
-  border-radius: 15px;
-  padding: 16px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
+.uploadIcon {
+  font-size: 50px;
 }
 
-.textareaContainer {
+.removeImageButton {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+
+/* --- Form Elements --- */
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.inputWrapper, .textareaWrapper, .selectWrapper {
   position: relative;
-  margin-bottom: 24px;
 }
 
-.textareaField {
-  resize: none;
-  height: 120px;
+.inputField, .selectField, .textareaField {
   width: 100%;
-  font-size: 16px;
-  padding: 12px;
-  resize: vertical;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  font-family: inherit;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--white-color);
+  font-size: 14px;
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
 }
 
-.textareaField.instructions {
-  height: 160px;
+.inputField::placeholder, .textareaField::placeholder {
+  color: var(--light-text-color);
+}
+
+.inputField:focus, .selectField:focus, .textareaField:focus {
+  outline: none;
+  border-color: var(--secondary-color);
 }
 
 .charCounter {
   position: absolute;
-  bottom: 10px;
-  right: 15px;
-  font-size: 12px;
-  color: rgba(26, 26, 26, 0.5);
-  position: absolute;
-  bottom: 8px;
   right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 12px;
-  color: #999;
+  color: var(--light-text-color);
 }
 
+.textareaWrapper .charCounter {
+  top: auto;
+  bottom: 12px;
+  transform: none;
+}
+
+.textareaField {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* --- Validation States --- */
+.valid {
+  border-color: var(--success-color) !important;
+}
+
+.invalid {
+  border-color: var(--error-color) !important;
+}
+
+.errorMessage {
+  font-size: 12px;
+  color: var(--error-color);
+  margin-top: 4px;
+}
+
+
+/* --- Specific Controls --- */
 .row {
   display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cookingTimeSelector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 8px;
+  width: fit-content;
+}
+
+.timeButton {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--secondary-color);
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+}
+
+.timeValue {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* --- Ingredients Section --- */
+.ingredientsSection {
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
-.formGroup .recipeTitleLabel {
-  font-family: 'Mulish', sans-serif;
-  font-weight: 800;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  color: #bfbebe;
-}
-
-.formGroup {
-  flex: 1;
+.ingredientsControls {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-.formGroup label,
-.sectionTitle {
-  font-family: 'Mulish', sans-serif;
-  font-weight: 800;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: -0.02em; /* -2% */
-  text-transform: uppercase;
-  color: #050505;
-}
-
-.timeSelector {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #f5f5f5;
-  border: 1px solid rgba(26, 26, 26, 0.1);
-  border-radius: 15px;
-  padding: 10px 16px;
   gap: 16px;
 }
 
-.timeSelector button {
-  background: none;
-  border: none;
+.ingredientSearchWrapper {
+  position: relative;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--white-color);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestionsList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionsList li:hover {
+  background-color: #f0f0f0;
+}
+
+.suggestionsList img {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(26, 26, 26, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.timeSelector span {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.ingredientSelect {
-  flex-grow: 1;
-}
-
-.measureInput {
-  flex-basis: 120px;
-}
-
-.addIngredientBtn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: none;
-  border: 1px solid rgba(26, 26, 26, 0.2);
-  border-radius: 30px;
-  padding: 14px 28px;
-  font-size: 16px;
-  font-weight: 500;
+.addButton {
+  padding: 12px 24px;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 24px;
   cursor: pointer;
   align-self: flex-start;
+  transition: background-color 0.3s ease;
 }
 
-.ingredientsList {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.addButton:hover {
+  background-color: var(--secondary-color);
 }
 
-.ingredientItem {
+.ingredientChipList {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientChip {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  background-color: #ebf3d4;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
 }
 
-.ingredientInfo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.chipImage {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
-.ingredientImage {
-  width: 48px;
-  height: 48px;
+.chipName {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.chipQuantity {
+  color: var(--light-text-color);
+}
+
+.chipRemoveButton {
+  background: none;
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
   border-radius: 50%;
-  background-color: #f5f5f5;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
 }
 
-.ingredientImage img {
-  width: 100%;
-  height: 150px;
-  padding: 14px;
-  background-color: #22252a;
-  border: 1px solid rgba(250, 250, 250, 0.2);
+/* --- Form Actions --- */
+.formActions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.resetButton {
+  background-color: transparent;
+  border: 1px solid var(--primary-color);
   border-radius: 6px;
-  color: #fafafa;
-  font-size: 14px;
-  resize: none;
+  width: 44px;
+  height: 44px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .publishButton {
-  padding: 14px 40px;
-  background-color: #8aa936;
-  color: #fafafa;
+  padding: 12px 32px;
+  background-color: var(--secondary-color);
+  color: var(--white-color);
   border: none;
-  border-radius: 15px;
+  border-radius: 24px;
   cursor: pointer;
   font-size: 16px;
-  align-self: flex-start;
+  transition: opacity 0.3s ease;
 }
 
 .publishButton:disabled {
-  background-color: #7f8c6a; /* Darker, less saturated green */
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-.placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #1a1a1a;
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
-  line-height: 1.2;
-  padding: 16px;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-}
+/* --- Media Queries (Mobile First) --- */
 
-.placeholder::before {
-  content: '';
-  display: block;
-  width: 32px;
-  height: 32px;
-  background-image: url('/icons/photo-camera.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  margin-bottom: 8px;
-}
-
-.inputWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.inputWrapper input {
-  width: 100%;
-  font-size: 16px;
-  padding: 8px 0;
-  border: none;
-  border-bottom: 1px solid #e0e0e0;
-  outline: none;
-}
-
-.inputWrapper input::placeholder {
-  color: #c1c1c1;
-}
-
-.timeSelector button svg {
-  width: 16px;
-  height: 16px;
-  stroke: rgba(26, 26, 26, 0.8);
-}
-
-
-/* --- Original file: src/components/Input/Input.module.css --- */
-
-.input {
-  width: 100%;
-  max-width: 320px;
-  height: 44px;
-  padding: 12px 14px;
-  border: 1px solid var(--gray-color);
-  border-radius: var(--border-radius-m);
-  background-color: var(--white-color);
-  font-family: 'Mulish', sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-  color: var(--black-color);
-  transition: border-color var(--transition-duration) var(--transition-timing-function);
-}
-
-.input::placeholder {
-  color: var(--gray-color);
-}
-
-.input:focus {
-  outline: none;
-  border-color: var(--black-color);
-}
-
+/* Tablet */
 @media (min-width: 768px) {
-  .input {
-    max-width: 400px;
-    height: 48px;
-    padding: 14px 18px;
-    font-size: 14px;
-    line-height: 20px;
-  }
+  .title { font-size: 32px; }
+  .mainContent { flex-direction: row; align-items: flex-start; }
+  .imageUploader { flex-shrink: 0; }
+  .row { flex-direction: row; gap: 32px; align-items: flex-end; }
+  .row .formGroup { flex: 1; }
+  .ingredientsControls { flex-direction: row; align-items: center; }
+  .quantityInput { max-width: 150px; }
+  .formActions { justify-content: flex-end; }
 }
 
-@media (min-width: 1440px) {
-  .input {
-    max-width: 500px;
-  }
-}
-
-
-/* --- Original file: src/components/Dropdown/Dropdown.module.css --- */
-
-.wrapper {
-  position: relative;
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .wrapper {
-    max-width: 320px;
-  }
-}
-
-.toggle {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid rgba(26, 26, 26, 0.2);
-  border-radius: 30px;
-  background-color: var(--white-color);
-  font-family: 'Mulish', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.toggle span {
-  color: rgba(26, 26, 26, 0.5);
-}
-
-.icon {
-  width: 18px;
-  height: 18px;
-  transition: transform var(--transition-duration) var(--transition-timing-function);
-}
-
-.rotate {
-  transform: rotate(180deg);
-}
-
-.menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  width: 100%;
-  max-height: 250px;
-  overflow-y: auto;
-  background-color: var(--white-color);
-  border: 1px solid #e8e8e8;
-  border-radius: var(--border-radius-m);
-  z-index: 10;
-  padding: 12px 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.item {
-  padding: 8px 14px;
-  font-family: 'Mulish', sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  color: var(--black-color);
-}
-
-.item:hover {
-  background-color: #f3f3f3;
-}
-
-.selected {
-  font-weight: 700;
-  background-color: #f5f5f5;
-}
-
-@media (min-width: 768px) {
-  .wrapper {
-    max-width: 400px;
-  }
-
-  .toggle {
-    padding: 14px 18px;
-    font-size: 16px;
-  }
-
-  .item {
-    font-size: 16px;
-    padding: 10px 18px;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-
-/* --- Original file: src/components/UnderlineInput/UnderlineInput.module.css --- */
-
-.inputWrapper {
-  position: relative;
-  width: 100%;
-}
-
-.input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #e0e0e0;
-  padding: 8px 0;
-  font-family: 'Mulish', sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  color: #1a1a1a;
-  background-color: transparent;
-}
-
-.input::placeholder {
-  color: #bfbfbf;
-}
-
-.input:focus {
-  outline: none;
-  border-bottom: 1px solid #1a1a1a;
-}
-
-.underline {
-  display: none; /* можна використати для анімації, якщо потрібно */
-}
-
-
-/* --- Original file: src/components/ButtonOutline/ButtonOutline.module.css --- */
-
-.button {
-  width: 186px;
-  height: 48px;
-  padding: 12px 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border-radius: var(--border-radius-m);
-  cursor: pointer;
-  white-space: nowrap;
-  font-family: 'Mulish', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 14px;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
-  transition: background-color var(--transition-duration) var(--transition-timing-function), color var(--transition-duration) var(--transition-timing-function);
-}
-
-.label {
-  display: inline-block;
-}
-
-.icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-}
-
-.outline {
-  background-color: transparent;
-  border: 1px solid var(--black-color);
-  color: var(--black-color);
-}
-
-.outline:hover {
-  background-color: var(--black-color);
-  color: var(--white-color);
-}
-
-.outline:hover .icon img,
-.outline:hover .icon svg {
-  filter: brightness(0) invert(1);
-}
-
-.dark {
-  background-color: var(--black-color);
-  border: none;
-  color: var(--white-color);
-}
-
-@media (min-width: 768px) {
-  .button {
-    width: 229px;
-    height: 56px;
-    padding: 16px 32px;
-    font-size: 14px;
-    line-height: 18px;
-  }
-
-  .icon {
-    width: 22px;
-    height: 22px;
-  }
-}
-
-
-/* --- Original file: src/components/ButtonIcon/ButtonIcon.module.css --- */
-
-.button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: var(--border-radius-full);
-  cursor: pointer;
-  transition: background-color var(--transition-duration) var(--transition-timing-function);
-}
-
-.dark {
-  background-color: var(--dark-gray-color);
-  color: var(--white-color);
-}
-.dark:hover {
-  background-color: var(--black-color);
-}
-.dark .icon img,
-.dark .icon svg {
-  filter: brightness(0) invert(1);
-}
-
-.light {
-  background-color: var(--white-color);
-  border: 1px solid #e8e8e8;
-  color: var(--black-color);
-}
-.light:hover {
-  background-color: var(--black-color);
-  color: var(--white-color);
-}
-.light:hover .icon img,
-.light:hover .icon svg {
-  filter: brightness(0) invert(1);
-}
-
-.transparent {
-  background-color: transparent;
-  border: 1px solid #e8e8e8;
-  color: var(--black-color);
-}
-.transparent:hover {
-  background-color: var(--black-color);
-  color: var(--white-color);
-}
-.transparent:hover .icon img,
-.transparent:hover .icon svg {
-  filter: brightness(0) invert(1);
-}
-
-.noBorder {
-  border: none;
-}
-
-.large {
-  width: 48px;
-  height: 48px;
-}
-.small {
-  width: 32px;
-  height: 32px;
-}
-
-.icon img,
-.icon svg {
-  display: block;
-}
-.large .icon img,
-.large .icon svg {
-  width: 20px;
-  height: 20px;
-}
-.small .icon img,
-.small .icon svg {
-  width: 14px;
-  height: 14px;
-}
-
-@media (min-width: 768px) {
-  .large {
-    width: 42px;
-    height: 42px;
-  }
-
-  .large .icon img,
-  .large .icon svg {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-
-/* --- Original file: src/components/Button/Button.module.css --- */
-
-.button {
-  outline: none;
-  padding: 16px 32px;
-  height: 48px;
-  min-width: 124px;
-  cursor: pointer;
-  transition: all var(--trns-fast);
-  border-radius: 30px;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-align: center;
-  text-transform: uppercase;
-  font-family: 'Mulish Medium', Arial, sans-serif;
-  font-size: 14px;
-  background-color: transparent;
-  border: 1px solid transparent;
-  color: var(--dark-gray-color);
-}
-
-@media (min-width: 768px) {
-  .button {
-    font-size: 16px;
-  }
-}
-
-.button.small {
-  padding: 10px 24px;
-  height: 44px;
-  min-width: 116px;
-}
-
-.button.medium {
-  padding: 12px 24px !important;
-  height: 48px !important;
-  min-width: 124px !important;
-}
-
-.iconLoading {
-  animation: rotate var(--trns-slow-linear) infinite;
-}
-
-.button:disabled {
-  cursor: default;
-}
-
-.button.primary {
-  background-color: #050505;
-  color: var(--white-color);
-  border: 1px solid #050505;
-}
-
-.button.primary:disabled,
-.button.primary:disabled:hover {
-  background-color: var(--gray-color);
-  color: var(--white-color);
-  border: 1px solid var(--gray-color);
-}
-
-.button.primary:hover,
-.button.primary:focus-visible {
-  background-color: var(--black-color);
-  border-color: var(--black-color);
-}
-
-.button.secondary {
-  background-color: var(--white-color);
-  color: var(--black-color);
-  border: 1px solid var(--dark-gray-color);
-}
-
-.button.secondary:disabled,
-.button.secondary:disabled:hover {
-  background-color: var(--gray-color);
-  color: var(--gray-color);
-  border: 1px solid var(--gray-color);
-}
-
-.button.secondary:hover,
-.button.secondary:focus-visible {
-  background-color: var(--black-color);
-  color: var(--white-color);
-  border-color: var(--black-color);
-}
-
-.button.secondary-reversed {
-  background-color: var(--black-color);
-  color: var(--white-color);
-  border: 1px solid var(--white-color);
-}
-
-.button.secondary-reversed:disabled,
-.button.secondary-reversed:disabled:hover {
-  background-color: var(--black-color);
-  color: var(--gray-color);
-  border: 1px solid var(--gray-color);
+/* Desktop */
+@media (min-width: 1200px) {
+  .title { font-size: 44px; }
+  .imageUploader { align-items: flex-start; }
+  .imageLabel { width: 360px; height: 345px; }
+  .formActions { justify-content: start; }
 }
