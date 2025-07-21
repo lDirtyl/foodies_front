@@ -1,22 +1,44 @@
 import axios from 'axios';
-
+import { store } from '../redux/store';
 
 export const API_BASE_URL = import.meta.env.VITE_API_URL;
-
 export const SERVER_URL = API_BASE_URL.replace(/\/api$/, '');
 
-const api = axios.create({
+// Public API instance
+export const publicApi = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true, // важно для работы с куками через CORS
+  withCredentials: true,
 });
+
+// Private API instance
+export const privateApi = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  withCredentials: true,
+});
+
+privateApi.interceptors.request.use(
+  config => {
+    const token = store.getState().auth.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 export const categoriesService = {
   getAll: async (page = 1, limit = 100) => {
     try {
-      const response = await api.get(`/categories?page=${page}&limit=${limit}`);
+      const response = await publicApi.get(`/categories?page=${page}&limit=${limit}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -27,7 +49,7 @@ export const categoriesService = {
   // get single category
   getById: async id => {
     try {
-      const response = await api.get(`/categories/${id}`);
+      const response = await publicApi.get(`/categories/${id}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching category:', error);
@@ -43,10 +65,22 @@ export const categoriesService = {
   },
 };
 
+export const ingredientsService = {
+  getAll: async (page = 1, limit = 300) => {
+    try {
+      const response = await publicApi.get(`/ingredients?page=${page}&limit=${limit}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching ingredients:', error);
+      throw error;
+    }
+  },
+};
+
 export const areasService = {
   getAll: async (page = 1, limit = 100) => {
     try {
-      const response = await api.get(`/areas?page=${page}&limit=${limit}`);
+      const response = await publicApi.get(`/areas?page=${page}&limit=${limit}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching areas:', error);
@@ -58,7 +92,7 @@ export const areasService = {
 export const testimonialsService = {
   getAll: async () => {
     try {
-      const response = await api.get('/testimonials');
+      const response = await publicApi.get('/testimonials');
       return response.data;
     } catch (error) {
       console.error('Error fetching testimonials:', error);
@@ -83,7 +117,7 @@ export const recipesService = {
       if (area) params.append('area', area);
       if (search) params.append('search', search);
 
-      const response = await api.get(`/recipes?${params.toString()}`);
+      const response = await publicApi.get(`/recipes?${params.toString()}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching recipes:', error);
@@ -93,7 +127,7 @@ export const recipesService = {
 
   getById: async id => {
     try {
-      const response = await api.get(`/recipes/${id}`);
+      const response = await publicApi.get(`/recipes/${id}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching recipe:', error);
@@ -103,7 +137,7 @@ export const recipesService = {
 
   getUserRecipes: async (page = 1, limit = 10) => {
     try {
-      const response = await api.get(
+      const response = await privateApi.get(
         `/recipes/own-recipes?page=${page}&limit=${limit}`
       );
       return response.data;
@@ -115,7 +149,7 @@ export const recipesService = {
 
   getFavorites: async (page = 1, limit = 10) => {
     try {
-      const response = await api.get(
+      const response = await privateApi.get(
         `/recipes/favorites?page=${page}&limit=${limit}`
       );
       return response.data;
@@ -127,7 +161,7 @@ export const recipesService = {
 
   addToFavorites: async id => {
     try {
-      const response = await api.post(`/recipes/${id}/favorites`);
+      const response = await privateApi.post(`/recipes/${id}/favorites`);
       return response.data;
     } catch (error) {
       console.error('Error adding to favorites:', error);
@@ -137,7 +171,7 @@ export const recipesService = {
 
   removeFromFavorites: async id => {
     try {
-      const response = await api.delete(`/recipes/${id}/favorites`);
+      const response = await privateApi.delete(`/recipes/${id}/favorites`);
       return response.data;
     } catch (error) {
       console.error('Error removing from favorites:', error);
@@ -147,7 +181,7 @@ export const recipesService = {
 
   create: async recipeData => {
     try {
-      const response = await api.post('/recipes', recipeData);
+      const response = await privateApi.post('/recipes', recipeData);
       return response.data;
     } catch (error) {
       console.error('Error creating recipe:', error);
@@ -157,7 +191,7 @@ export const recipesService = {
 
   delete: async id => {
     try {
-      const response = await api.delete(`/recipes/${id}`);
+      const response = await privateApi.delete(`/recipes/${id}`);
       return response.data;
     } catch (error) {
       console.error('Error deleting recipe:', error);
@@ -173,4 +207,4 @@ export const recipesService = {
   },
 };
 
-export default api;
+
