@@ -4,10 +4,13 @@ import { categoriesService } from '../../services/api';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 import styles from './Categories.module.css';
 
-const MAX_CATEGORIES = 11;
+const DESKTOP_LIMIT = 11;
+const MOBILE_LIMIT = 8;
 
 const Categories = ({ onCategorySelect }) => {
-  const [categories, setCategories] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -17,11 +20,11 @@ const Categories = ({ onCategorySelect }) => {
         setIsLoading(true);
         const data = await categoriesService.getAll();
         const categoriesArray = Array.isArray(data) ? data : data.categories || [];
-        setCategories(categoriesArray.slice(0, MAX_CATEGORIES));
-        setIsLoading(false);
+        setAllCategories(categoriesArray);
       } catch (error) {
         console.error('Failed to load categories:', error);
         setError('Failed to load categories');
+      } finally {
         setIsLoading(false);
       }
     };
@@ -29,8 +32,20 @@ const Categories = ({ onCategorySelect }) => {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   if (isLoading) return <LoadingIndicator />;
   if (error) return <div className={styles.error}>{error}</div>;
+
+  const limit = isMobile ? MOBILE_LIMIT : DESKTOP_LIMIT;
+  const displayedCategories = showAll ? allCategories : allCategories.slice(0, limit);
 
   return (
     <div>
@@ -41,7 +56,7 @@ const Categories = ({ onCategorySelect }) => {
         </p>
       </div>
       <div className={styles.categoriesGrid}>
-        {categories.map(category => (
+        {displayedCategories.map(category => (
           <div
             key={category.id}
             className={styles.categoryCard}
@@ -67,13 +82,26 @@ const Categories = ({ onCategorySelect }) => {
             </div>
           </div>
         ))}
-        <div className={`${styles.categoryCard} ${styles.allCategories}`} onClick={() => onCategorySelect({ id: 'all', name: 'All categories' })}>
-          <div>
-            <span>
-              All categories
-            </span>
+
+        {showAll ? (
+          <div 
+            className={`${styles.categoryCard} ${styles.allCategories} ${styles.ShowAllRecepi}`}
+            onClick={() => onCategorySelect({ id: 'all', name: 'All categories' })}
+          >
+            <div>
+              <span>SHOW ALL RECEPI</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div 
+            className={`${styles.categoryCard} ${styles.allCategories}`}
+            onClick={() => setShowAll(true)}
+          >
+            <div>
+              <span>All categories</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
