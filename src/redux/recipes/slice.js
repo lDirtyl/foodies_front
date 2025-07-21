@@ -6,6 +6,7 @@ import {
   fetchUserRecipes,
   fetchFavorites,
   fetchRecipeById,
+  fetchPopularRecipes,
   toggleFavoriteThunk,
   createRecipe,
   deleteRecipeThunk,
@@ -16,12 +17,15 @@ const initialState = {
   userRecipes: [],
   favorites: [],
   currentRecipe: null,
+  popularRecipes: [],
   categories: [],
   areas: [],
   currentPage: 1,
   totalPages: 3,
   totalRecipes: 0,
   isLoading: false,
+  isLoadingRecipe: false,
+  isLoadingPopular: false,
   error: null,
   activeTab: 'MY RECIPES',
   filters: {
@@ -177,16 +181,29 @@ const recipesSlice = createSlice({
 
       // Fetch single recipe
       .addCase(fetchRecipeById.pending, state => {
-        state.isLoading = true;
+        console.log('=== REDUX: fetchRecipeById.pending ===');
+        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
+        state.isLoadingRecipe = true;
         state.error = null;
+        // НЕ очищаємо currentRecipe під час завантаження
+        console.log('State after pending:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
       })
       .addCase(fetchRecipeById.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.currentRecipe = action.payload.data || action.payload;
+        console.log('=== REDUX: fetchRecipeById.fulfilled ===');
+        console.log('Payload:', action.payload?.id, action.payload?.title);
+        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
+        state.isLoadingRecipe = false;
+        state.currentRecipe = action.payload;
+        console.log('State after fulfilled:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
       })
       .addCase(fetchRecipeById.rejected, (state, action) => {
-        state.isLoading = false;
+        console.log('=== REDUX: fetchRecipeById.rejected ===');
+        console.log('Error payload:', action.payload);
+        console.log('State before:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
+        state.isLoadingRecipe = false;
         state.error = action.payload || 'Failed to fetch recipe';
+        // НЕ очищаємо currentRecipe при помилці, якщо була попередня успішна версія
+        console.log('State after rejected:', { currentRecipe: state.currentRecipe?.id, isLoadingRecipe: state.isLoadingRecipe });
       })
 
       // Toggle favorite
@@ -253,6 +270,20 @@ const recipesSlice = createSlice({
       })
       .addCase(deleteRecipeThunk.rejected, (state, action) => {
         state.error = action.payload || 'Failed to delete recipe';
+      })
+
+      // Fetch popular recipes
+      .addCase(fetchPopularRecipes.pending, state => {
+        state.isLoadingPopular = true;
+        state.error = null;
+      })
+      .addCase(fetchPopularRecipes.fulfilled, (state, action) => {
+        state.isLoadingPopular = false;
+        state.popularRecipes = action.payload.recipes || action.payload || [];
+      })
+      .addCase(fetchPopularRecipes.rejected, (state, action) => {
+        state.isLoadingPopular = false;
+        state.error = action.payload || 'Failed to fetch popular recipes';
       });
   },
 });

@@ -5,6 +5,7 @@ import { userFavoriteRecipesReducer } from './user/userFavoriteRecipes';
 import { userFollowersReducer } from './user/userFollowers';
 import { userFollowingReducer } from './user/userFollowing';
 import { userProfileReducer } from './user/userProfile';
+import currentRecipeReducer from './currentRecipe/slice';
 
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -23,6 +24,7 @@ export const store = configureStore({
   reducer: {
     user: userSlice,
     recipes: recipesReducer,
+    currentRecipe: currentRecipeReducer,
     userRecipes: userRecipesReducer,
     userFavoriteRecipes: userFavoriteRecipesReducer,
     userFollowers: userFollowersReducer,

@@ -2,12 +2,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import SharedLayout from './components/SharedLayout/SharedLayout';
 import HomePage from './pages/HomePage/HomePage';
 import RecipePage from './pages/RecipePage/RecipePage';
+import TestRecipeDebug from './pages/TestRecipeDebug/TestRecipeDebug';
 import AddRecipePage from './pages/AddRecipePage/AddRecipePage';
 import UserPage from './pages/UserPage/UserPage';
 import UserPageLayout from './pages/UserPage/UserPageLayout';
 import CategoriesPage from './pages/CategoriesPage/CategoriesPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import TestAddRecipePage from './pages/TestAddRecipePage';
+import TestRecipePage from './pages/TestRecipePage/TestRecipePage';
 
 export default function AppRouter() {
   return (
@@ -16,6 +18,7 @@ export default function AppRouter() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<HomePage />} />
           <Route path="recipe/:id" element={<RecipePage />} />
+          <Route path="recipe-debug/:id" element={<TestRecipeDebug />} />
           <Route path="users/:id/add-recipe" element={<AddRecipePage />} />
           <Route path="user/:id" element={<UserPage />}>
             <Route index element={<UserPageLayout />} />
@@ -26,7 +29,8 @@ export default function AppRouter() {
           </Route>
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="categories/:id" element={<CategoriesPage />} />
-                    <Route path="testpage_add_recepi" element={<TestAddRecipePage />} />
+          <Route path="testpage_add_recepi" element={<TestAddRecipePage />} />
+          <Route path="test-recipes" element={<TestRecipePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

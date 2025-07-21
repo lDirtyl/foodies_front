@@ -4,6 +4,7 @@ import {
   categoriesService,
   areasService,
 } from '../../services/api';
+import { mockRecipeData, mockPopularRecipes } from '../../utils/mockData';
 
 export const fetchCategories = createAsyncThunk(
   'recipes/fetchCategories',
@@ -84,11 +85,32 @@ export const fetchFavorites = createAsyncThunk(
 
 export const fetchRecipeById = createAsyncThunk(
   'recipes/fetchRecipeById',
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, getState }) => {
     try {
+      console.log('=== fetchRecipeById START ===');
+      console.log('ID:', id);
+      console.log('Current state before:', getState().recipes);
+      
+      // Перевіряємо, чи це тестовий рецепт
+      if (id.startsWith('test-recipe-')) {
+        const mockRecipe = mockRecipeData[id];
+        console.log('Found mock recipe:', mockRecipe);
+        if (mockRecipe) {
+          console.log('Returning mock recipe');
+          return mockRecipe;
+        } else {
+          console.log('Mock recipe not found');
+          return rejectWithValue('Тестовий рецепт не знайдено');
+        }
+      }
+      
+      // Для звичайних рецептів використовуємо API
+      console.log('Using API for recipe:', id);
       const response = await recipesService.getById(id);
+      console.log('API response:', response);
       return response;
     } catch (error) {
+      console.error('fetchRecipeById ERROR:', error);
       return rejectWithValue(error.response?.data || error.message);
     }
   }
@@ -128,6 +150,25 @@ export const deleteRecipeThunk = createAsyncThunk(
     try {
       await recipesService.delete(id);
       return id;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const fetchPopularRecipes = createAsyncThunk(
+  'recipes/fetchPopularRecipes',
+  async (limit = 4, { rejectWithValue }) => {
+    try {
+      // Спочатку намагаємося отримати дані з API
+      try {
+        const response = await recipesService.getPopularRecipes();
+        return response;
+      } catch {
+        // Якщо API не працює, повертаємо mock дані
+        console.log('API недоступне, використовуємо mock дані для популярних рецептів');
+        return mockPopularRecipes.slice(0, limit);
+      }
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
