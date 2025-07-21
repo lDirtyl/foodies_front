@@ -298,20 +298,22 @@ const AddRecipeForm = () => {
             <div className={styles.ingredientsList}>
               {formData.ingredients.map(ing => (
                 <div key={ing.id} className={styles.ingredientItem}>
-                  <div className={styles.ingredientInfo}>
-                    <div className={styles.ingredientImage}>
-                      <img src={ing.thumb} alt={ing.name} />
-                    </div>
-                    <div className={styles.ingredientDetails}>
-                      <span>{ing.name}</span>
-                      <small>{ing.measure}</small>
-                    </div>
+                  <div className={styles.ingredientImage}>
+                    <img src={ing.thumb} alt={ing.name} />
+                  </div>
+                  <div className={styles.ingredientDetails}>
+                    <span>{ing.name}</span>
+                    <small>{ing.measure}</small>
                   </div>
                   <button
                     type="button"
+                    className={styles.removeIngredientBtn}
                     onClick={() => removeIngredient(ing.id)}
                   >
-                    <CloseIcon />
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L4 12" stroke="#050505" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M4 4L12 12" stroke="#050505" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                   </button>
                 </div>
               ))}
