@@ -1,8 +1,7 @@
 // Basic selectors
 export const selectRecipes = state => state.recipes.recipes;
 export const selectUserRecipes = state => state.recipes.userRecipes;
-export const selectFavoriteIds = state => state.recipes.favoriteIds || []; // Array of favorite recipe IDs
-export const selectFavoriteIdsSet = state => new Set(state.recipes.favoriteIds || []); // Efficient Set for O(1) lookup
+export const selectFavoriteIdsSet = state => new Set(state.recipes.favoriteIds || []);
 export const selectCurrentRecipe = state => state.recipes.currentRecipe;
 export const selectCategories = state => state.recipes.categories;
 export const selectAreas = state => state.recipes.areas;
