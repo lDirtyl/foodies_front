@@ -41,41 +41,6 @@ const recipesSlice = createSlice({
   name: 'recipes',
   initialState,
   reducers: {
-    setRecipes: (state, action) => {
-      state.recipes = action.payload;
-    },
-    setUserRecipes: (state, action) => {
-      state.userRecipes = action.payload;
-    },
-    setFavorites: (state, action) => {
-      state.favorites = action.payload;
-    },
-    setCurrentRecipe: (state, action) => {
-      state.currentRecipe = action.payload;
-    },
-    toggleFavorite: (state, action) => {
-      const recipeId = action.payload;
-      const recipe = state.recipes.find(r => r.id === recipeId);
-      if (recipe) {
-        recipe.isFavorite = !recipe.isFavorite;
-      }
-      // Update in userRecipes array
-      const userRecipe = state.userRecipes.find(r => r.id === recipeId);
-      if (userRecipe) {
-        userRecipe.isFavorite = !userRecipe.isFavorite;
-        if (userRecipe.isFavorite) {
-          state.favorites.push(userRecipe);
-        } else {
-          state.favorites = state.favorites.filter(r => r.id !== recipeId);
-        }
-      }
-    },
-    deleteRecipe: (state, action) => {
-      const recipeId = action.payload;
-      state.recipes = state.recipes.filter(r => r.id !== recipeId);
-      state.userRecipes = state.userRecipes.filter(r => r.id !== recipeId);
-      state.favorites = state.favorites.filter(r => r.id !== recipeId);
-    },
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
@@ -285,12 +250,6 @@ const recipesSlice = createSlice({
 });
 
 export const {
-  setRecipes,
-  setUserRecipes,
-  setFavorites,
-  setCurrentRecipe,
-  toggleFavorite,
-  deleteRecipe,
   setCurrentPage,
   setTotalPages,
   setTotalRecipes,

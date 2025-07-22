@@ -1,7 +1,8 @@
 // Basic selectors
 export const selectRecipes = state => state.recipes.recipes;
 export const selectUserRecipes = state => state.recipes.userRecipes;
-export const selectFavoriteIdsSet = state => new Set(state.recipes.favoriteIds || []);
+export const selectFavorites = state => state.recipes.favorites;
+export const selectFavoriteIdsSet = state => new Set((state.recipes.favorites || []).map(recipe => recipe.id));
 export const selectCurrentRecipe = state => state.recipes.currentRecipe;
 export const selectCategories = state => state.recipes.categories;
 export const selectAreas = state => state.recipes.areas;
@@ -44,9 +45,4 @@ export const selectRecipeById = (state, recipeId) => {
   
   return recipes.find(recipe => recipe.id === recipeId) ||
          userRecipes.find(recipe => recipe.id === recipeId);
-};
-
-export const selectIsFavorite = (state, recipeId) => {
-  const favoriteIds = selectFavoriteIds(state);
-  return favoriteIds.includes(recipeId);
 };

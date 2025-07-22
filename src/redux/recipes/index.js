@@ -13,7 +13,7 @@ export {
 export {
   selectRecipes,
   selectUserRecipes,
-  selectFavoriteIds,
+  selectFavorites,
   selectFavoriteIdsSet,
   selectCurrentRecipe,
   selectCategories,
@@ -30,15 +30,9 @@ export {
   selectFilteredRecipes,
   selectHasFilters,
   selectRecipeById,
-  selectIsFavorite,
 } from './selectors';
 
 export {
-  setRecipes,
-  setUserRecipes,
-  setCurrentRecipe,
-  toggleFavorite,
-  deleteRecipe,
   setCurrentPage,
   setTotalPages,
   setTotalRecipes,
