@@ -7,8 +7,10 @@ import ButtonIcon from '../ButtonIcon/ButtonIcon';
 
 import styles from './RecipeListItem.module.css';
 
-const DEFAULT_IMAGE_URL = 'https://d33wubrfki0l68.cloudfront.net/2b3f027405ee07fb69921b5de0710bb844882662/e937b/img/fallback.png';
-const DEFAULT_AVATAR_URL = 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740';
+const DEFAULT_IMAGE_URL =
+  'https://d33wubrfki0l68.cloudfront.net/2b3f027405ee07fb69921b5de0710bb844882662/e937b/img/fallback.png';
+const DEFAULT_AVATAR_URL =
+  'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740';
 
 const RecipeListItem = ({
   recipe,
@@ -18,7 +20,7 @@ const RecipeListItem = ({
   onViewRecipe,
 }) => {
   if (!recipe) return null;
-  
+
   const avatarUrl = recipe.owner?.avatarURL?.startsWith('http')
     ? recipe.owner.avatarURL
     : DEFAULT_AVATAR_URL;
@@ -33,11 +35,16 @@ const RecipeListItem = ({
 
   return (
     <li className={styles.card}>
-      <Link to={`/recipes/${recipeId}`} className={styles.imageLink}>
-        <img src={recipesService.getImageUrl(recipe.thumb)} alt={recipe.title} className={styles.image} onError={e => {
-          e.target.onerror = null; 
-          e.target.src = DEFAULT_IMAGE_URL;
-        }} />
+      <Link to={`/recipe/${recipeId}`} className={styles.imageLink}>
+        <img
+          src={recipesService.getImageUrl(recipe.thumb)}
+          alt={recipe.title}
+          className={styles.image}
+          onError={e => {
+            e.target.onerror = null;
+            e.target.src = DEFAULT_IMAGE_URL;
+          }}
+        />
       </Link>
       <div className={styles.content}>
         <h4 className={styles.title}>{recipe.title}</h4>
@@ -53,7 +60,7 @@ const RecipeListItem = ({
               alt={recipe.owner?.name || 'Anonymous'}
               className={styles.avatar}
               onError={e => {
-                e.target.onerror = null; 
+                e.target.onerror = null;
                 e.target.src = DEFAULT_AVATAR_URL;
               }}
             />
@@ -61,15 +68,10 @@ const RecipeListItem = ({
           </button>
           <div className={styles.wrap}>
             <ButtonIcon
-              icon={
-                <img 
-                  src="/icons/heart.svg" 
-                  alt="Favorite" 
-                />
-              }
+              icon={<img src="/icons/heart.svg" alt="Favorite" />}
               onClick={handleFavoriteClick}
               title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
-              variant={isFavorite ? "dark" : "light"}
+              variant={isFavorite ? 'dark' : 'light'}
             />
 
             <ButtonIcon
