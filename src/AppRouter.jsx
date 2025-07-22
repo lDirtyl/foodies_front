@@ -8,6 +8,7 @@ import UserPage from './pages/UserPage/UserPage';
 import UserPageLayout from './pages/UserPage/UserPageLayout';
 import CategoriesPage from './pages/CategoriesPage/CategoriesPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import SessionExpiredPage from './pages/SessionExpiredPage';
 
 export default function AppRouter() {
   return (
@@ -27,6 +28,7 @@ export default function AppRouter() {
           </Route>
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="categories/:id" element={<CategoriesPage />} />
+          <Route path="session-expired" element={<SessionExpiredPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
