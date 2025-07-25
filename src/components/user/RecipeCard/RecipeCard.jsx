@@ -43,7 +43,11 @@ const RecipeCard = ({
     <div className={styles.recipeCard}>
       <div className={styles.imageContainer}>
         <img
-          src={recipe.thumb && recipe.thumb.startsWith('http') ? recipe.thumb : '/images/add_recepi.png'}
+          src={
+            recipe.thumb && recipe.thumb.startsWith('http')
+              ? recipe.thumb
+              : '/images/add_recepi.png'
+          }
           alt={recipe.title}
           className={styles.recipeImage}
         />
@@ -73,7 +77,14 @@ const RecipeCard = ({
             </>
           ) : (
             <ButtonIcon
-              icon={<img src="/icons/heart.svg" alt="Favorite" />}
+              icon={
+                <img
+                  src={
+                    isFavorite ? '/icons/heart-filled.svg' : '/icons/heart.svg'
+                  }
+                  alt="Favorite"
+                />
+              }
               onClick={handleToggleFavorite}
               title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
               variant="light"

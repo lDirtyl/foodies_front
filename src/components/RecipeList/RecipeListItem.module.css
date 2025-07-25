@@ -1,209 +1,209 @@
 .card {
-    background-color: var(--white);
-    border-radius: 16px;
-    width: 342px;
+  background-color: var(--white);
+  border-radius: 16px;
+  width: 342px;
 }
 
 @media screen and (min-width: 768px) {
-    .card {
-        width: 342px;
-    }
+  .card {
+    width: 342px;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-    .card {
-        width: 290px;
-    }
+  .card {
+    width: 290px;
+  }
 }
 
 .image {
-    height: 230px;
-    width: 342px;
-    object-fit: cover;
-    border-radius: 16px;
+  height: 230px;
+  width: 342px;
+  object-fit: cover;
+  border-radius: 16px;
 }
 
 @media screen and (min-width: 768px) {
-    .image {
-        height: 275px;
-        width: 342px;
-    }
+  .image {
+    height: 275px;
+    width: 342px;
+  }
 }
 
 @media screen and (min-width: 1440px) {
-    .image {
-        width: 290px;
-    }
+  .image {
+    width: 290px;
+  }
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .title {
-    margin-top: 16px;
-    font-size: 18px;
-    font-weight: 700;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  margin-top: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media screen and (min-width: 768px) {
-    .title {
-        font-size: 20px;
-    }
+  .title {
+    font-size: 20px;
+  }
 }
 
 .description {
-    font-size: 14px;
-    margin-top: 8px;
-    color: var(--dark-gray);
-    font-weight: 500;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  font-size: 14px;
+  margin-top: 8px;
+  color: var(--dark-gray);
+  font-weight: 500;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 @media screen and (min-width: 768px) {
-    .description {
-        font-size: 16px;
-    }
+  .description {
+    font-size: 16px;
+  }
 }
 
 .wrapper {
-    margin-top: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 30px;
-    object-fit: cover;
-    margin-right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 30px;
+  object-fit: cover;
+  margin-right: 8px;
 }
 
 @media screen and (min-width: 768px) {
-    .avatar {
-        width: 40px;
-        height: 40px;
-    }
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .author {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    font-weight: 700;
-    color: var(--dark-gray);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  color: var(--dark-gray);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 @media screen and (min-width: 768px) {
-    .author {
-        font-size: 16px;
-    }
+  .author {
+    font-size: 16px;
+  }
 }
 
 .wrap {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
 
 .heart,
 .arrow {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid var(--gray);
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    padding: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--gray);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
 .heart svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: var(--black);
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: red;
 }
 
 .arrow svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: var(--black);
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: var(--black);
 }
 
 @keyframes heartBeat {
-    0% {
-        transform: scale(1);
-    }
+  0% {
+    transform: scale(1);
+  }
 
-    14% {
-        transform: scale(1.3);
-    }
+  14% {
+    transform: scale(1.3);
+  }
 
-    28% {
-        transform: scale(1);
-    }
+  28% {
+    transform: scale(1);
+  }
 
-    42% {
-        transform: scale(1.3);
-    }
+  42% {
+    transform: scale(1.3);
+  }
 
-    70% {
-        transform: scale(1);
-    }
+  70% {
+    transform: scale(1);
+  }
 }
 
 .heart.active {
-    background-color: var(--black);
-    border-color: var(--black);
-    animation: heartBeat 1s ease-in-out;
+  background-color: var(--black);
+  border-color: var(--black);
+  animation: heartBeat 1s ease-in-out;
 }
 
 .heart.active svg {
-    fill: none;
-    stroke: var(--white);
+  fill: none;
+  stroke: var(--white);
 }
 
 .heart:hover,
 .arrow:hover {
-    background-color: var(--black);
-    border-color: var(--black);
+  background-color: var(--black);
+  border-color: var(--black);
 }
 
 .heart:hover svg,
 .arrow:hover svg {
-    stroke: var(--white);
+  stroke: var(--white);
 }
 
 @media (min-width: 1440px) {
-    .icon {
-        width: 18px;
-        height: 18px;
-    }
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
 
-    .image {
-        transition: transform 0.4s ease;
-    }
+  .image {
+    transition: transform 0.4s ease;
+  }
 
-    .imageLink:hover .image {
-        transform: scale(1.05);
-    }
+  .imageLink:hover .image {
+    transform: scale(1.05);
+  }
 }
